@@ -11,28 +11,28 @@ timezone:
 
 # custom Site settings
 # more detail check out docs
-SEOTitle: XIA's blog 
-header-img: img/blog-bg-black-run.jpg
-email: 189651903@qq.com
-description: "XIA在 Github 上的个人博客"
+SEOTitle: Haojen's blog 
+header-img: //o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg
+email: HaojenMa@gmail.com
+description: "马浩珍在 Github 上的个人博客"
 keyword: # seo key words
 
-favicon: img/icon.jpg  # your favicon png
+favicon: # your favicon png
 # custom end
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://xbxmxx.top
+url: http://haojen.github.io
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 
 # SNS settings
 # RSS:
-weibo_username: 
-zhihu_username: 
-github_username: SmallBear1996
-twitter_username: 
+weibo_username: haojen
+zhihu_username: megahertz
+github_username: haojen
+twitter_username: ehazon
 facebook_username:  
 linkedin_username:  
 
@@ -142,9 +142,9 @@ theme: Anisina
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: git
-  repo: https://github.com/SmallBear1996/SmallBear1996.github.io.git
-  branch: master
+  type: 
+  repo: 
+  branch: 
 
 
 # img CDN path
@@ -157,7 +157,7 @@ clip-avatar: "?imageView2/2/w/300/h/300/interlace/1/q/90"
 clip-home-post-bg: "?imageView2/1/w/800/h/300/interlace/1/q/70"
 
 # post default images
-post-default-img: img/blog-bg-black-run.jpg
+post-default-img: post-default.jpg 
 post-default-img-mobile: #移动端显示的图片
 
 # search api , set your custom key
