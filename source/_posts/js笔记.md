@@ -2,10 +2,9 @@
 title: js笔记
 date: 2019-05-29 16:09:46
 categories:
-- Diary
+- 前端
 tags:
-- PS3
-- Games
+- js&JQuery
 ---
 # js实现
 js实现至少应该包括三部分：
@@ -571,7 +570,7 @@ location对象提供了当前窗口的导航信息。是window对象的一个属
 
 - location对象中保存的一些属性：P207
 
-![location属性](../img/location.png "location属性")
+![location属性](/img/location.png "location属性")
 
 - 位置操作:
   - 改变浏览器的位置：通过location的assign()方法传入一个url即可实现页面的跳转。该方法等同于window.location和location.href。直接修改location的属性也可以实现跳转。
@@ -612,10 +611,10 @@ Document类型是所有DOM树的根节点
   - 父节点调用removeChild()方法，该方法接受一个要删除的节点的参数，移除该子节点。
 ## Document类型
 - document对象是window的一个属性
-- Document节点只包含一个子节点就是\<html>元素
-- document.documentElement--> 获取\<html>元素
-- document.body-->获取\<body>元素
-- document.title 可以获取\<title>标签内的文本，也可以设置网页的标题
+- Document节点只包含一个子节点就是`<html>`元素
+- document.documentElement--> 获取`<html>`元素
+- document.body-->获取`<body>`元素
+- document.title 可以获取`<title>`标签内的文本，也可以设置网页的标题
 - 查找元素：
   - document.getElementById() 根据标签的id值获取获取元素
   - document.getElementByTagName() 获取指定表签名的所有元素，如：div,img等。获得元素保存在HTMLCollection中，这是一个类似于NodeList的结构，有length属性，可以通过中括号加索引取到相应的值，也可以通过中括号加标签的name属性取值
@@ -703,7 +702,7 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
 - 事件的三个阶段：捕获阶段，处于目标阶段，事件冒泡阶段。如下图，1.2.3是捕获阶段，4是处于目标阶段(看作是冒泡的一个阶段)，5.6.7是冒泡阶段
   
 
-![事件流](../img/event.png)
+![事件流](/img/event.png)
 ## 事件处理程序
 - 在事件处理函数内部，this的值等于事件的目标元素
 - 为元素添加事件的方式
@@ -728,8 +727,8 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
     ```
 ## 事件对象
 事件处理程序在触发时会被传入一个event对象，给对象包含与事件有关的信息。
-![event对象1](../img/event1.png)
-![event对象2](../img/event2.png)
+![event对象1](/img/event1.png)
+![event对象2](/img/event2.png)
 ## 事件类型
 ### UI事件
 - load:当页面加载完成后触发的事件，也可以用在img元素上，表示一个图片加载完成。
@@ -791,16 +790,16 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
   - blur():将浏览器的焦点从该表单字段移走
 - 表单字段支持的事件
   - blur:当前字段失去焦点时触发
-  - change:对于\<input>和\<textarea>元素，在他们失去焦点且value值改变时才触发。对于\<select>元素，在其选项改变时触发
+  - change:对于`<input>`和`<textarea>`元素，在他们失去焦点且value值改变时才触发。对于`<select>`元素，在其选项改变时触发
   - focus:当前字段获得焦点时触发
 ## 选择框脚本
-通过\<select>和\<option>元素创建。
+通过`<select>`和`<option>`元素创建。
 
 - 选择框对象具有的一些属性和方法：
-  - add(newOption, relOption)：向控件中插入新\<option>元素，其位置在相关项（relOption）
+  - add(newOption, relOption)：向控件中插入新`<option>`元素，其位置在相关项（relOption）
   之前。
   - multiple：布尔值，表示是否允许多项选择；等价于 HTML 中的 multiple 特性。
-  - options：控件中所有\<option>元素的 HTMLCollection。
+  - options：控件中所有`<option>`元素的 HTMLCollection。
   - remove(index)：移除给定位置的选项。
   - selectedIndex：基于 0 的选中项的索引，如果没有选中项，则值为-1。对于支持多选的控件，
   只保存选中项中第一项的索引。
@@ -904,7 +903,7 @@ json串与js的自面量的不同：js字面量定义对象时属性名可以加
 ```
 ## 设置HTTP头部信息和获取响应头
 xhr在发送请求的时候也会发送相应的头部信息：
-![](../img/requestHead.png)
+![](/img/requestHead.png)
 
 - 设置xhr的请求头：调用xhr的open（）方法后可以调用setRequestHead（）方法可以设置相应的头部信息。
 - 获取响应头：xhr的getReponseHeader()方法传入头部字段名称可以获得相应的响应头信息。xhr的getAllReponseHeaders()方法可以所有的响应头信息的文本格式。

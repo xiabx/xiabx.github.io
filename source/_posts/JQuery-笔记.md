@@ -2,6 +2,10 @@
 title: JQuery 笔记
 author: XIA
 date: 2019-05-30 19:18:22
+categories:
+- 前端
+tags:
+- js&JQuery
 ---
 # $()方法
 - 该方法接收一个css的选择符，通过该选择符获取对象。[css选择符](http://www.w3school.com.cn/cssref/css_selectors.asp)
@@ -88,7 +92,6 @@ date: 2019-05-30 19:18:22
   - .prependTo():在现有元素内部、之前添加元素
   - .appendTo():在现有元素内部、之后添加元素
 - 对元素进行插入（反向）：
-  
   - before(),after(),prepend(),append()
 - 移动元素，使用上述方法，操作位置。 
   ```js
@@ -118,7 +121,6 @@ date: 2019-05-30 19:18:22
 
     $("div").wrapAll("<ul></ul>");
     $("div").wrap("<li></li>");
-
 
 结果：
     <ul>
