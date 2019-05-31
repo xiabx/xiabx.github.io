@@ -13,8 +13,15 @@ js实现至少应该包括三部分：
 - 浏览器对象模型（BOM）
 ECMAScript是一种规范，规定了实现该规范的语言的语法，类型，语句，关键字等的规范。js只是
 ECMAScript规范的一种实现。
+
+
+
 # js基本概念
+
+
+
 ## 数据类型
+
 js中有5种数据类型：
 - Undefined：变量未声明或未初始化
 - Null
@@ -27,12 +34,20 @@ js中有5种数据类型：
   - isPrototypeOf(object):传入的对象是否是传入对象的原型
   - toString():返回对象的字符串表示
   - valueOf():返回对象的字符串，数值，布尔值得表示。通常和toString()的返回结果相同
+
+
+
 ## typeof 操作符
+
 出现原因：由于js是松散类型的语言，所以就出现了一种可以检测变量类型的操作符，typeof。
 typeof的返回结果：undefined，boolean，string,number,object,function
 typeof null --->object 因为：null是一个空对象
 函数在js中也是对象，但是他具有一些特殊属性，因此typeof区分object和function是有必要的
+
+
+
 ## 相等 不相等 全等 不全等
+
 **相等 不相等**
 相等操作符 ==
 不相等操作符 !=
@@ -41,14 +56,32 @@ typeof null --->object 因为：null是一个空对象
 全等 ===
 不全等 !==
 只有当比较的双方，数值和数据类型都相同时才会返回true。
+
+
+
 ## 语句
+
 for-in语句：循环对象的属性
+
+
+
 ## 函数
+
+
+
 ### js函数的参数
+
 js函数不介意传递参数的个数，比如：定义时两个，调用时可以传递三个，两个。。。js函数中有一个arguments属性，类似于数组包含方法调用时传递的所有参数。
 **所以js中没有方法的重载，但是可以根据arguments的属性和类型模拟重载。**
+
+
+
 # 变量及作用域 
+
+
+
 ## 基本类型和引用类型
+
 - 基本类型：Undefined Null Boolean Number String
 - 引用类型： 对象
 引用类型可以动态的添加属性，而基本类型则不可以。
@@ -62,17 +95,30 @@ var s = "hello";
 s.name="bao";
 console.log(s.name);
 ```
+
+
 ## instanceof 操作符 
+
 因为typeof操作符无法检测对象是哪个类型的对象，所以出现了instanceof操作符，例如：
 ```js
 var p = new Object();
 console.log(p instanceof Object);//true
 console.log(p instanceof Array);//false
 ```
+
+
 ## 作用域链
+
 每个函数执行都需要一个执行环境，这个执行环境是一个链式的结构。即作用域链。作用域链的最前端是一个arguments对象和该函数所包含的变量，下一个环境对象来自下一个包含环境，一直到全局执行环境。在浏览器中是window对象。
+
+
+
 ## 引用类型
+
+
+
 ### Object
+
 **创建Object对象的两种方式：**
 ```js
 //第一种类型
@@ -100,7 +146,10 @@ console.log(a["age"]);
 var parm = "age";
 console.log(a[parm]);
 ```
+
+
 ### Array
+
 **简介**
 js的数组是可以扩容的，而且一个数组对象可以在不同的索引存储多种对象。
 ```js
@@ -161,11 +210,23 @@ arr.forEach(function (item,index,arr) {
 })
 ```
 **数组的归并方法**
+
+
+
 ### Date
+
 p98
+
+
+
 ### RegExp
+
 正则表达式 p103
+
+
+
 ### Function
+
 函数是一个对象，是Function的对象
 - 定义函数的两种方式
 
@@ -175,8 +236,8 @@ p98
 
 - 既然函数名是指针，所以可以将函数名作为另一个函数的参数
 
-  **函数的内部属性**
-  arguments，this和caller
+**函数的内部属性**
+arguments，this和caller
 
 - arguments:保存着传入函数的所有参数，同时还有一个callee的属性，指向拥有该arguments对象的函数
 
@@ -197,17 +258,31 @@ outer();//[Function: outer]
 - prototype属性
 - apply()和call()方法：在特定作用域调用该函数,区别：apply()第二个参数为数组或arguments对象，call()第二个参数为列出的所传的参数。
 - bind()方法：创建一个函数实例，其this值回绑定到传递的参数
+
+
+
 ### global对象
+
 兜底对象，所有全局作用域中定义的对象和函数，都是它的属性。
 - URI编解码方法：encodeURI()，encodeURIComponent(),decodeURI(),decodeURIComponent()。有效的URI不能包办某些字符如空格等。这几个方法就是对URI进行编解码。
   - encodeURI()，encodeURIComponent()：后一个方法比前一个编码更彻底。前一个只能编码空格，后一个除了空格之外冒号，斜杠等符号都可以编码。
   - decodeURI(),decodeURIComponent()：同上，后一个解码更彻底。
 - eval()：执行参数的js语句
+
+
+
 ### window对象
+
 在web浏览器中，window对象可以作为全局对象。
 
+
+
 # 面向对象
+
+
+
 ## 理解对象与属性类型
+
 - js创建对象两种方式：直接new Object（）与使用字面量创建
 - ECMA有两种属性：数据属性和访问器属性
 ```js
@@ -242,14 +317,21 @@ Object.defineProperty(book,"year",{
 book.year = 2002;
 console.log(book.year);
 ```
+
+
 ## 创建对象的方式
 
 - 工厂模式
 - 构造函数模式
 - 原型模式
+
+
+
 ### 工厂模式和构造函数模式
+
 **使用工厂模式创建对象**
 使用工厂模式解决的创建多个对象繁琐的问题，但是没有解决对象识别的问题。
+
 ```js
 //使用工厂模式创建对象
 function createPerson(name,age,job) {
@@ -302,7 +384,10 @@ var ani = new Object();
 Animal.call(ani,"cat");
 console.log(ani.name);
 ```
+
+
 ### 原型模式创建对象
+
 js在创建每个函数对象时都会创建一个该函数的原型对象，每个函数对象中提供一个指针，prototype指向该原型对象。创建自定义函数以后原型对象只会取得constructor属性，该属性指向拥有该原型对象的函数。
 
 当调用构造函数之后创建的对象包含一个名叫[[Prototype]]的指针，指向构造函数的原型对象，在浏览器环境中提供了proto属性，可以访问该属性。通过Object.getPrototypeOf()可以获取到该对象构造函数的原型的值。
@@ -312,6 +397,7 @@ js在创建每个函数对象时都会创建一个该函数的原型对象，每
 实例中的指针仅指向原型，不指向构造函数。
 
 **关于原型prototype常用的方法**
+
 - isPrototypeOf() 确定对象与原型之间是否存在关系
 - Object.getPrototypeOf() 获得某对象的[[Prototype]]指针指向的原型对象
 - hasOwnProperty() 检测一个属性是否为实例属性
@@ -374,8 +460,14 @@ js在创建每个函数对象时都会创建一个该函数的原型对象，每
 - 寄生构造函数模式。当new一个构造函数包含一个返回值时，则获得的对象是那个返回值
 - 稳妥构造函数模式。不使用this和new关键字
 
+
+
 ## 继承
+
+
+
 ### 原型链实现继承
+
 将子类的构造函数prototype属性设置为父类的实例，实现继承。
 
 但是原型链实现继承这种方式存在一些问题，如父类的引用类型值会被共享，以及无法向父类构造传递参数的问题。
@@ -409,7 +501,10 @@ console.log(instance instanceof Object);
 console.log(instance instanceof SubType);
 console.log(instance instanceof SuperType);
 ```
+
+
 ### 借用构造函数实现继承
+
 在子类的构造函数中调用父类的构造函数，实现向父类构造传值的功能。
 
 因为没有使用原型，所以无法实现函数的复用。
@@ -431,7 +526,10 @@ console.log(instance.age);
 //xia
 console.log(instance.name);
 ```
+
+
 ### 组合继承
+
 既然使用原型链和借用构造函数实现继承的方式各有利弊，组合继承便是将二者结合起来。
 ```js
 function SuperType(name) {
@@ -460,8 +558,14 @@ person2.sayName();//ma
 console.log(person1.age);//18
 console.log(person2.age);//19
 ```
+
+
 # 函数表达式
+
+
+
 ## 定义函数的两种方式
+
 - 使用函数声明：存在函数声明提升的特征
 - 使用函数表达式：先定义一个匿名函数，然后赋值给一个变量
 ```js
@@ -477,7 +581,10 @@ var fun2 = function () {
 }
 fun2();
 ```
+
+
 ## 作用域链
+
 当某个函数被调用时，会创建一个执行环境及其相应的作用域链。然后使用arguments和其他命名参数的值初始化函数的活动对象。
 >作用域链的非自己部分在函数对象被建立（函数声明、函数表达式）的时候建立，而不需要等到执行
 >作用域链的前面部分是静态的，所有函数共享同一个链，当函数执行时，建立一个自己当次执行的作用域，然后把这个作用域与前面共享的链关联起来
@@ -497,8 +604,14 @@ compare(1,2);
 
 在作用域链中，头是活动对象，然后依次是外层函数的活动对象。。。直到window对象
 
+
+
 ## 闭包
+
+
+
 ### 闭包概念
+
 闭包是指有权访问另一个函数作用域中的变量的函数。
 
 函数在生成时就已经确定了他的作用域链。
@@ -516,14 +629,28 @@ function createFunction(name) {
 //john
 createFunction()();
 ```
+
+
 ### 闭包中的this
+
 内部函数在搜寻this时，只会在活动对象中寻找。
+
+
+
 ## 模仿块级作用域
+
 块级作用域：例如for循环的i。
 
 原理：函数声明后不可以直接跟括号，立即执行。但是函数表达式可以。用括号将函数声明包裹起来，就会使函数声明变成函数表达式，再紧跟括号立即执行。利用函数的作用域模仿块级作用域。
+
+
+
 # BOM
+
+
+
 ## window对象
+
 - window对象既是ECMAScript在浏览器环境中的全局对象，也是js提供的一个访问浏览器窗口的一个接口
 - 当在html中使用frames时，每一个frame对应一个window对象。
 - window对象的screenTop和screenLeft属性会显示浏览器窗口距离屏幕边缘的距离，通过window的moveTo()和moveBy()方法设置窗口位置和移动窗口
@@ -565,7 +692,10 @@ if(confirm("你爱我吗？")){
 var value = prompt("tip","hello");
 console.log(value);
 ```
+
+
 ## location对象
+
 location对象提供了当前窗口的导航信息。是window对象的一个属性。
 
 - location对象中保存的一些属性：P207
@@ -577,24 +707,46 @@ location对象提供了当前窗口的导航信息。是window对象的一个属
   - 替换当前页面：使用location的replace()方法可以替换当前页面。替换后的页面不可以后退。
   - 重载当前页面：location的reload()方法可以重载当前页面。
 
+
+
 ## navigator对象
+
 该对象为window对象的一个属性。包含浏览器的一些信息，如：浏览器的语言，是否联网，浏览器中安装插件的数组，所在操作系统等信息。
+
+
+
 ## screen对象
+
 该对象是window对象的一个属性。包含了浏览器所在屏幕的一些信息，如：屏幕的像素，高度等信息
+
+
+
 ## history对象
+
 - 该对象为window对象的一个属性，包含了用户在包含当前window对象的窗口或标签页中的浏览记录
 - 可以使用history.go()方法进行跳转，类似于浏览器的前进后退按钮，方法参数为正数表示前进，负数表示后退，参数为字符串时跳转到包含此字符串的最近的页面
 - history的back()和forward()方法一样可以实现前进和后退
 - history的length属性表示当前窗口打开的历史记录数量
+
+
+
 # DOM
+
+
+
 ## DOM的节点层次理解
+
 Node是一个基类，DOM中的Element，Text和Comment都继承于它。
 换句话说，Element，Text和Comment是三种特殊的Node，它们分别叫做ELEMENT_NODE,TEXT_NODE和COMMENT_NODE。
 
 所以我们平时使用的html上的元素，即Element是类型为ELEMENT_NODE的Node。
 
 Document类型是所有DOM树的根节点
+
+
+
 ## Node类型
+
 - 所有节点都是node的子类，node类型主要定义了节点之间的关系。
 - 每个Node类型都有nodeName和nodeValue属性
   - 在Element类型的元素中nodeName始终为标签名，nodeValue始终为null
@@ -609,7 +761,11 @@ Document类型是所有DOM树的根节点
   - 父节点调用insertBefore()该方法有两个参数，要插入的节点和参照节点。即在参照节点之前插入一个节点
   - 父节点调用replaceChild()方法该方法接受两个参数，要插入的节点和要替换的节点
   - 父节点调用removeChild()方法，该方法接受一个要删除的节点的参数，移除该子节点。
+
+
+
 ## Document类型
+
 - document对象是window的一个属性
 - Document节点只包含一个子节点就是`<html>`元素
 - document.documentElement--> 获取`<html>`元素
@@ -620,7 +776,11 @@ Document类型是所有DOM树的根节点
   - document.getElementByTagName() 获取指定表签名的所有元素，如：div,img等。获得元素保存在HTMLCollection中，这是一个类似于NodeList的结构，有length属性，可以通过中括号加索引取到相应的值，也可以通过中括号加标签的name属性取值
   - document.getElementByName() 通过标签的name属性进行取值，返回的也是一个HTMLCollection集合
 - document可以通过write(),writln(),open(),close(),方法向页面中写数据
+
+
+
 ## Element类型
+
 - Element是html文档中的所有标签的类型，通过document.getElementById()这类方法拿到的对象就是Element类型的对象。像：div,a,img,span...都是Element类型
 - 每个Element类型的对象都有以下几个属性：
   - id：对应标签中的id属性
@@ -632,33 +792,64 @@ Document类型是所有DOM树的根节点
   - setAttribute()设置指定名称的属性值，传入属性名和要设置的属性值。没有时就新建一个属性
   - removeAttribute()删除指定的属性，不仅会清楚属性值，还会清除属性
  - 创建Element类型元素：通过document.createElement()方法可以生成一个Element类型的元素。然后将其添加到指定位置。该方法接受两种参数，一种是标签名，一种是元素全部的字符串描述。
+
+
+
 ## Text类型
+
 - 一个Element开合标签之间的文本内容就是Text类型的节点，如：`<div>hello</div>`在div之间的内容就是Text类型
 - 可以通过他的父节点的firstChild属性获取文本节点的引用
 - 通过文本节点的nodeValue属性为该文本节点设置值
 - 创建Text类型的节点：document.createTextNode()创建新的文本节点。然后通过插入的方式将其添加到文档树之中
+
+
+
 ## Comment类型
+
 注释类型，引用注释元素
+
+
+
 ## Attr类型
+
 Element元素中的属性也是一种元素，也是DOM树的一部分，但是开发人员不这么认为，他们通常使用getArrtibute()等方法进行获取，设置，删除属性的操作
+
+
+
 # DOM扩展
+
+
+
 ## 选择符API的扩展
+
 选择符API就是根据css的选择器选择元素。
 - querySelector()方法，根据css的选择符，返回与该模式匹配的第一个元素
 - querySelectorAll()方法，同样是根据css选择符，返回与该模式匹配的元素，但是返回的是一个NodeList对象。
 - 能调用querySelector()方法和querySelectorAll()方法的类型包括Document和Element
+
+
+
 ## HTML5有关的扩展
+
 - getElementByClassName()接收一个元素的类名，返回一个NodeList对象
 - classList属性：用来为元素增删class属性。为了简化className的操作，使用方法为：`div.classList.remove("user")`
   - add(value)为给定个classList添加类名
   - contains(value)是否包含给定的值，包含true，不包含false
   - remove(value)删除指定的的类名
   - toggle(value)如果classList中包含此类名就删除，不包含就添加
+
+
+
 ## 自定义数据属性
+
 h5规定元素可以添加自定义属性，但是要以data-开头。
 
 元素的dataset属性访问定义的自定义属性，dataset包含的是一个键值对map类型的对象。
+
+
+
 ## 插入标记
+
 - innerHtml属性：
   - 读模式：返回与调用元素的所有子节点对应的HTML标记。
   - 写模式：innerHtml会根据指定的值创建新的DOM树，然后用这个DOM树完全替换调用元素的所有子节点。
@@ -676,16 +867,31 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
 - outerText属性：
   - 读模式：与innerText属性的返回结果相同
   - 写模式：会用新的文本节点替换调用元素和他的子节点
+
+
+
 # DOM2和DOM3
+
 啥是dom2和dom3，不晓得，管他呢
+
+
+
 ## 访问元素的样式
+
 - 任何支持style属性的HTML元素在js中都有一个style属性
 - 当css样式中包含“-”时，则对应的在js属性是驼峰命名法，float是js的保留关键字，所以float对应的属性名是cssFloat
 - style的常用方法和属性
   - length：给定元素的css属性的数量
   - removeProperty（）：从样式中删除给定的属性
+
+
+
 # 事件
+
+
+
 ## 事件流（冒泡和捕获）
+
 如下html中，当点击div元素时，同时也是点击了body和html元素。而事件流则讨论的是，事件在div，body，html着几个元素的触发顺序。
 ```html
 <html>
@@ -703,7 +909,11 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
   
 
 ![事件流](/img/event.png)
+
+
+
 ## 事件处理程序
+
 - 在事件处理函数内部，this的值等于事件的目标元素
 - 为元素添加事件的方式
   - 直接在元素的html代码上添加,如：`<input type="button" value="Click Me" onclick="alert('Clicked')" /> `
@@ -725,41 +935,79 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
         //移除事件，第二个参数需要一个函数对象名，所以不能取消匿名函数
         btn.removeEventListener("click", handler, false); 
     ```
+
+
+
 ## 事件对象
+
 事件处理程序在触发时会被传入一个event对象，给对象包含与事件有关的信息。
 ![event对象1](/img/event1.png)
 ![event对象2](/img/event2.png)
+
+
+
 ## 事件类型
+
+
+
 ### UI事件
+
 - load:当页面加载完成后触发的事件，也可以用在img元素上，表示一个图片加载完成。
 - unload:当页面完全卸载后在window上面触发
 - 其他一些事件。。。
+
+
+
 ### 焦点事件
+
 - blur：在元素失去焦点时触发，该事件不会冒泡
 - focus：元素获得焦点时触发，不会冒泡
 - focusin:focus的冒泡版本
 - focusout：blur的冒泡版本
+
+
+
 ### 鼠标事件
+
 - click：单击鼠标或按下回车键触发
 - dbclick：双击鼠标触发
 - 其他事件。。。。
+
+
+
 ### 键盘事件
+
 可以为document和html标签注册
 - keydown:当用户按下键盘的**任意键**时触发，如果按住不放，则重复此事件
 - keypress:当用户按下键盘的**字符键**时触发，如果按住不放，则重复此事件
 - keyup:当用户释放键盘上的键时触发
 - 当用户按下一个字符键时，事件的触发顺序为：keydown，keypress,keyup
 - 当发生keydown和keyup事件时，event对象的keyCode属性会包含一个代码，表示按下的哪个键
+
+
+
 ### H5事件
+
 - beforeunload：在页面卸载之前触发的事件，可以用来询问用户是否要离开等功能。
 - haschange：当URL的参数列表以及URL中“#”后面的字符串发生变化时触发该事件，该事件必须添加给window对象，事件对象中包含oldURL和newURL属性，表示新旧URL
+
+
+
 ## 模拟事件
+
 事件不是必须要用户操作来触发，也可以通过自定义的event对象来模拟触发。
 - 通过document的 create Event（）方法可以生成一个event对象，该方法接受一个表示事件类型的字符串，如：MouseEvents:鼠标事件，UIEvents:UI事件。。。
 - 返回的event对象有一个init方法，不同类型的事件该方法名称不同。通过调用该方法可以设置event的属性。
 - 所有支持dom事件的节点都有dispatchEvent（）方法，该方法传入一个event对象。然后就成功模拟触发了该事件
+
+
+
 # 表单脚本
+
+
+
 ## form的属性和方法
+
 取得form对象的方法有多种：
 - 通过document.getElementById()等类似方法取得
 - document.forms可以取得页面中所有表单对象，返回一个集合，可以通过索引或name值来取得对应的form对象
@@ -774,7 +1022,11 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
   - reset()：将所有表单域重置为默认值。
   - submit()：提交表单。
   - target：用于发送请求和接收响应的窗口名称；等价于 HTML 的 target 特性。
+
+
+
 ## 表单字段
+
 - 可以使用DOM原生方法访问表单元素，也可以使用form对象的elements属性，该属性包含表单中所有表单元素的集合，可以通过索引和name特性取得相应的表单元素
 - 表单字段共有的属性：
   - disabled：布尔值，表示当前字段是否被禁用。
@@ -792,7 +1044,11 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
   - blur:当前字段失去焦点时触发
   - change:对于`<input>`和`<textarea>`元素，在他们失去焦点且value值改变时才触发。对于`<select>`元素，在其选项改变时触发
   - focus:当前字段获得焦点时触发
+
+
+
 ## 选择框脚本
+
 通过`<select>`和`<option>`元素创建。
 
 - 选择框对象具有的一些属性和方法：
@@ -810,16 +1066,31 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
   - 如果有一个选中项，而且该项的 value 特性已经在 HTML 中指定，则选择框的 value 属性等于选中项的 value 特性。即使 value 特性的值是空字符串，也同样遵循此条规则。
   - 如果有一个选中项，但该项的 value 特性在 HTML 中未指定，则选择框的 value 属性等于该项的文本。
   - 如果有多个选中项，则选择框的 value 属性将依据前两条规则取得第一个选中项的值。
+
+
+
 ## 表单序列化
+
 定义了一个函数，遍历form中的字段进行序列化
+
+
+
 # JSON
+
 json串与js的自面量的不同：js字面量定义对象时属性名可以加双引号也可以忽略，json中属性名必须添加双引号，单引号都不行。
 
+
+
 ## JSON的解析和序列化
+
 - es5定义了全局JSON对象
 - 将js对象转换为json串，JSON.stringify(),该方法生成的json串不包含对象的函数和原型成员而且忽略值为undefined的属性
 - 将js串转化为js对象，JSON.parse(),当传入的json串不合法时会报错
+
+
+
 ## 序列化选项
+
 - 过滤结果:JSON.stringify()方法中传入第二个参数，当传入的参数是个数组，里面的值就是要序列化的属性。当出入的参数是个函数时，该函数有两个参数key和value，通过循环调用该函数决定序列化结果。
   ```js
    var book = {
@@ -841,7 +1112,11 @@ json串与js的自面量的不同：js字面量定义对象时属性名可以加
         });
   ```
 - 字符串缩进：第三个参数设置结果的缩进，没啥用
+
+
+
 ## 解析选项
+
 - JSON.parse()方法可以接受第二个参数，是一个函数，相当于js对象序列化中过滤结果的相反过程。
   ```js
         var book = {
@@ -858,12 +1133,21 @@ json串与js的自面量的不同：js字面量定义对象时属性名可以加
             }
         })
   ```
+
+
+
 # AJAX
+
   Ajax = Asynchronous JavaScript And XML
+
+
+
 ## XMLHttpRequest 对象
+
 为什么叫这个名，因为之前的浏览器与客户端传递数据的格式是xml格式。
 
 **基本用法**
+
 - 新建一个xhr对象：`var xhr  = new XMLHttpRequest()` 
 - 当创建完xhr对象以后调用的第一个方法是open（）方法，接受参数：请求类型（post，get）、请求的URL、是否为异步。如：`xhr.open("get","/example",false)`，调用此方法只是打开一个请求准备发送，并不会真的发送请求。
 - 要发送请求必须调用send()方法，方法参数为要发送的数据，如果不要发送数据，则要传递参数null。如：`xhr.send(null)`
@@ -901,7 +1185,10 @@ json串与js的自面量的不同：js字面量定义对象时属性名可以加
         xhr.open("get","./test2.html",true);
         xhr.send(null);
 ```
+
+
 ## 设置HTTP头部信息和获取响应头
+
 xhr在发送请求的时候也会发送相应的头部信息：
 ![](/img/requestHead.png)
 
@@ -922,9 +1209,16 @@ xhr在发送请求的时候也会发送相应的头部信息：
         //获取所有的响应头内容
         var allHeads = xhr.getAllResponseHeaders();
 ```
+
+
 ## get请求
+
 在url后面直接添加参数，但是url后的参数需要用encodeURIComponent()方法进行编码
+
+
+
 ## post请求
+
 使用post请求发送数据需要在send方法中传入要发送的数据。
 
 但是使用post方式提交表单时需要设置Content-Type头部信息设置为 application/x-www-form-urlencoded
@@ -933,7 +1227,10 @@ application/x-www-form-urlencoded对应的提交数据格式为：key1=val1&key2
 
 application/json对应的提交数据格式为json串
 
+
+
 ## FormData
+
 为了简化xhr提交表单的过程。FormData类型可以序列化表单和创建与表单相同格式的数据。
 
 当xhr的send()方法传入FormData对象时，无需设置Content-Type属性即可提交表单
@@ -944,7 +1241,10 @@ data.append("name","tom");
 //直接序列化一个表单对象
 var data2 = new FormData(document.forms[0]);
 ```
+
+
 ## 进度事件
+
 XHR的六个进度事件：
 - loadstart：在接收到响应数据的第一个字节时触发。
 - progress：在接收响应期间持续不断地触发。该事件的处理程序收到一个event对象，该事件对象包含三个额外的属性：lengthComputable、position 和 totalSize。其中，lengthComputable是一个表示进度信息是否可用的布尔值，position 表示已经接收的字节数，totalSize 表示根据Content-Length 响应头部确定的预期字节数。
@@ -976,7 +1276,10 @@ xhr.onprogress = function(event){
 xhr.open("get", "altevents.php", true);
 xhr.send(null); 
 ```
+
+
 ## WebSocket
+
 - 创建一个websocket连接:新建一个WebSocket对象，参数为服务端的websocket的地址。`var socket = new WebSocket("ws://www.xxx.com/hello")`,
 - 调用close()方法则关闭websocket连接
 - 发送和接收数据：send()用来发送数据。当服务端发来消息时则触发onmessage事件，该事件event对象的data属性包含了服务端推送过来的消息内容。
@@ -1004,8 +1307,14 @@ xhr.send(null);
             console.log(event.data);
         }
 ```
+
+
 # 数据存储
+
+
+
 ## cookie
+
 - cookie是一种浏览器的存储机制。
 - 为浏览器设置cookie：服务器的响应头中可以包含一个set-cookie头里面的值就是要设置到浏览器中的值。格式为`Set-Cookie:name=value`
 - 浏览器给服务器传递cookie：当服务器为浏览器设置了cookie后，浏览器之后的每个请求都会包含一个cookie请求头，格式为：`Cookie:name=value`
@@ -1019,11 +1328,21 @@ xhr.send(null);
 - cookie组成部分之间使用分号加空格进行隔开。示例：`Set-Cookie: name=value; expires=Mon, 22-Jan-07 07:10:24;  GMTdomain=.wrox.com; path=/; secure `
 - document.cookie可以获取该页面可以使用的cookie。获取到的值是一个字符串：`name1=value1;name2=value2;name3=value3`
 - 当用js设置cookie时可直接为document.cookie赋值，所存的名值应该时URL编码的。格式为：`document.cookie = encodeURIComponent("name") + "=" +encodeURIComponent("Nicholas") + "; domain=.wrox.com; path=/"; `
+
+
+
 ## 其他
+
 除了cookie的存储方式，还有Storage，sessionStroage，localStratge，indexedDB。暂时用不到，走马观花看了一下。
 
+
+
 # 新兴的API
+
+
+
 ## File API
+
 可以读取文件系统中的文件。
 
 将H5的拖放事件和文件API结合起来可以实现文件拖放到浏览器指定位置的效果。
