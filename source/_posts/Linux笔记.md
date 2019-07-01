@@ -1,5 +1,5 @@
 ---
-title: 鸟哥Linux_笔记
+title: Linux笔记
 author: XIA
 categories:
   - Linux
@@ -124,7 +124,92 @@ tar是一个打包工具
 
 ## 常用按键
 
-xxxx
+- 第一部份：一般指令模式可用的按钮说明，光标移动、复制贴上、搜寻取代等
+
+| 移动光标的方法                                               |                                                              |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| h 或 向左方向键（←）                                         | 光标向左移动一个字符                                         |
+| j 或 向下方向键（↓）                                         | 光标向下移动一个字符                                         |
+| k 或 向上方向键（↑）                                         | 光标向上移动一个字符                                         |
+| l 或 向右方向键（→）                                         | 光标向右移动一个字符                                         |
+| 如果你将右手放在键盘上的话，你会发现 hjkl 是排列在一起的，因此可以使用这四个按钮来移动光标。 如果想要进行多次移动的话，例如向下移动 30 列，可以使用 "30j" 或 "30↓" 的组合按键， 亦即加上想要进行的次数（数字）后，按下动作即可！ |                                                              |
+| [Ctrl] + [f]                                                 | 屏幕“向下”移动一页，相当于 [Page Down]按键 （常用）          |
+| [Ctrl] + [b]                                                 | 屏幕“向上”移动一页，相当于 [Page Up] 按键 （常用）           |
+| [Ctrl] + [d]                                                 | 屏幕“向下”移动半页                                           |
+| [Ctrl] + [u]                                                 | 屏幕“向上”移动半页                                           |
+| +                                                            | 光标移动到非空白字符的下一列                                 |
+| -                                                            | 光标移动到非空白字符的上一列                                 |
+| n<space>                                                     | 那个 n 表示“数字”，例如 20 。按下数字后再按空白键，光标会向右移动这一列的 n 个字符。例如 20<space> 则光标会向后面移动 20 个字符距离。 |
+| 0 或功能键[Home]                                             | 这是数字“ 0 ”：移动到这一列的最前面字符处 （常用）           |
+| $ 或功能键[End]                                              | 移动到这一列的最后面字符处（常用）                           |
+| H                                                            | 光标移动到这个屏幕的最上方那一列的第一个字符                 |
+| M                                                            | 光标移动到这个屏幕的中央那一列的第一个字符                   |
+| L                                                            | 光标移动到这个屏幕的最下方那一列的第一个字符                 |
+| G                                                            | 移动到这个文件的最后一列（常用）                             |
+| nG                                                           | n 为数字。移动到这个文件的第 n 列。例如 20G 则会移动到这个文件的第 20 列（可配合 :set nu） |
+| gg                                                           | 移动到这个文件的第一列，相当于 1G 啊！ （常用）              |
+| n<Enter>                                                     | n 为数字。光标向下移动 n 列（常用）                          |
+| 搜寻与取代                                                   |                                                              |
+| /word                                                        | 向光标之下寻找一个名称为 word 的字串。例如要在文件内搜寻 vbird 这个字串，就输入 /vbird 即可！ （常用） |
+| ?word                                                        | 向光标之上寻找一个字串名称为 word 的字串。                   |
+| n                                                            | 这个 n 是英文按键。代表“<u>重复前一个搜寻的动作</u>”。举例来说， 如果刚刚我们执行 /vbird 去向下搜寻 vbird 这个字串，则按下 n 后，会向下继续搜寻下一个名称为 vbird 的字串。如果是执行 ?vbird 的话，那么按下 n 则会向上继续搜寻名称为 vbird 的字串！ |
+| N                                                            | 这个 N 是英文按键。与 n 刚好相反，为“反向”进行前一个搜寻动作。 例如 /vbird 后，按下 N 则表示“向上”搜寻 vbird 。 |
+| 使用 /word 配合 n 及 N 是非常有帮助的！可以让你重复的找到一些你搜寻的关键字！ |                                                              |
+| :n1,n2s/word1/word2/g                                        | n1 与 n2 为数字。在第 n1 与 n2 列之间寻找 word1 这个字串，并将该字串取代为 word2 ！举例来说，在 100 到 200 列之间搜寻 vbird 并取代为 VBIRD 则：“:100,200s/vbird/VBIRD/g”。（常用） |
+| :1,$s/word1/word2/g                                          | 从第一列到最后一列寻找 word1 字串，并将该字串取代为 word2 ！（常用） |
+| :1,$s/word1/word2/gc                                         | 从第一列到最后一列寻找 word1 字串，并将该字串取代为 word2 ！且在取代前显示提示字符给使用者确认 （confirm） 是否需要取代！（常用） |
+| 删除、复制与贴上                                             |                                                              |
+| x, X                                                         | 在一列字当中，x 为向后删除一个字符 （相当于 [del] 按键）， X 为向前删除一个字符（相当于 [backspace] 亦即是倒退键） （常用） |
+| nx                                                           | n 为数字，连续向后删除 n 个字符。举例来说，我要连续删除 10 个字符， “10x”。 |
+| dd                                                           | 删除光标所在的那一整列（常用）                               |
+| ndd                                                          | n 为数字。删除光标所在的向下 n 列，例如 20dd 则是删除 20 列 （常用） |
+| d1G                                                          | 删除光标所在到第一列的所有数据                               |
+| dG                                                           | 删除光标所在到最后一列的所有数据                             |
+| d$                                                           | 删除光标所在处，到该列的最后一个字符                         |
+| d0                                                           | 那个是数字的 0 ，删除光标所在处，到该列的最前面一个字符      |
+| yy                                                           | 复制光标所在的那一列（常用）                                 |
+| nyy                                                          | n 为数字。复制光标所在的向下 n 列，例如 20yy 则是复制 20 列（常用） |
+| y1G                                                          | 复制光标所在列到第一列的所有数据                             |
+| yG                                                           | 复制光标所在列到最后一列的所有数据                           |
+| y0                                                           | 复制光标所在的那个字符到该列行首的所有数据                   |
+| y$                                                           | 复制光标所在的那个字符到该列行尾的所有数据                   |
+| p, P                                                         | p 为将已复制的数据在光标下一列贴上，P 则为贴在光标上一列！ 举例来说，我目前光标在第 20 列，且已经复制了 10 列数据。则按下 p 后， 那 10 列数据会贴在原本的 20 列之后，亦即由 21 列开始贴。但如果是按下 P 呢？ 那么原本的第 20 列会被推到变成 30 列。 （常用） |
+| J                                                            | 将光标所在列与下一列的数据结合成同一列                       |
+| c                                                            | 重复删除多个数据，例如向下删除 10 列，[ 10cj ]               |
+| u                                                            | 复原前一个动作。（常用）                                     |
+| [Ctrl]+r                                                     | 重做上一个动作。（常用）                                     |
+| 这个 u 与 [Ctrl]+r 是很常用的指令！一个是复原，另一个则是重做一次～ 利用这两个功能按键，你的编辑，嘿嘿！很快乐的啦！ |                                                              |
+| .                                                            | 不要怀疑！这就是小数点！意思是重复前一个动作的意思。 如果你想要重复删除、重复贴上等等动作，按下小数点“.”就好了！ （常用） |
+
+- 第二部份：一般指令模式切换到编辑模式的可用的按钮说明
+
+| 进入插入或取代的编辑模式                                     |                                                              |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| i, I                                                         | 进入插入模式（Insert mode）：i 为“从目前光标所在处插入”， I 为“在目前所在列的第一个非空白字符处开始插入”。 （常用） |
+| a, A                                                         | 进入插入模式（Insert mode）：a 为“从目前光标所在的下一个字符处开始插入”， A 为“从光标所在列的最后一个字符处开始插入”。（常用） |
+| o, O                                                         | 进入插入模式（Insert mode）：这是英文字母 o 的大小写。o 为“在目前光标所在的下一列处插入新的一列”； O 为在目前光标所在处的上一列插入新的一列！（常用） |
+| r, R                                                         | 进入取代模式（Replace mode）：r 只会取代光标所在的那一个字符一次；R会一直取代光标所在的文字，直到按下 ESC 为止；（常用） |
+| 上面这些按键中，在 vi 画面的左下角处会出现“--INSERT--”或“--REPLACE--”的字样。 由名称就知道该动作了吧！！特别注意的是，我们上面也提过了，你想要在文件里面输入字符时， 一定要在左下角处看到 INSERT 或 REPLACE 才能输入喔！ |                                                              |
+| [Esc]                                                        | 退出编辑模式，回到一般指令模式中（常用）                     |
+
+- 第三部份：一般指令模式切换到命令行界面的可用按钮说明
+
+| 命令行界面的储存、离开等指令                                 |                                                              |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| :w                                                           | 将编辑的数据写入硬盘文件中（常用）                           |
+| :w!                                                          | 若文件属性为“只读”时，强制写入该文件。不过，到底能不能写入， 还是跟你对该文件的文件权限有关啊！ |
+| :q                                                           | 离开 vi （常用）                                             |
+| :q!                                                          | 若曾修改过文件，又不想储存，使用 ! 为强制离开不储存盘案。    |
+| 注意一下啊，那个惊叹号 （!） 在 vi 当中，常常具有“强制”的意思～ |                                                              |
+| :wq                                                          | 储存后离开，若为 :wq! 则为强制储存后离开 （常用）            |
+| ZZ                                                           | 这是大写的 Z 喔！若文件没有更动，则不储存离开，若文件已经被更动过，则储存后离开！ |
+| :w [filename]                                                | 将编辑的数据储存成另一个文件（类似另存新文件）               |
+| :r [filename]                                                | 在编辑的数据中，读入另一个文件的数据。亦即将 “filename” 这个文件内容加到光标所在列后面 |
+| :n1,n2 w [filename]                                          | 将 n1 到 n2 的内容储存成 filename 这个文件。                 |
+| :! command                                                   | 暂时离开 vi 到命令行界面下执行 command 的显示结果！例如 “:! ls /home”即可在 vi 当中察看 /home 下面以 ls 输出的文件信息！ |
+| vim 环境的变更                                               |                                                              |
+| :set nu                                                      | 显示行号，设置之后，会在每一列的字首显示该列的行号           |
+| :set nonu                                                    | 与 set nu 相反，为取消行号！                                 |
 
 ## vim环境设置与记录
 
@@ -1238,9 +1323,708 @@ signal ：代表给予后面接的那个工作什么样的指示啰！用 man 7 
 [root@study ~]# nohup [指令与参数] 在终端机后端中工作
 ```
 
+## 进程管理
+
+### 进程查看
+
+查看linux进程可以使用ps命令和top命令。前者显示的是某一时刻的进程状态。后者是动态查看进程。
+
+**ps**
+
+ps的一些参数
+
+```bash
+    -a  显示所有终端机下执行的进程，除了阶段作业领导者之外。
+　　 a  显示现行终端机下的所有进程，包括其他用户的进程。
+　　-A  显示所有进程。
+　　-c  显示CLS和PRI栏位。
+　　 c  列出进程时，显示每个进程真正的指令名称，而不包含路径，参数或常驻服务的标示。
+　　-C<指令名称> 　指定执行指令的名称，并列出该指令的进程的状况。
+　　-d 　显示所有进程，但不包括阶段作业领导者的进程。
+　　-e 　此参数的效果和指定"A"参数相同。
+　　 e 　列出进程时，显示每个进程所使用的环境变量。
+　　-f 　显示UID,PPIP,C与STIME栏位。
+　　 f 　用ASCII字符显示树状结构，表达进程间的相互关系。
+　　-g<群组名称> 　此参数的效果和指定"-G"参数相同，当亦能使用阶段作业领导者的名称来指定。
+　　 g 　显示现行终端机下的所有进程，包括群组领导者的进程。
+　　-G<群组识别码> 　列出属于该群组的进程的状况，也可使用群组名称来指定。
+　　 h 　不显示标题列。
+　　-H 　显示树状结构，表示进程间的相互关系。
+　　-j或j 　采用工作控制的格式显示进程状况。
+　　-l或l 　采用详细的格式来显示进程状况。
+　　 L 　列出栏位的相关信息。
+　　-m或m 　显示所有的执行绪。
+　　 n 　以数字来表示USER和WCHAN栏位。
+　　-N 　显示所有的进程，除了执行ps指令终端机下的进程之外。
+　　-p<进程识别码> 　指定进程识别码，并列出该进程的状况。
+　 　p<进程识别码> 　此参数的效果和指定"-p"参数相同，只在列表格式方面稍有差异。
+　　 r 　只列出现行终端机正在执行中的进程。
+　　-s<阶段作业> 　指定阶段作业的进程识别码，并列出隶属该阶段作业的进程的状况。
+　 　s 　采用进程信号的格式显示进程状况。
+　　 S 　列出进程时，包括已中断的子进程资料。
+　　-t<终端机编号> 　指定终端机编号，并列出属于该终端机的进程的状况。
+　　 t<终端机编号> 　此参数的效果和指定"-t"参数相同，只在列表格式方面稍有差异。
+　　-T 　显示现行终端机下的所有进程。
+　　-u<用户识别码> 　此参数的效果和指定"-U"参数相同。
+　　 u 　以用户为主的格式来显示进程状况。
+　　-U<用户识别码> 　列出属于该用户的进程的状况，也可使用用户名称来指定。
+　　 U<用户名称> 　列出属于该用户的进程的状况。
+　　 v 　采用虚拟内存的格式显示进程状况。
+　　-V或V 　显示版本信息。
+　　-w或w 　采用宽阔的格式来显示进程状况。　
+　 　x 　显示所有进程，不以终端机来区分。
+　　 X 　采用旧式的Linux i386登陆格式显示进程状况。
+　　 -y 配合参数"-l"使用时，不显示F(flag)栏位，并以RSS栏位取代ADDR栏位。
+```
+
+常用组合：
+
+```bash
+ps aux    查看系统的所有进程数据
+ps -l     仅查看自己bash的相关进程
+ps axjf   查看所有进程并以树形结构显示    pstree命令也可以显示进程树
+```
+
+**top**
+
+top命令可以持续监测进程的运行状态。
+
+```bash
+[root@study ~]# top [-d 数字]; top [-bnp]
+选项与参数：
+-d  ：后面可以接秒数，就是整个程序画面更新的秒数。默认是 5 秒；
+-b  ：以批次的方式执行 top ，还有更多的参数可以使用喔！
+      通常会搭配数据流重导向来将批次的结果输出成为文件。
+-n  ：与 -b 搭配，意义是，需要进行几次 top 的输出结果。
+-p  ：指定某些个 PID 来进行观察监测。
+在 top 执行过程当中可以使用的按键指令：
+    ? ：显示在 top 当中可以输入的按键指令；
+    P ：以 CPU 的使用资源排序显示；
+    M ：以 Memory 的使用资源排序显示；
+    N ：以 PID 来排序喔！
+    T ：由该 Process 使用的 CPU 时间累积 （TIME+） 排序。
+    k ：给予某个 PID 一个讯号（signal）。形似kill命令
+    r ：给予某个 PID 重新制订一个 nice（与进程的执行优先级有关，越小越早执行） 值。
+    q ：离开 top 软件的按键。
+```
+
+```bash
+top -d 2    打开top每两秒更新一次界面
+top -p 1    打开top，只显示PID为1的进程
+top -b -n 2 > top.txt   将top执行两次top，将输出的内容输出到top.txt文件中
+```
+
+*****
+
+**pstree**
+
+以进程树的方式显示进程信息。
+
+```
+[root@study ~]# pstree [-up]
+选项与参数：
+-A  ：各程序树之间的连接以 ASCII 字符来连接；
+-U  ：各程序树之间的连接以万国码的字符来连接。在某些终端接口下可能会有错误；
+-p  ：并同时列出每个 process 的 PID；
+-u  ：并同时列出每个 process 的所属帐号名称。
+```
+
+### 进程的管理
+
+可以通过kill或killall命令来停止进程。区别在于kill只接收PID进行进程的管理，killall则可以使用启动某进程时使用的命令来进行进程的管理。
+
+**kill命令**
+
+kill命令格式：kill -信号 PID。
+
+常用信号如下：
+
+| 信号 | 名称    | 内容                                                         |
+| ---- | ------- | ------------------------------------------------------------ |
+| 1    | SIGHUP  | 启动被终止的程序，可让该 PID 重新读取自己的配置文件，类似重新启动 |
+| 2    | SIGINT  | 相当于用键盘输入 [ctrl]-c 来中断一个程序的进行               |
+| 9    | SIGKILL | 代表强制中断一个程序的进行，如果该程序进行到一半， 那么尚未完成的部分可能会有“半产品”产生，类似 vim会有 .filename.swp 保留下来。 |
+| 15   | SIGTERM | 以正常的结束程序来终止该程序。由于是正常的终止， 所以后续的动作会将他完成。不过，如果该程序已经发生问题，就是无法使用正常的方法终止时， 输入这个 signal 也是没有用的。 |
+| 19   | SIGSTOP | 相当于用键盘输入 [ctrl]-z 来暂停一个程序的进行               |
+
+**killall 命令**
+
+与kill只能对一个进程进行管理不同，killall可以管理通过指定命令产生的所有进程。
+
+```
+[root@study ~]# killall [-iIe] [command name]
+选项与参数：
+-i  ：interactive 的意思，互动式的，若需要删除时，会出现提示字符给使用者；
+-e  ：exact 的意思，表示“后面接的 command name 要一致”，但整个完整的指令
+      不能超过 15 个字符。
+-I  ：指令名称（可能含参数）忽略大小写。
+```
+
+如：
+
+```bash
+find /    使用ctrl+z暂停后
+killall -9 find /    停止所有find /为启动命令的进程
+```
+
+### 进程的执行顺序
+
+进程使用CPU的优先级由priority（top命令中的PR值）和nice（top命令中的NI值）值决定。这两个值越小，对应的进程就执行优先级就越高。PR值由操作系统决定，用户无法更改。所以调整进程优先级时只能调整NI值。
+
+PR（新）=PR（老）+NI
+
+所以将NI值调低就可以提高进程的优先级。NI值的范围为：-20~19。
+
+在执行命令时执行NI值使用nice命令。更改正在执行的命令的NI值使用renice命令。
+
+```bash
+[root@study ~]# nice [-n 数字] command
+选项与参数：
+-n  ：后面接一个数值，数值的范围 -20 ~ 19。
+
+范例一：用 root 给一个 nice 值为 -5 ，用于执行 vim .
+[root@study ~]# nice -n -5 vim &
+```
+
+```bash
+[root@study ~]# renice [number] PID
+选项与参数：
+PID ：某个程序的 ID 
+```
+
+修改了父进程的nice值后，该进程新建的子线程也将继承该nice值。
+
+## 查看系统资源
+
+**free：查看内存使用情况**
+
+free命令：直接输入free显示的是以KB为单位的。可以添加-m，-g,-b等参数设置显示单位为MB，GB，B。
+
+****
+
+**uname：查看系统与内核相关信息**
+
+```bash
+[root@study ~]# uname [-asrmpi]
+选项与参数：
+-a  ：所有系统相关的信息，包括下面的数据都会被列出来；
+-s  ：系统内核名称
+-r  ：内核的版本
+-m  ：本系统的硬件名称，例如 i686 或 x86_64 等；
+-p  ：CPU 的类型，与 -m 类似，只是显示的是 CPU 的类型！
+-i  ：硬件的平台 （ix86）
+```
+
+****
+
+**uptime：系统启动时间与负载**
+
+该命令可以显示系统开机时间，用户数，平均负载等信息
+
+****
+
+**netstat：跟踪网络**
+
+单独使用netstat命令的输出包括两部分，网络部分和进程间通信部分。
+
+```bash
+[root@study ~]# netstat -[atunlp]
+选项与参数：
+-a  ：将目前系统上所有的连线、监听、Socket 数据都列出来
+-t  ：列出 tcp 网络的数据
+-u  ：列出 udp 网络的数据
+-n  ：不以程序的服务名称，以端口号 （port number） 来显示；
+-l  ：列出目前正在网络监听 （listen） 的服务；
+-p  ：列出该网络服务的程序 PID
+```
+
+常用组合：
+
+````bash
+netstat -tlnp     显示所有正在建通状态中的tcp网络，显示端口与PID
+````
+
+****
+
+**vmstat：检测系统资源变化**
+
+该命令显示系统的内存，cpu等资源的使用情况。
+
+```
+选项与参数：
+-a  ：使用 inactive/active（活跃与否） 取代 buffer/cache 的内存输出信息；
+-f  ：开机到目前为止，系统复制 （fork） 的程序数；
+-s  ：将一些事件 （开机至目前为止） 导致的内存变化情况列表说明；
+-S  ：后面可以接单位，让显示的数据有单位。例如 K/M 取代 Bytes 的容量；
+-d  ：列出磁盘的读写总量统计表
+-p  ：后面列出分区，可显示该分区的读写总量统计表
+```
+
+## SELinux
+
+**简介**
+
+SELinux  == “ Security Enhanced Linux ”安全强化的意思。
+
+SELinux 是由美国国家安全局 （NSA） 开发的，当初开发这玩意儿的目的是因为很多企业界发现， 通常系统出现问题的原因大部分都在于“内部员工的资源误用”所导致的，实际由外部发动的攻击反而没有这么严重。举例来说，如果将网页所在目录 /var/www/html/ 的权限设置为 drwxrwxrwx 时，这样该网络软件就会获得这个软件的写权限，如果有坏人利用这个漏洞，瞎几把乱写就不好了。所以美国佬的国家安全局就开始研究这个问题，当时需要找个系统做实验，而Linux又是免费的还好用所以就选了它。
+
+SELinux 对和文件另外设置一个字段作为独立于原来的rwx这样的权限做权限控制。有空再研究吧。
+
+安装www服务器时访问目录当设置在home目录下时将无法访问。就是SELinux搞的事情。
+
+# 系统服务简介
+
+## daemon与服务
+
+daemon是“守护神，恶魔”。在linux中是守护进程的意思。
+
+系统为了实现某些功能必须要提供一些服务，这个服务就称为service。但是这个service运行需要进程来运行，所以实现这个service的程序就称为daemon。
+
+## daemon与主要分类
+
+- stand-alone：这个daemon可以自行单独启动服务。这种类型的daemon可以自行启动而不必通过其他机制进行管理。这种daemon启动后一直存在于内存中持续的提供服务，因此对于发生客户端的请求，stand-alone类型的daemon响应速度快。
+- super-daemon：由一个特殊的daemon来同意管理。这一类服务是通过一个统一的daemon来负责唤起服务，这个特殊的daemon就被成为super daemon。super daemon是一个叫做xinetd的程序。这种机制的意思为：当没有客户端请求时，各项服务都是未启动状态，等到由请求时，super daemon才会被唤醒。这样可以节约系统的资源。由于super daemon负责唤醒各项服务，所以super daemon具有安全控管的机制，类似于防火墙。
+
+## centos7之前的启动方式
+
+centos7之前将所有的启动文件放在/etc/init.d文件夹下。通过脚本进行直接启动。
+
+### daemon的启动脚本与启动方式
+
+daemon启动时不仅仅是运行一个程序而已，daemon的启动还需要执行文件、配置文件、执行唤醒等。一般在启动daemon的脚本中都将这些进行了配置。
+
+通常一个daemon启动时，就会在/var/run目录下创建一个文件，用来记录该daemon的PID。
+
+****
+
+**daemon启动脚本的放置位置**
+
+- /etc/init.d/*：系统中几乎所有服务的启动脚本都放置在这里。
+- /etc/sysconfig/*：各服务的初始化环境配置文件
+- /etc/xinit.conf   /etc.xinetd.d/* :super daemon配置文件。/etc/xinit.conf 默认配置文件。
+- /etc/*：各个服务的配置文件
+- /var/lib/*:各个服务产生的数据库
+- /var/run/*：各服务的程序的PID的记录处
+
+****
+
+**Stand-alone的/etc/init.d/*启动**
+
+几乎系统中所有服务的启动脚本都在/etc/init.d中。这里面的文件回去检测环境，查找配置文件，加载环境函数等功能。所以可以通过直接运行该文件夹下的脚本文件启动服务。
+
+```bash
+# 直接运行脚本可以查看使用方法与可用参数
+[xbx@instance-8 xinetd.d]$ /etc/init.d/sshd
+/etc/init.d/sshd: line 33: /etc/sysconfig/sshd: Permission denied
+Usage: /etc/init.d/sshd {start|stop|restart|reload|force-reload|condrestart|try-restart|status}
+# 查看sshd服务的状态
+[xbx@instance-8 xinetd.d]$ /etc/init.d/sshd status
+/etc/init.d/sshd: line 33: /etc/sysconfig/sshd: Permission denied
+openssh-daemon (pid  1672) is running...
+# 重启sshd服务
+[xbx@instance-8 xinetd.d]$ sudo /etc/init.d/sshd restart
+Stopping sshd:                                             [  OK  ]
+Starting sshd:                                             [  OK  ]
+```
+
+**通过service进程进行stand-alone进程的启动**
+
+linux提供了一个名为service的进程来对stand-alone进程进行管理。通过service后的参数名称，然后到/etc/init.d文件夹下去查找要执行的程序
+
+````bash
+service --status-all     将系统中所有stand alone的服务状态都列举出来
+service 要操作的服务名 要执行的指令
+service sshd restart     重启sshd服务。同/etc/init.d/sshd restart命令
+````
+
+*****
+
+**super daemon的启动方式**
+
+其实super daemon本身也是一个stand alone服务。他会一直常驻内存中。他只是负责对一些daemon进行管理。其他的daemon通过配置文件进行设置是否启动，以及其他的启动设置信息。
+
+super daemon的配置文件在鸟哥558页。
+
+### 设置开机启动服务
+
+linux在启动时会进入不同的模式。这模式我们称为执行等级，不同的执行等级有不同的功能与服务。当以窗口启动时等级为5，当以纯文本界面启动时等级为3。通过chkconfig命令可以查看各个启动等级下可以启动的服务。
+
+**chkconfig：管理系统服务默认开机启动与否**
+
+```**bash
+chkconfig --list    查看系统的各个服务在每个启动模式下的自启情况
+chkconfig 服务名 on/off   设置服务是否开机自启
+chkconfig --level 启动等级  服务名 on/off   设置某服务在某个启动等级下的自启情况
+sudo chkconfig --level 345 atd on     设置atd这个服务在启动等级345情况下自动启动
+```
+
+**使用chkconfig对自己编写的脚本进行管理：**
+
+要设置自己的脚本为开机自启分为一下几步：
+
+1. 将该脚本放在/etc/init.d文件夹下
+
+2. 脚本中设置chkconfig，此字段设置启动等级与启动顺序
+
+3. 使用chkconfig --add命令将该程序加入chkconfig进行管理。 chkconfig --del命令取消chkconfig对该命令的管理
+
+   ````bash
+   # 在/etc/init.d/文件夹下添加脚本
+   #!/bin/bash
+   #chkconfig: 35 80 70      # 设置系统等级与启动顺序
+   echo "hello world!!!"
+   
+   # 将该脚本添加到chkconfig管理
+   sudo chkconfig --add test
+   
+   # 取消管理
+   sudo chkconfig --del test
+   ````
+
+chkconfig可以对super daemon管理的程序设置是否自启。
+
+*****
+
+**ntsysv：图型界面对自启服务进行管理**
+
+在命令行中直接输入ntsysv即可打开管理界面。
+
+## centos7的启动方式
+
+centos7之后采用通过systemd程序进行对daemon的管理，所有的daemon启动、停止等功能都通过systemctl命令进行操作。采用systemd对daemon进行管理还具有以下优点：
+
+1. 平行处理所有服务，加速开机流程
+2. 一个systemctl命令代替之前的init、chkconfig、service等命令
+3. 服务之间依赖性自我检查
+4. 对daemno进行分类
+
+### systemd配置相关目录
+
+- /usr/lib/systemd/system/： 使用 CentOS 官方提供的软件安装后，默认的启动脚本配置文件都放在这里，这里的数据尽量不要修改～ 要修改时，请到 /etc/systemd/system 下面修改较佳！
+- /run/systemd/system/： 系统执行过程中所产生的服务脚本，这些脚本的优先序要比 /usr/lib/systemd/system/ 高！
+- /etc/systemd/system/： 管理员依据主机系统的需求所创建的执行脚本，其实这个目录有点像以前 /etc/rc.d/rc5.d/Sxx 之类的功能！执行优先序又比 /run/systemd/system/ 高喔！
+- /etc/sysconfig/*： 几乎所有的服务都会将初始化的一些选项设置写入到这个目录下，举例来说，mandb 所要更新的 man page 索引中，需要加入的参数就写入到此目录下的 man-db 当中喔！而网络的设置则写在 /etc/sysconfig/network-scripts/ 这个目录内。所以，这个目录内的文件也是挺重要的；
+- /var/lib/： 一些会产生数据的服务都会将他的数据写入到 /var/lib/ 目录中。举例来说，数据库管理系统 Mariadb 的数据库默认就是写入 /var/lib/mysql/ 这个目录下啦！
+- /run/： 放置了好多 daemon 的暂存盘，包括 lock file 以及 PID file 等等。
+
+### systemd的服务类型分类
+
+根据/usr/lib/systemd/system/下文件的扩展名可以看出来systemd的分类情况。
+
+| 扩展名            | 主要服务功能                                                 |
+| ----------------- | ------------------------------------------------------------ |
+| .service          | 一般服务类型 （service unit）：主要是系统服务，包括服务器本身所需要的本机服务以及网络服务都是！比较经常被使用到的服务大多是这种类型！ 所以，这也是最常见的类型了！ |
+| .socket           | 内部程序数据交换的插槽服务 （socket unit）：主要是 IPC （Inter-process communication） 的传输讯息插槽档 （socket file） 功能。 这种类型的服务通常在监控讯息传递的插槽档，当有通过此插槽档传递讯息来说要链接服务时，就依据当时的状态将该用户的要求传送到对应的 daemon， 若 daemon 尚未启动，则启动该 daemon 后再传送用户的要求。使用 socket 类型的服务一般是比较不会被用到的服务，因此在开机时通常会稍微延迟启动的时间 （因为比较没有这么常用嘛！）。一般用于本机服务比较多，例如我们的图形界面很多的软件都是通过 socket 来进行本机程序数据交换的行为。 （这与早期的 xinetd 这个 super daemon 有部份的相似喔！） |
+| .target           | 执行环境类型 （target unit）：其实是一群 unit 的集合，例如上面表格中谈到的 multi-user.target 其实就是一堆服务的集合～也就是说， 选择执行 multi-user.target 就是执行一堆其他 .service 或/及 .socket 之类的服务就是了！ |
+| .mount .automount | 文件系统挂载相关的服务 （automount unit / mount unit）：例如来自网络的自动挂载、NFS 文件系统挂载等与文件系统相关性较高的程序管理。 |
+| .path             | 侦测特定文件或目录类型 （path unit）：某些服务需要侦测某些特定的目录来提供伫列服务，例如最常见的打印服务，就是通过侦测打印伫列目录来启动打印功能！ 这时就得要 .path 的服务类型支持了！ |
+| .timer            | 循环执行的服务 （timer unit）：这个东西有点类似 anacrontab 喔！不过是由 systemd 主动提供的，比 anacrontab 更加有弹性！ |
+
+### 通过systemctl管理服务
+
+systemctl常用命令参数：
+
+```
+[root@study ~]# systemctl [command] [unit]
+command 主要有：
+start     ：立刻启动后面接的 unit
+stop      ：立刻关闭后面接的 unit
+restart   ：立刻关闭后启动后面接的 unit，亦即执行 stop 再 start 的意思
+reload    ：不关闭后面接的 unit 的情况下，重新载入配置文件，让设置生效
+enable    ：设置下次开机时，后面接的 unit 会被启动
+disable   ：设置下次开机时，后面接的 unit 不会被启动
+status    ：目前后面接的这个 unit 的状态，会列出有没有正在执行、开机默认执行否、登录等信息等！
+is-active ：目前有没有正在运行中
+is-enable ：开机时有没有默认要启用这个 unit
+```
+
+通过systemctl status 查看daemon状态：
+
+```bash
+[xbx@instance-9 system]$ sudo systemctl status sshd
+● sshd.service - OpenSSH server daemon
+   Loaded: loaded (/usr/lib/systemd/system/sshd.service; enabled; vendor preset: enabled)
+   Active: active (running) since Thu 2019-06-27 05:30:02 UTC; 3 days ago
+     Docs: man:sshd(8)
+           man:sshd_config(5)
+ Main PID: 2999 (sshd)
+   CGroup: /system.slice/sshd.service
+           └─2999 /usr/sbin/sshd -D
+
+Jul 01 02:24:09 instance-9 sshd[9478]: Disconnected from 159.65.242.16 port 57264 [preauth]
+Jul 01 02:26:11 instance-9 sshd[9557]: Invalid user smbprint from 106.13.38.59 port 19200
+Jul 01 02:26:11 instance-9 sshd[9557]: input_userauth_request: invalid user smbprint [preauth]
+```
+
+该指令可以查看某个daemon的状态信息，包括现在的运行状态与默认状态：
+
+上面输出结果的第三行就是现在状态：
+
+- active （running）：正有一只或多只程序正在系统中执行的意思，举例来说，正在执行中的 vsftpd 就是这种模式。
+- active （exited）：仅执行一次就正常结束的服务，目前并没有任何程序在系统中执行。 举例来说，开机或者是挂载时才会进行一次的 quotaon 功能，就是这种模式！ quotaon 不须一直执行～只须执行一次之后，就交给文件系统去自行处理啰！通常用 bash shell 写的小型服务，大多是属于这种类型 （无须常驻内存）。
+- active （waiting）：正在执行当中，不过还再等待其他的事件才能继续处理。举例来说，打印的伫列相关服务就是这种状态！ 虽然正在启动中，不过，也需要真的有伫列进来 （打印工作） 这样他才会继续唤醒打印机服务来进行下一步打印的功能。
+- inactive：这个服务目前没有运行的意思。
+
+上面输出结果的第二行就包含daemon的默认状态：
+
+- enabled：这个 daemon 将在开机时被执行
+- disabled：这个 daemon 在开机时不会被执行
+- static：这个 daemon 不可以自己启动 （enable 不可），不过可能会被其他的 enabled 的服务来唤醒 （相依属性的服务）
+- mask：这个 daemon 无论如何都无法被启动！因为已经被强制注销 （非删除）。可通过 systemctl unmask 方式改回原本状态
+
+### 通过systemctl观察系统中的所有服务
+
+systemctl可以查看系统中的所有服务以及状态
+
+```bash
+[root@study ~]# systemctl [command] [--type=TYPE] [--all]
+command:
+    list-units      ：依据 unit 列出目前有启动的 unit。若加上 --all 才会列出没启动的。
+    list-unit-files ：依据 /usr/lib/systemd/system/ 内的文件，将所有文件列表说明。
+--type=TYPE：就是之前提到的 unit type，主要有 service, socket, target 等
+
+例一：列出系统上面有启动的 unit。systemctl不加参数默认就是systemctl list-units的意思
+[root@study ~]# systemctl
+# 字段的主要的意义是：
+# UNIT   ：项目的名称，包括各个 unit 的类别 （看扩展名）
+# LOAD   ：开机时是否会被载入，默认 systemctl 显示的是有载入的项目而已喔！
+# ACTIVE ：目前的状态，须与后续的 SUB 搭配！就是我们用 systemctl status 观察时，active 的项目！
+# DESCRIPTION ：详细描述啰
+
+例二：列出所有已经安装的 unit。显示文件名与默认状态
+[root@study ~]# systemctl list-unit-files
+UNIT FILE                                   STATE
+proc-sys-fs-binfmt_misc.automount           static
+```
+
+### systemctl对service类型的配置文件
+
+**systemctl配置文件目录简介**
+
+systemd 的配置文件大部分放置于 /usr/lib/systemd/system/ 目录内。但是 Red Hat 官方文件指出， 该目录的文件主要是原本软件所提供的设置，建议不要修改！而要修改的位置应该放置于 /etc/systemd/system/ 目录内。举例来说，如果你想要额外修改 vsftpd.service 的话， 他们建议要放置到哪些地方呢？
+
+- /usr/lib/systemd/system/vsftpd.service：官方释出的默认配置文件；
+- /etc/systemd/system/vsftpd.service.d/custom.conf：在 /etc/systemd/system 下面创建与配置文件相同文件名的目录，但是要加上 .d 的扩展名。然后在该目录下创建配置文件即可。另外，配置文件最好附文件名取名为 .conf 较佳！ 在这个目录下的文件会“累加其他设置”进入 /usr/lib/systemd/system/vsftpd.service 内喔！
+- /etc/systemd/system/vsftpd.service.wants/*：此目录内的文件为链接文件，设置相依服务的链接。意思是启动了 vsftpd.service 之后，最好再加上这目录下面建议的服务。
+- /etc/systemd/system/vsftpd.service.requires/*：此目录内的文件为链接文件，设置相依服务的链接。意思是在启动 vsftpd.service 之前，需要事先启动哪些服务的意思。
+
+**service配置文件内容简介**
+
+配置文件分为三个部份：
+
+- [Unit]： unit 本身的说明，以及与其他相依 daemon 的设置，包括在什么服务之后才启动此 unit 之类的设置值；
+- [Service], [Socket], [Timer], [Mount], [Path]..：不同的 unit type 就得要使用相对应的设置项目。我们拿的是 sshd.service 来当范本，所以这边就使用 [Service] 来设置。 这个项目内主要在规范服务启动的脚本、环境配置文件文件名、重新启动的方式等等。
+- [Install]：这个项目就是将此 unit 安装到哪个 target 里面去的意思！
+
+每部分的内容：
+
+| [Unit] 部份   |                                                              |
+| ------------- | ------------------------------------------------------------ |
+| 设置参数      | 参数意义说明                                                 |
+| Description   | 就是当我们使用 systemctl list-units 时，会输出给管理员看的简易说明！当然，使用 systemctl status 输出的此服务的说明，也是这个项目！ |
+| Documentation | 这个项目在提供管理员能够进行进一步的文件查询的功能！提供的文件可以是如下的数据：`Documentation=http://www....` `Documentation=man:sshd（8）``Documentation=file:/etc/ssh/sshd_config` |
+| After         | 说明此 unit 是在哪个 daemon 启动之后才启动的意思！基本上仅是说明服务启动的顺序而已，并没有强制要求里头的服务一定要启动后此 unit 才能启动。 以 sshd.service 的内容为例，该文件提到 After 后面有 network.target 以及 sshd-keygen.service，但是若这两个 unit 没有启动而强制启动 sshd.service 的话， 那么 sshd.service 应该还是能够启动的！这与 Requires 的设置是有差异的喔！ |
+| Before        | 与 After 的意义相反，是在什么服务启动前最好启动这个服务的意思。不过这仅是规范服务启动的顺序，并非强制要求的意思。 |
+| Requires      | 明确的定义此 unit 需要在哪个 daemon 启动后才能够启动！就是设置相依服务啦！如果在此项设置的前导服务没有启动，那么此 unit 就不会被启动！ |
+| Wants         | 与 Requires 刚好相反，规范的是这个 unit 之后最好还要启动什么服务比较好的意思！不过，并没有明确的规范就是了！主要的目的是希望创建让使用者比较好操作的环境。 因此，这个 Wants 后面接的服务如果没有启动，其实不会影响到这个 unit 本身！ |
+| Conflicts     | 代表冲突的服务！亦即这个项目后面接的服务如果有启动，那么我们这个 unit 本身就不能启动！我们 unit 有启动，则此项目后的服务就不能启动！ 反正就是冲突性的检查啦！ |
 
 
 
+| [Service] 部份  |                                                              |
+| --------------- | ------------------------------------------------------------ |
+| 设置参数        | 参数意义说明                                                 |
+| Type            | 说明这个 daemon 启动的方式，会影响到 ExecStart 喔！一般来说，有下面几种类型 simple：默认值，这个 daemon 主要由 ExecStart 接的指令串来启动，启动后常驻于内存中。forking：由 ExecStart 启动的程序通过 spawns 延伸出其他子程序来作为此 daemon 的主要服务。原生的父程序在启动结束后就会终止运行。 传统的 unit 服务大多属于这种项目，例如 httpd 这个 WWW 服务，当 httpd 的程序因为运行过久因此即将终结了，则 systemd 会再重新生出另一个子程序持续运行后， 再将父程序删除。据说这样的性能比较好！！oneshot：与 simple 类似，不过这个程序在工作完毕后就结束了，不会常驻在内存中。dbus：与 simple 类似，但这个 daemon 必须要在取得一个 D-Bus 的名称后，才会继续运行！因此设置这个项目时，通常也要设置 BusName= 才行！idle：与 simple 类似，意思是，要执行这个 daemon 必须要所有的工作都顺利执行完毕后才会执行。这类的 daemon 通常是开机到最后才执行即可的服务！比较重要的项目大概是 simple, forking 与 oneshot 了！毕竟很多服务需要子程序 （forking），而有更多的动作只需要在开机的时候执行一次（oneshot），例如文件系统的检查与挂载啊等等的。 |
+| EnvironmentFile | 可以指定启动脚本的环境配置文件！例如 sshd.service 的配置文件写入到 /etc/sysconfig/sshd 当中！你也可以使用 Environment= 后面接多个不同的 Shell 变量来给予设置！ |
+| ExecStart       | 就是实际执行此 daemon 的指令或脚本程序。你也可以使用 ExecStartPre （之前） 以及 ExecStartPost （之后） 两个设置项目来在实际启动服务前，进行额外的指令行为。 但是你得要特别注意的是，指令串仅接受“指令 参数 参数...”的格式，不能接受 <, >, >>, \|, & 等特殊字符，很多的 bash 语法也不支持喔！ 所以，要使用这些特殊的字符时，最好直接写入到指令脚本里面去！不过，上述的语法也不是完全不能用，亦即，若要支持比较完整的 bash 语法，那你得要使用 Type=oneshot 才行喔！ 其他的 Type 才不能支持这些字符。 |
+| ExecStop        | 与 systemctl stop 的执行有关，关闭此服务时所进行的指令。     |
+| ExecReload      | 与 systemctl reload 有关的指令行为                           |
+| Restart         | 当设置 Restart=1 时，则当此 daemon 服务终止后，会再次的启动此服务。举例来说，如果你在 tty2 使用文字界面登陆，操作完毕后登出，基本上，这个时候 tty2 就已经结束服务了。 但是你会看到屏幕又立刻产生一个新的 tty2 的登陆画面等待你的登陆！那就是 Restart 的功能！除非使用 systemctl 强制将此服务关闭，否则这个服务会源源不绝的一直重复产生！ |
+| RemainAfterExit | 当设置为 RemainAfterExit=1 时，则当这个 daemon 所属的所有程序都终止之后，此服务会再尝试启动。这对于 Type=oneshot 的服务很有帮助！ |
+| TimeoutSec      | 若这个服务在启动或者是关闭时，因为某些缘故导致无法顺利“正常启动或正常结束”的情况下，则我们要等多久才进入“强制结束”的状态！ |
+| KillMode        | 可以是 process, control-group, none 的其中一种，如果是 process 则 daemon 终止时，只会终止主要的程序 （ExecStart 接的后面那串指令），如果是 control-group 时， 则由此 daemon 所产生的其他 control-group 的程序，也都会被关闭。如果是 none 的话，则没有程序会被关闭喔！ |
+| RestartSec      | 与 Restart 有点相关性，如果这个服务被关闭，然后需要重新启动时，大概要 sleep 多少时间再重新启动的意思。默认是 100ms （毫秒）。 |
+
+
+
+| [Install] 部份 |                                                              |
+| -------------- | ------------------------------------------------------------ |
+| 设置参数       | 参数意义说明                                                 |
+| WantedBy       | 这个设置后面接的大部分是 *.target unit ！意思是，这个 unit 本身是附挂在哪一个 target unit 下面的！一般来说，大多的服务性质的 unit 都是附挂在 multi-user.target 下面！ |
+| Also           | 当目前这个 unit 本身被 enable 时，Also 后面接的 unit 也请 enable 的意思！也就是具有相依性的服务可以写在这里呢！ |
+| Alias          | 进行一个链接的别名的意思！当 systemctl enable 相关的服务时，则此服务会进行链接文件的创建！以 multi-user.target 为例，这个家伙是用来作为默认操作环境 default.target 的规划， 因此当你设置用成 default.target 时，这个 /etc/systemd/system/default.target 就会链接到 /usr/lib/systemd/system/multi-user.target 啰！ |
+
+### systemctl针对timer的配置文件
+
+使用systemd的timers.target可以替代crond进行定时任务的处理。
+
+# 软件安装-通过源码的方式
+
+通过下载软件的源代码，通过编译实现软件安装。分为一下步骤：
+
+1. 下载软件源代码。通常下载的格式为tar.gz格式。这种格式就是tarball。因为软件源代码过大，通过打包压缩可以减少传输过程中的带宽占用。
+
+2. 对下载后的代码解压到/usr/local/src文件夹中。通常自己安装的软件都放在/usr/local/文件夹中。
+
+3. 加压后通常会包含一个configure文件，运行此文件生成Makefile文件。（通过gcc对软件源代码进行编译过于繁琐与复杂，所以使用一个叫make的软件，该软件可以自动对软件进行编译和安装。而configure文件则是软件厂商提供的来根据linux发行版信息自动生成Makefile文件的工具。）
+
+4. configure文件执行结束后，使用make命令进行编译，使用make install进行软件的按装。
+
+5. 安装后的软件的相关文件通常放在如下文件夹中：
+
+   - /usr/local/etc
+
+   - /usr/local/bin
+
+   - /usr/local/lib
+
+   - /usr/local/man
+
+     或：
+
+   - /usr/local/软件名/etc
+
+   - /usr/local/软件名/bin
+
+   - /usr/local/软件名/lib
+
+   - /usr/local/软件名/man
+
+6. 当要删除安装的软件时，只需删除安装软件目录即可。即/usr/local/软件名
+
+# 软件安装通过RPM与YUM方式
+
+## RPM
+
+通过下载源码然后使用make工具进行编译与安装效率较慢。如果针对特定的硬件与系统版本进行编译，将编译的二进制文件进行打包。这就是RPM包。
+
+可以通过rpm命令来对RPM包进行管理，RPM提供依赖检查，当使用RPM安装软件时可以对RPM数据库进行更新与检查，以确认依赖包是否都已经安装。
+
+使用rpm进行安装的步骤：
+
+1. 下载合适的rpm包
+2. 通过rpm命令进行安装
+
+使用rpm安装软件的位置：
+
+
+
+|目录        | 简介|
+| -------------- | ----------------------------------------- |
+| /etc           | 一些配置文件放置的目录，例如 /etc/crontab |
+| /usr/bin       | 一些可可执行文件案                        |
+| /usr/lib       | 一些程序使用的动态函数库                  |
+| /usr/share/doc | 一些基本的软件使用手册与说明文档          |
+| /usr/share/man | 一些 man page 文件                        |
+
+使用rpm进行安装的命令：
+
+```
+[root@study ~]# rpm -ivh package_name
+选项与参数：
+-i ：install 的意思
+-v ：察看更细部的安装信息画面
+-h ：以安装信息列显示安装进度
+```
+
+| rpm安装时常用参数 | 代表意义                                                     |
+| ----------------- | ------------------------------------------------------------ |
+| --nodeps          | 使用时机：当发生软件属性相依问题而无法安装，但你执意安装时 危险性： 软件会有相依性的原因是因为彼此会使用到对方的机制或功能，如果强制安装而不考虑软件的属性相依， 则可能会造成该软件的无法正常使用！ |
+| --replacefiles    | 使用时机： 如果在安装的过程当中出现了“某个文件已经被安装在你的系统上面”的信息，又或许出现版本不合的讯息 （confilcting files） 时，可以使用这个参数来直接覆盖文件。危险性： 覆盖的动作是无法复原的！所以，你必须要很清楚的知道被覆盖的文件是真的可以被覆盖喔！否则会欲哭无泪！ |
+| --replacepkgs     | 使用时机： 重新安装某个已经安装过的软件！如果你要安装一堆 RPM 软件文件时，可以使用 rpm -ivh *.rpm ，但若某些软件已经安装过了， 此时系统会出现“某软件已安装”的信息，导致无法继续安装。此时可使用这个选项来重复安装喔！ |
+| --force           | 使用时机：这个参数其实就是 --replacefiles 与 --replacepkgs 的综合体！ |
+| --test            | 使用时机： 想要测试一下该软件是否可以被安装到使用者的 Linux 环境当中，可找出是否有属性相依的问题。范例为： `rpm -ivh pkgname.i386.rpm --test` |
+| --justdb          | 使用时机： 由于 RPM 数据库破损或者是某些缘故产生错误时，可使用这个选项来更新软件在数据库内的相关信息。 |
+| --nosignature     | 使用时机： 想要略过数码签章的检查时，可以使用这个选项。      |
+| --prefix 新路径   | 使用时机： 要将软件安装到其他非正规目录时。举例来说，你想要将某软件安装到 /usr/local 而非正规的 /bin, /etc 等目录， 就可以使用“ --prefix /usr/local ”来处理了。 |
+| --noscripts       | 使用时机：不想让该软件在安装过程中自行执行某些系统指令。说明： RPM 的优点除了可以将文件放置到定位之外，还可以自动执行一些前置作业的指令，例如数据库的初始化。 如果你不想要让 RPM 帮你自动执行这一类型的指令，就加上他吧！ |
+
+**使用rpm进行查询**
+
+rpm查询的主要位置是 /var/lib/rpm/ 这个目录。
+
+```
+[root@study ~]# rpm -qa                              &lt;==已安装软件
+[root@study ~]# rpm -q[licdR] 已安装的软件名称       &lt;==已安装软件
+[root@study ~]# rpm -qf 存在于系统上面的某个文件名     &lt;==已安装软件
+[root@study ~]# rpm -qp[licdR] 未安装的某个文件名称  &lt;==查阅RPM文件
+选项与参数：
+查询已安装软件的信息：
+-q  ：仅查询，后面接的软件名称是否有安装；
+-qa ：列出所有的，已经安装在本机 Linux 系统上面的所有软件名称；
+-qi ：列出该软件的详细信息 （information），包含开发商、版本与说明等；
+-ql ：列出该软件所有的文件与目录所在完整文件名 （list）；
+-qc ：列出该软件的所有配置文件 （找出在 /etc/ 下面的文件名而已）
+-qd ：列出该软件的所有说明文档 （找出与 man 有关的文件而已）
+-qR ：列出与该软件有关的相依软件所含的文件 （Required 的意思）
+-qf ：由后面接的文件名称，找出该文件属于哪一个已安装的软件；
+-q --scripts：列出是否含有安装后需要执行的脚本档，可用以 debug 喔！
+查询某个 RPM 文件内含有的信息：
+-qp[icdlR]：注意 -qp 后面接的所有参数以上面的说明一致。但用途仅在于找出
+        某个 RPM 文件内的信息，而非已安装的软件信息！注意！
+```
+
+**删除rpm管理的软件**
+
+```
+ # 使用rpm -e加软件名即可对软件进行卸载
+ rpm -e 软件名
+```
+
+## YUM
+
+yum会根据远程设置的软件仓库，来自动下载合适的 rpm包并进行安装。
+
+**查询**
+
+```
+[root@study ~]# yum [option] [查询工作项目] [相关参数]
+选项与参数：
+[option]：主要的选项，包括有：
+  -y ：当 yum 要等待使用者输入时，这个选项可以自动提供 yes 的回应；
+  --installroot=/some/path ：将该软件安装在 /some/path 而不使用默认路径
+[查询工作项目] [相关参数]：这方面的参数有：
+  search  ：搜寻某个软件名称或者是描述 （description） 的重要关键字；
+  list    ：列出目前 yum 所管理的所有的软件名称与版本，有点类似 rpm -qa；
+  info    ：同上，不过有点类似 rpm -qai 的执行结果；
+  provides：从文件去搜寻软件！类似 rpm -qf 的功能！
+```
+
+**下载安装**
+
+```
+[root@study ~]# yum [option] [安装与升级的工作项目] [相关参数]
+选项与参数：
+  install ：后面接要安装的软件！
+  update  ：后面接要升级的软件，若要整个系统都升级，就直接 update 即可
+```
+
+**卸载软件**
+
+```bash
+[root@study ~]# yum remove 软件名
+```
+
+**升级软件**
+
+````bash
+yum -y update
+升级所有包同时也升级软件和系统内核
+
+yum -y upgrade
+只升级所有包，不升级软件和系统内核
+````
+
+**群组功能**
+
+```bash
+[root@study ~]# yum [群组功能] [软件群组]
+选项与参数：
+   grouplist   ：列出所有可使用的“软件群组组”，例如 Development Tools 之类的；
+   groupinfo   ：后面接 group_name，则可了解该 group 内含的所有软件名；
+   groupinstall：这个好用！可以安装一整组的软件群组，相当的不错用！
+   groupremove ：移除某个软件群组；
+```
 
 
 
