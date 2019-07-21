@@ -98,10 +98,110 @@ date: 2019-07-19 21:01:32
 - final也可以修饰方法中的参数
 - final修饰方法，是为了将方法锁定，防止继承类修改他的含义。当方法用private修饰时也隐式的使用了final。因为他都无法取用了，当然也无法被覆盖了呀～～～
 - final修饰类，表示这个类无法被继承。
+- 子类不继承父类的私有成员
 - 继承类的对象初始化顺序：
   - 首先初始化父类的static变量和static代码块，然后是子类的static变量和static代码块。
   - 然后是父类的成员变量，非静态代码块，父类构造方法执行。子类的成员变量初始化，非静态代码块，子类构造方法执行。
 
 # 多态
 
- 
+- 方法调用时绑定：将一个方法调用同一个方法主体关联起来被称作绑定。若在程序执行前进行绑定叫做前期绑定，在运行时根据对象的类型进行绑定的被称作后期绑定或动态绑定或运行时绑定。
+
+- java中除了static和final（private方法属于final方法）都是后期绑定的。
+
+- 在类中将一个方法使用final声明可以防止其他人覆盖方法，也可以说成是关闭动态绑定。
+
+- 只有普通的方法调用可以是多态的。
+
+- 当在父类的构造器中调用多态方法时：
+
+  ```java
+  //父类
+  public class A {
+      void say(){
+          System.out.println("A say()");
+      }
+      public A(){
+          System.out.println("instance A before");
+          //调用多态方法
+          say();
+          System.out.println("instance A after");
+      }
+  }
+  //子类
+  public class B extends A {
+      private int i = 1;
+      public B(int j){
+          i = j;
+          System.out.println("instance B "+i);
+      }
+      void say(){
+          System.out.println("B say() "+i);
+      }
+  }
+  
+  public class Main {
+      public static void main(String[] args) {
+          new B(2);
+      }
+  }
+  
+  输出:
+  instance A before
+  B say() 0
+  instance A after
+  instance B 2
+  ```
+
+  这种情况可以用初始化的过程来解释：
+
+  1. 在对象初始化之前将分配给对象的初始化空间初始化成二进制零
+  2. 调用父类的构造器。调用被覆盖的方法B中的方法say()，因为第一步的原因i为0.
+  3. 调用子类的构造器主体
+
+- 编写构造器的一条原则：尽可能的使用简单的方法使对象进入正常状态，如果可以的话避免使用其他方法。
+
+# 接口
+
+- 将一个不含抽象方法的类使用abstract修饰后可以防止其创建对象
+- 接口中的方法默认都是public的，如果省略则默认为public的，且必须为public 的。
+- 接口可以进行多继承，一个接口可以继承多个接口。
+- 使用接口的两个核心原因：为了能向上转型为多个基类型和防止创建创建该类的对象。
+- 在接口中声明的字段默认都是static final的。接口中定义的域不允许出现“空final”
+
+# 内部类
+
+- 内部类就是将一个类定义在一个类的内部
+
+- 当在外部类的非静态方法之外的任意位置创建某个内部类对象时，应这样指定对象的类型：OuterClassName.InnerClassName
+
+- 内部类拥有一个外部类对象的引用，所以内部类拥有对其外部类所有成员的访问权
+
+- 当需要外部类对象的引用时可以使用`OuterClassName.this`获取。
+
+- 要创建内部类对象时，必须拥有外部类的对象。根据外部类对象创建内部类对象时使用`.new`
+
+  ```java
+  public class Outer{
+      public class Inner{}
+      public static void main(String[] args){
+          Outer outer = new Outer();
+          //创建内部类对象
+          Outer.Inner inner = outer.new Inner();
+      }
+  }
+  ```
+
+- 局部内部类就是在方法中定义的类。局部内部类不能有访问控制符，因为他不是外部类的一部分。但是他可以访问当前代码块内的常量和外部类的所有成员。
+
+- 匿名内部类就相当于新建一个接口或抽象类的具体实现的对象，或具体的类的子类的对象，然后使用多态使其返回接口或抽象类的引用，因为中间的实现类没有名字，所以叫做匿名内部类。
+
+- 当定义一个匿名内部类，并且希望他使用一个在其外部定义的对象，那么编译器会要求其参数引用为final
+
+- 普通内部对象都和其外部类对象间存在联系，如果不需要其存在联系可以使用static修饰内部类。这样的内部类叫做静态内部类或嵌套类。
+
+- 普通内部类中不可以包含static修饰的数据字段。
+
+- 接口中也可以包含内部类，默认为public static修饰的。
+
+- 有点晕。。。。。。
