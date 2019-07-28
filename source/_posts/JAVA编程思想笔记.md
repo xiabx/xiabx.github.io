@@ -1,5 +1,5 @@
 ---
-title: JAVA编程思想笔记
+6title: JAVA编程思想笔记
 author: XIA
 categories:
   - 笔记
@@ -205,3 +205,350 @@ date: 2019-07-19 21:01:32
 - 接口中也可以包含内部类，默认为public static修饰的。
 
 - 有点晕。。。。。。
+
+# 持有对象
+
+- 自javase5之后引入了泛型
+
+- 可以通过Arrays和collections类中的方法添加一组元素
+
+- 迭代器的设计模式，遍历序列中的对象，而不必关心该序列底层的结构。Iterator只能正向遍历，而ListIterator既可以正向遍历也可以反向遍历。
+
+- java1.0的stack类的设计者犯了一个错误，他将Stack类继承了Vector类，导致添加了很多无用的方法。
+
+- HashSet由于哈希算法的原因插入的元素会失去顺序。TreeSet底层红黑树实现，可以在插入的时候进行排序，排序规则为指定的Comparator方法。LinkedHashSet顺序为插入的顺序。
+
+- Map
+
+- Collection接口继承了Ierator接口，所以所有collection都可以使用迭代器
+
+- javase5增加了foreach语法，只要类实现了Interable接口，那么这个类的对象就可以使用foreach语法。
+
+  ```java
+  //实现Iterable接口
+  public class IterableClass implements Iterable {
+      int[] arr ={1,8,9,6,5,1,9,0,3};
+      @Override
+      public Iterator iterator() {
+          return new Iterator() {
+              private int index = 0;
+              @Override
+              public boolean hasNext() {
+                  return arr.length > index;
+              }
+              @Override
+              public Object next() {
+                  return arr[index++];
+              }
+          };
+      }
+  }
+  
+  //使用foreach语法
+  public class Main {
+      public static void main(String[] args) {
+          IterableClass iterableClass = new IterableClass();
+          for (Object aClass : iterableClass) {
+              System.out.println(aClass);
+          }
+      }
+  }
+  ```
+
+# 异常
+
+- 所有的标准异常类一般包含两个构造器：一个默认构造器，一个接受字符串作为参数的构造器
+- 通过继承Exception类可以自定义异常
+- 异常声明，当方法中有跑出异常时，可以在方法上对要抛出的异常进行声明。也可以在抽象类或接口的方法上声明异常，这样可以这样可以先占个位子，在以后实现这些方法时候不用再去修改已有的代码。
+- 在catch捕获到异常后可以重新将其抛出。
+- 异常链可以将捕获到的异常重新封装到一个新的异常中，并重新抛出。异常信息中`Caused by`部分就是这么来的
+- RunTimeException是`不受检查异常`，而其他的异常是`受检查异常`
+- 异常时覆盖的注意事项：
+
+    - 子类在覆盖父类方法时，父类方法抛出异常，那么只能抛出的异常只能抛出父类异常或父类异常的子类或不抛出异常。
+    - 如果父类抛出多个异常，那么子类只能抛出父类的子集。
+    - 如果父类的方法没有抛出异常，那么子类覆盖时决不能抛出，只有try。
+
+# 字符串
+
+- String对象是不可变的。String中用来操纵内容的方法最后返回的都是一个新的String对象，原来的对象并不会改变。
+
+- Java重载了“+”操作符，使用“+”连接符对字符串进行连接实际上是调用了StringBuilder类。
+
+  ```java
+     //使用‘+’，在每个循环中都会创建一个StringBuilder对象
+  	public String implicit(String...strings){
+          String result="";
+          for (String string : strings) {
+              result+= string;
+          }
+          return result;
+      }
+  	//只创建一个StringBuilder对象
+      public String explicit(String...strings){
+          StringBuilder result = new StringBuilder();
+          for (String string : strings) {
+              result.append(string);
+          }
+          return result.toString();
+      }
+  ```
+
+- 无意识的递归：在toString()方法中使用this关键字，this也会点用toSting()方法，所以就形成了递归。
+
+- 格式化工具：想c语言中printf()函数，根据占位符进行填充。
+
+  - System.out.format()：
+
+    ```java
+            String s="xia";
+            System.out.format("%s is nice", s);
+    		//out
+    		xia is nice
+    ```
+
+  - Formatter类：构造时可传入输出路径。输出时还可以对个是进行设置（缩进、对其等）
+
+    ```java
+            Formatter f = new Formatter(System.out);
+            String s="xia";
+            f.format("%s is a great boy!",s);
+    		//out
+    		xia is a great boy!
+    ```
+
+    | 说明符 | 适用于                                                  | 输出                                                         |
+    | :----- | :------------------------------------------------------ | :----------------------------------------------------------- |                                                             |
+    | %b     | boolean                                                 | 如果为非空则为“true”，为空则为“false”                        |
+    | %c     | 字符                                                    | Unicode字符                                                  |
+    | %d     | 整型(包括byte, short, int, long, bigint)                | 十进制整数                                                   |
+    | %e     | 浮点数                                                  | 科学计数的十进制数                                           |
+    | %f     | 浮点数                                                  | 十进制数                                                     |
+    | %g     | 浮点数                                                  | 十进制数，根据值和精度可能以科学计数法显示                   |
+    | %h     | 任何类型                                                | 通过hashCode()方法输出的16进制数                             |
+    | %n     | 无                                                      | 平台相关的换行符                                             |
+    | %o     | 整数(包括byte, short, int, long, bigint)                | 八进制数                                                     |
+    | %s     | 任何类型                                                | 字符串                                                       |
+    | %t     | 日期/时间 (包含long, Calendar, Date 和TemporalAccessor) | %t是日期/时间转换的前缀。后面还需要跟其他的标识，请参考下面的日期/时间转换。 |
+    | %x     | 整数(包含byte, short, int, long, bigint)                | 十六进制字符串                                               |
+    
+  - String.format():同上面的格式化类似，该方法返回一个字符串对象
+  
+    ```java
+            String s="xia";
+            System.out.println(String.format("%s is nice", s));
+    ```
+  
+- 正则表达式，待这本书看完单独拿出一天整理
+
+- 扫描输入相关：Scanner类
+
+# 类型信息
+
+- RTTI（Runtime Type Information，运行时类型信息。
+
+  > 我们经常讲运行时类型判定即RTTI有两种形式：（1）传统的RTTI;（2）反射reflection机制。RTTI的初期想法非常简单：当有一个指向基础型别（父类）的reference（引用）时，RTTI机制让你找出其所指的确切型别，不过当拓展到java.lang.reflection的时候,展现了全新的功能。这里我们可以这样理解：RTTI是一种思想，Java中多态和反射的使用都利用了这一思想。什么时候用到传统的RTTI呢？我认为是在使用多态的时候，Java的所有方法绑定都采用“后期绑定”技术，若一种语言实现了后期绑定，那么同时还要提供一些机制，以便在运行时间正确判断对象类型，并调用适当的方法。也就是说，编译器此时仍然不知道对象的类型，但方法调用机制能自己去调查，找到正确的方法主体。反射是RTTI发展产生的概念和技术，反射的作用是分析类的结构，并可以创建类的对象。总结为一句话：多态是隐式地利用RTTI，反射则是显式地使用RTTI。
+
+- 生成类的class对象使用了JVM中的‘类加载器’。所有的类都是在其第一次使用时，动态的加载到JVM中。当程序创建第一个对类的静态成员（包括使用new对构造方法的调用）引用时，就会加载这个类。
+
+- 创建类的对象可以使用：
+
+  + Class.forName("完整类名")
+  + object.getClass():一个类的实例对象获取类的对象
+  + ClassName.class:类明.class就可以获取这个类的对象。这中方法不仅适用于普通的类，还适用于接口、数组、基本数据类型。
+
+- 当使用“.class”创建Class对象时不会初始化该Class对象。通常使用类所做的准备工作包含三部分：
+
+  1. 加载：由类加载器完成。该步骤将查找字节码，从字节码中创建Class对象。
+  2. 链接：验证类中的字节码，为静态域分配存储空间，如果需要的话将解析这个类创建的对其他类的所有引用
+  3. 初始化：如果该类具有父类，则对其初始化，执行静态初始化器和静态初始化块。
+
+- 当使用“.class”语法获取对类的引用时不会发生初始化，但是使用Class.forName()将立即进行初始化。
+
+- 如果一个static final字段的值是一个“编译期”常量，那么这个值不需要初始化就可以读取。但是当他不是一个“编译期”常量时就需要初始化类以后才可以读取
+
+- 如果一个字段是static而不是final。那么在读取之前需要先进行链接和初始化。
+
+- 可以使用泛型对Class对象进行限定
+
+- 当进行向下转型时，为防止转型中报错。可以使用instaceof运算符或isInstance()方法。
+
+  ```java
+  class A{}
+  class B extends A{}
+  class Main{
+     A a = new B();
+     System.out.println(a instanceof B);
+     System.out.println(A.class.isInstance(a));
+  }
+  ```
+
+- 反射：传统的RTTI需要在编译时就要知道class文件内容。而反射则可以在运行时通过本地文件、网络加载class文件。反射工具可以获取class文件中包含的方法，构造，字段等信息。
+
+- 动态代理：[动态代理](../../27/动态代理/)
+
+# 泛型
+
+- 简单泛型：
+
+  ````java
+  public class Animal<T> {
+      private T name;
+      public Animal(T name) {
+          this.name = name;
+      }
+      @Override
+      public String toString() {
+          return "Animal{" +
+                  "name=" + name +
+                  '}';
+      }
+  }
+  
+  public class Main {
+      public static void main(String[] args) {
+          Animal<String> animal = new Animal<String>("dog");
+          System.out.println(animal);
+      }
+  }
+  ````
+
+- 泛型接口：泛型也可以作用于接口。
+
+  ```java
+  //定义泛型接口，一个对象生成器接口
+  public interface Generator<T> {
+      T next();
+  }
+  ```
+
+- 泛型方法：泛型方法可以独立于类存在，即无论泛型方法所在的类是不是泛型类都可以存在泛型方法。另外对于static方法而言，无法访问泛型类的类型参数，所以static方法需要使用泛型能力时就必须使用泛型方法。泛型方法的使用不像泛型类那样每次都要到泛型参数进行赋值，泛型方法可以根据方法调用情况进行泛型参数的推断。
+
+  ````java
+  public class MyMethod {
+      //定义泛型方法
+      public <T> void f(T t){
+          System.out.println(t.getClass().getSimpleName());
+      }
+  
+      public static void main(String[] args) {
+          MyMethod myMethod = new MyMethod();
+          //自动泛型类型的推断
+          myMethod.f("hello");
+      }
+  }
+  ````
+
+- 泛型类型推断的三种方式：
+
+  + 根据赋值操作对泛型进行推断
+  + 根据方法调用进行推断
+  + 显示指定
+
+  ````java
+  public class New {
+      public static <K,V> Map<K,V> map(){
+          return new HashMap<K,V>();
+      }
+      public static <K> List<K> list(){
+          return new ArrayList<K>();
+      }
+      public static Map<String,Integer> reMap(Map<String,Integer> map){
+          return map;
+      }
+      public static void main(String[] args) {
+          //根据赋值操作对泛型进行推断
+          Map<String, Integer> map = New.map();
+          List<String> list = New.list();
+          //根据方法调用传递参数进行类型推断
+          New.reMap(New.map());
+          //显示指定类型
+          New.<String,Integer>map();
+      }
+  }
+  ````
+
+- 泛型擦除：在Java中擦除是实现泛型的方式。在编译结束后，泛型将被擦除到它的第一边界（当泛型定义边界时将擦除到边界，没有定义时将擦除到Object）。擦除到边界时所产生的效果就像是边界代替了实际的泛型，在下面例子中就是HasF替代了T。那这样还要泛型干啥？直接多态不就可以了吗？我觉得使用泛型主要是可以指定确切的类，而避免多态带来的“模糊性”。
+
+  ````java
+  public class HasF {
+      public void f(){};
+  }
+  
+  public class Main<T extends HasF> {
+      private T obj;
+      public void main(){
+          //若不定义边界，则无法使用该方法，因为编译结束后泛型已经被擦除了
+          obj.f();
+      }
+  }
+  ````
+
+  java使用擦除实现泛型看书上写的一页也没搞懂，应该就是为了向下兼容吧。
+
+  我现在理解的泛型，其实功能很局限，也就是做做编译时的类型检验而已。一旦编译完成被擦除若不设置边界还不如多态来的实在。
+
+- 泛型擦除：Java 的泛型只在编译阶段有效，编译过程中正确检验泛型结果后，会将泛型相关信息擦除，并且在对象进入和离开方法的边界处添加类型检查和类型转换的方法，即泛型信息不会进入运行时阶段：
+
+  ```java
+  public static void main(String[] args) {
+      Generic<Integer> genericInteger = new Generic<>(123);
+      Generic<String> genericString= new Generic<>("Hello");
+      System.out.println(genericInteger.getClass() == genericString.getClass());  // 返回 true
+  }
+  ```
+
+  结果返回`true`，说明虽然编译时`Generic<Integer>`和`Generic<String>`是不同的类型，但因为泛型的类型擦除，所以编译后`genericInteger`和`genericString`为相同的类型
+
+- 边界：泛型定义的边界有两个作用：1. 强制规定泛型可以应用的类型。2.由于java的泛型擦除，所以没有设置边界的泛型只能调用Object的方法，设置边界后可以按照自己定义的边界来调用方法。extends关键字表示泛型类应继承自后面的类。
+
+  ```java
+  public interface Animal {
+      void eat();
+      void say();
+  }
+  //接口实现类
+  public class Mammal implements Animal {
+      @Override
+      public void eat() {
+          System.out.println("mammal eat...");
+      }
+  
+      @Override
+      public void say() {
+          System.out.println("mammal say...");
+      }
+      public void walk(){
+          System.out.println("mammal walk...");
+      }
+  }
+  //包含泛型你方法的类
+  public class Main {
+      public static <T extends Animal> void f(T t){
+          //由于设置了边界，所以可以调用边界类中的方法
+          t.eat();
+          t.say();
+      }
+  
+      public static void main(String[] args) {
+          f(new Mammal());
+      }
+  }
+  ```
+
+- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
