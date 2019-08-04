@@ -389,158 +389,7 @@ date: 2019-07-19 21:01:32
 
 # 泛型
 
-- 简单泛型：
-
-  ````java
-  public class Animal<T> {
-      private T name;
-      public Animal(T name) {
-          this.name = name;
-      }
-      @Override
-      public String toString() {
-          return "Animal{" +
-                  "name=" + name +
-                  '}';
-      }
-  }
-  
-  public class Main {
-      public static void main(String[] args) {
-          Animal<String> animal = new Animal<String>("dog");
-          System.out.println(animal);
-      }
-  }
-  ````
-
-- 泛型接口：泛型也可以作用于接口。
-
-  ```java
-  //定义泛型接口，一个对象生成器接口
-  public interface Generator<T> {
-      T next();
-  }
-  ```
-
-- 泛型方法：泛型方法可以独立于类存在，即无论泛型方法所在的类是不是泛型类都可以存在泛型方法。另外对于static方法而言，无法访问泛型类的类型参数，所以static方法需要使用泛型能力时就必须使用泛型方法。泛型方法的使用不像泛型类那样每次都要到泛型参数进行赋值，泛型方法可以根据方法调用情况进行泛型参数的推断。
-
-  ````java
-  public class MyMethod {
-      //定义泛型方法
-      public <T> void f(T t){
-          System.out.println(t.getClass().getSimpleName());
-      }
-  
-      public static void main(String[] args) {
-          MyMethod myMethod = new MyMethod();
-          //自动泛型类型的推断
-          myMethod.f("hello");
-      }
-  }
-  ````
-
-- 泛型类型推断的三种方式：
-
-  + 根据赋值操作对泛型进行推断
-  + 根据方法调用进行推断
-  + 显示指定
-
-  ````java
-  public class New {
-      public static <K,V> Map<K,V> map(){
-          return new HashMap<K,V>();
-      }
-      public static <K> List<K> list(){
-          return new ArrayList<K>();
-      }
-      public static Map<String,Integer> reMap(Map<String,Integer> map){
-          return map;
-      }
-      public static void main(String[] args) {
-          //根据赋值操作对泛型进行推断
-          Map<String, Integer> map = New.map();
-          List<String> list = New.list();
-          //根据方法调用传递参数进行类型推断
-          New.reMap(New.map());
-          //显示指定类型
-          New.<String,Integer>map();
-      }
-  }
-  ````
-
-- 泛型擦除：在Java中擦除是实现泛型的方式。在编译结束后，泛型将被擦除到它的第一边界（当泛型定义边界时将擦除到边界，没有定义时将擦除到Object）。擦除到边界时所产生的效果就像是边界代替了实际的泛型，在下面例子中就是HasF替代了T。那这样还要泛型干啥？直接多态不就可以了吗？我觉得使用泛型主要是可以指定确切的类，而避免多态带来的“模糊性”。
-
-  ````java
-  public class HasF {
-      public void f(){};
-  }
-  
-  public class Main<T extends HasF> {
-      private T obj;
-      public void main(){
-          //若不定义边界，则无法使用该方法，因为编译结束后泛型已经被擦除了
-          obj.f();
-      }
-  }
-  ````
-
-  java使用擦除实现泛型看书上写的一页也没搞懂，应该就是为了向下兼容吧。
-
-  我现在理解的泛型，其实功能很局限，也就是做做编译时的类型检验而已。一旦编译完成被擦除若不设置边界还不如多态来的实在。
-
-  ```java
-  public static void main(String[] args) {
-      Generic<Integer> genericInteger = new Generic<>(123);
-      Generic<String> genericString= new Generic<>("Hello");
-      System.out.println(genericInteger.getClass() == genericString.getClass());  // 返回 true
-  }
-  ```
-
-  结果返回`true`，说明虽然编译时`Generic<Integer>`和`Generic<String>`是不同的类型，但因为泛型的类型擦除，所以编译后`genericInteger`和`genericString`为相同的类型
-
-- 边界：泛型定义的边界有两个作用：1. 强制规定泛型可以应用的类型。2.由于java的泛型擦除，所以没有设置边界的泛型只能调用Object的方法，设置边界后可以按照自己定义的边界来调用方法。extends关键字表示泛型类应继承自后面的类。
-
-  ```java
-  public interface Animal {
-      void eat();
-      void say();
-  }
-  //接口实现类
-  public class Mammal implements Animal {
-      @Override
-      public void eat() {
-          System.out.println("mammal eat...");
-      }
-  
-      @Override
-      public void say() {
-          System.out.println("mammal say...");
-      }
-      public void walk(){
-          System.out.println("mammal walk...");
-      }
-  }
-  //包含泛型你方法的类
-  public class Main {
-      public static <T extends Animal> void f(T t){
-          //由于设置了边界，所以可以调用边界类中的方法
-          t.eat();
-          t.say();
-      }
-  
-      public static void main(String[] args) {
-          f(new Mammal());
-      }
-  }
-  ```
-
-- 通配符（待复习，这一节有点虎）：
-
-  - 数组具有协变性，这也就印证了数组的类型检查发生在程序的运行期。而泛型的检查是在编译期间。
-  - 通配符是在使用泛型是指定的，使用“?”。而边界是在定义时使用的。
-  - 通配符有点类似于对编译器进行类型检查造成的协变性丢失的一点补充。也有点多态的味道。
-  - < ? extends MyClass >表示泛型所代表的类都是继承自MyClass。使用这种声明列表的引用无法进行增加操作，因为编译时只是知道引用所表示的对象列表的内容都是继承自MyClass，但是无法知道具体是那个实现，如果贸然进行添加会导致类型转化异常。
-  - < ? super MyClass >表示泛型所代表的类都是MyClass的基类，这样声明的引用无法进行查看但是可以进行添加。
+- [泛型](../../../08/02/泛型/)
 
 # 数组
 
@@ -564,6 +413,12 @@ date: 2019-07-19 21:01:32
 
 - 对已排序的数组使用Arrays.binarySearch()进行二分查找。
 
+# 容器深入研究
+
+- 为什么collection中许多数据类型都有了接口，还要定义一个抽象类呢？抽象类只是部分实现了特定接口的工具，有了抽象类可以为自己定义的数据结构时提供便利，这样就可以直接继承抽象类就好了。
+- 实现collection接口的类有些并没有完全实现collection中定义的方法。例如`Arrays.asList()`返回的ArrayList是一个Arrays中的内部类，这个类就是不支持add等操作的。总结来说，这种未支持的操作一般发生在由固定尺寸的容器在执行修改容器大小时出现。当调用这些方法时会抛出`UnsupportedOperationException`异常。
+
+# 
 
 
 
@@ -576,11 +431,6 @@ date: 2019-07-19 21:01:32
 
 
 
-
-
-参考：
-
-> 数组的协变性和泛型的不可变性：<https://blog.csdn.net/magi1201/article/details/45127487>
 
 
 
