@@ -150,6 +150,50 @@ BeanWrapper接口通常在Spring框架内部使用，它有一个BeanWrapperImpl
 + MessageSourceAware。ApplicationContext通过MessageSource接口提供国际化的信息支持，即I18n。它自身就实现了MessageSource接口，所以当检测到当前对象实例实现了MessageSourceAware接口，则会将自身注入当前对象实例。
 + ApplicationContextAware。 如果ApplicationContext容器检测到当前对象实现了ApplicationContextAware接口，则会将自身注入当前对象实例。
 
+#### BeanPostProcessor接口
+
+从bean的实例化流程可以知道再bean进行了各种Aware接口的解析之后，下一步就是执行BeanPostProcessor接口的PostProcessorBeforeInitialization方法了。
+
+BeanPostProcessor容易与BeanFactoryPostProcessor混淆。但只要记住BeanPostProcessor是存在于对象实例化阶段，而BeanFactoryPostProcessor则是存在于容器启动阶段，这两个接口就比较容易区分了。
+
+与BeanFactoryPostProcessor通常会处理容器内所有符合条件的BeanDefinition类似，BeanPostProcessor会处理容器内所有符合条件的实例化后的对象实例。
+
+该接口声明了两个方法，他们都会接受一个所要创建的对象的引用，这样可以极大提高扩展性。这两个方法分别在两个不同的时机执行，也就是bean的创建流程图中前置处理与后置处理。见如下代码定义：
+
+```java
+public interface BeanPostProcessor {
+    Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException;
+    Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException;
+}
+```
+
+该接口的一个使用场景就是再ApplicationContext中各种Aware接口的注入。
+
+当需要自定义该接口实现时只需实现该类并实现相应方法，如果使用BeanFactory容器还需要将其注入到容器中，方法是使用BeanFactory对象的addBeanPostProcessor方法，该方法实际是调用的ConfigurableBeanFactory中的。
+
+> 实际上，有一种特殊类型的BeanPostProcessor我们没有提到，它的执行时机与通常的BeanPostProcessor不同。org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor
+>接口可以在对象的实例化过程中导致某种类似于电路“短路”的效果。
+>
+>实际上，并非所有注册到Spring容器内的bean定义都是按照图4-10的流程实例化的。在所有的步骤之前，也就是实例化bean对象步骤之前，容器会首先检查容器中是否注册有InstantiationAwareBeanPostProcessor类型的BeanPostProcessor。如果有，首先使用相应的InstantiationAwareBeanPostProcessor来构造对象实例。构造成功后直接返回构造完成的对象实例，而不会按照“正规的流程”继续执行。这就是它可能造成“短路”的原因。
+>
+>不过，通常情况下都是Spring容器内部使用这种特殊类型的BeanPostProcessor做一些动态对象代理等工作，我们使用普通的BeanPostProcessor实现就可以。这里简单提及一下，目的是让大家有所了解。
+
+#### InitializingBean和init-method
+
+在BeanPostProcessor的前置方法调用结束后，接下来如果被实例化的对象实现了InitializingBean接口，那么就会调用afterPropertiesSet方法用为进一步调整实例的状态。
+
+但是使用InitializingBean会显得spring容器具有侵入性，所以一般使用<bean>的init-method属性（或<beans>的default-init-method属性为所有bean指定默认init方法）为bean指定初始化方法。用来调整实例的状态。由bean的实例化流程图可以看出来该方法的执行位于InitializingBean接口的afterPropertiesSet方法之后。
+
+#### DisposableBean与destroy-method方法
+
+与InitializingBean和init-method功能类似，DisposableBean与destroy-method同样是一个是接口一个是<bean>的配置属性，他们表示bean的销毁时调用的方法。
+
+但是这个方法并不会自动调用，当在BeanFactory容器中需要调用ConfigurableBeanFactory提供的destroySingletons方法。
+
+在ApplicationContext容器中需要AbstractApplicationContext为我们提供了registerShutdownHook()方法，该方法底层使用标准的Runtime类的addShutdownHook()方式来调用相应bean对象的销毁逻辑，从而保证在Java虚拟机退出之前，这些singtleton类型的bean对象实例的自定义销毁逻辑会被执行。当然AbstractApplicationContext注册的shutdownHook不只是调用对象实例的自定义销毁逻辑，也包括ApplicationContext相关的事件发布等。
+
+同样的道理，在自定义scope之后，使用自定义scope的相关对象实例的销毁逻辑，也应该在合适的时机被调用执行。不过，所有这些规则不包含prototype类型的bean实例，因为prototype对象实例在容器实例化并返回给请求方之后，容器就不再管理这种类型对象实例的生命周期了。
+
 # BeanFactory与ApplicationContext
 
 spring提供了两种容器类型：BeanFactory与ApplicationContext
