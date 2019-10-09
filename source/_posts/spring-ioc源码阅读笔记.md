@@ -75,7 +75,7 @@ Spring IOC启动流程总的可以分为两大步骤，容器启动阶段和容�
 
 ![1569061930193](C:\Users\xia\AppData\Roaming\Typora\typora-user-images\1569061930193.png)
 
-容器的加载阶段主要是加载配置的xml文件到内存中，对xml文件的结构与定义信息进行分析，将xml中定义的信息注册到一个BeanDefinition对象中。至于上图中的其他后处理主要指的是BeanFactoryPostProcessor接口的功能，它在bean实例化之前执行，可以用来进行修改已经定义BeanDefinition信息等操作。我认为这个处理应该放在Bean实例化阶段，因为只有调用了getBean()方法才会对这个方法进行调用。。。
+容器的加载阶段主要是加载配置的xml文件到内存中，对xml文件的结构与定义信息进行分析，将xml中定义的信息注册到一个BeanDefinition对象中。至于上图中的其他后处理主要指的是BeanFactoryPostProcessor接口的功能，它在bean实例化之前执行，可以用来进行修改已经定义BeanDefinition信息等操作。BeanFactory需要手动注册并执行BeanFactoryPostProcessor接口，ApplicationContext可以自动注册BeanFactoryPostProcessor注册完成后自动执行相关方法。
 
 而Bean实例化阶段主要是指IOC容器对象调用了getBean方法后执行的对Bean的实例化过程。
 
@@ -897,11 +897,13 @@ public BeanDefinitionHolder decorateIfRequired(
 
 **NamespaceHandler handler = this.readerContext.getNamespaceHandlerResolver().resolve(namespaceUri);**
 
-在readContext初始化时就将属性初始化为DefaultNamespaceHandlerResolver。resolve()方法的作用就是根据spring.handlers文件，将文件中的类名通过反射转换成class对象，然后执行自定义handler的init方法进行初始化，最后将自定义的handler对象返回。
+在readContext初始化时就将属性初始化为DefaultNamespaceHandlerResolver。resolve()方法的作用就是根据spring.handlers文件，将文件中的类名通过反射转换成class对象，然后**执行自定义handler的init方法**进行初始化，最后将自定义的handler对象返回。
 
 **handler.parse(ele, new ParserContext(this.readerContext, this, containingBd));**
 
- 这里handler调用的parse方法其实是NamespaceHandlerSupport类的
+这个方法是为了根据localName获取解析器。解析器的注册是在NamespaceHandler 的init方法中。
+
+这里handler调用的parse方法其实是NamespaceHandlerSupport类的
 
 ```java
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
@@ -924,43 +926,7 @@ public BeanDefinitionHolder decorateIfRequired(
 	}
 ```
 
-```java
-	public final BeanDefinition parse(Element element, ParserContext parserContext) {
-		//对BeanDefinition进行数据准备，如class，scope等，然后执行子类重写重写的doParse方法执行自定义的解析逻辑
-        AbstractBeanDefinition definition = parseInternal(element, parserContext);
-		if (definition != null && !parserContext.isNested()) {
-			try {
-				String id = resolveId(element, definition, parserContext);
-				if (!StringUtils.hasText(id)) {
-					parserContext.getReaderContext().error(
-							"Id is required for element '" + parserContext.getDelegate().getLocalName(element)
-									+ "' when used as a top-level tag", element);
-				}
-				String[] aliases = null;
-				if (shouldParseNameAsAliases()) {
-					String name = element.getAttribute(NAME_ATTRIBUTE);
-					if (StringUtils.hasLength(name)) {
-						aliases = StringUtils.trimArrayElements(StringUtils.commaDelimitedListToStringArray(name));
-					}
-				}
-                //将AbstractBeanDefinition转换为BeanDefinitionHolder
-				BeanDefinitionHolder holder = new BeanDefinitionHolder(definition, id, aliases);
-				registerBeanDefinition(holder, parserContext.getRegistry());
-				if (shouldFireEvents()) {
-					BeanComponentDefinition componentDefinition = new BeanComponentDefinition(holder);
-					postProcessComponentDefinition(componentDefinition);
-					parserContext.registerComponent(componentDefinition);
-				}
-			}
-			catch (BeanDefinitionStoreException ex) {
-				String msg = ex.getMessage();
-				parserContext.getReaderContext().error((msg != null ? msg : ex.toString()), element);
-				return null;
-			}
-		}
-		return definition;
-	}
-```
+然后就是调用解析器的parse方法了。
 
 ### 小结
 
@@ -969,14 +935,6 @@ public BeanDefinitionHolder decorateIfRequired(
 再XmlBeanFactory中包含一个XmlBeanDefinitionReader对象，负责xml文件的加载。XmlBeanDefinitionReader又将把xml文件包装成Document对象的任务交给了DefaultDocumentLoader类，将document的解析交给DefaultBeanDefinitionDocumentReader类，该类又对spring默认命名空间的元素和自定义命名空间的元素进行区分，交给BeanDefinitionParserDelegate进行解析。最后解析结束将解析得到的BeanDefintion注册到Register中，注册时分为name和alias类型进行注册。而那个Register就是XmlBeabFactory。。。
 
 所以。。。这三天就搞了怎么把xml中定义的bean封装为BeanDefinition注册到Register中这点事。。。
-
-有时候想想很多事情真的想一想是很简单事，我学了两年的java了，回想一下好像并不会很多东西，但是就这点东西就花了我两年的时间啊。。。再往前想一想，高中三年，物理课，平均一天一节。等到我高考结束时候，仿佛也就是背下来几个公式，明白些物理定理。其实一张纸就可以把四年的知识总结下来。。。
-
-为什么学习的过程那么慢，学习的过程是一个探索的过程 ，前面对于我来说就是一个黑箱。每走一步都有可能走错、走弯路、掉坑里。所以学习还是要有一位好的老师，他可以是一位前辈（当然我没有。。。）、可以是一本书、可以是网上对这个知识的总结。。。一个方向太重要了，这可能就是教育的问题了，为什么老师好的学校学生就普遍优秀，方向对了，路对了就可以节省至少百分之八十的时间。所以，方向是很重要的，好的方向省下来时间，省下来的时间可以做更多的尝试，体验更多的东西。就像我现在，我非常急切的想把java掌握好，这样我就可以把我吃饭的工具掌握好，然后有更多的时间更多的心情去做更多我好奇、我感兴趣的事情。如果真的有那一天。。。真好。。。
-
-其实很同情现在的学生，很多老师都是个大混子，回想这么多年的求学经历，很少能见到老师救了一个孩子，更多的见了老师毁掉一个孩子，老师如何否定一个孩子。现在的老师真的都是一堆大学毕业招不到工作的，不知道自己可以干什么的，希望有个工作可以混下去的选择去做老师。这么搞下去真的可能不知道有多少孩子会被毁掉。自己的三观不正硬要育人，自己流连于形式主义要让孩子们跟他们一起。真的是精神空虚到何种地步。最近看到网上关于教师节送礼物的讨论，感觉真的是越垃圾的人越当老师。
-
-一个国家的富强第一步就是教育，老师的质量就是第一位，真的为那些真心希望投入教育的老师感到不公，对那些混子老师感到愤慨。真的应该让优秀的人当老师，提高教师门槛，提高教师待遇。让优秀的人带领让下一代变优秀，把只想着混日子，心里压根没有对教师这个职业敬畏的人全部扫除出去。。。。
 
 ## bean的加载
 
@@ -2260,13 +2218,191 @@ protected void invokeInitMethods(String beanName, final Object bean, @Nullable R
 public ClassPathXmlApplicationContext(
       String[] configLocations, boolean refresh, @Nullable ApplicationContext parent)
       throws BeansException {
-   
+   //设置父容器
    super(parent);
     //设置配置文件
    setConfigLocations(configLocations);
    if (refresh) {
       refresh();
    }
+}
+```
+
+## super(parent);
+
+沿着调用链一直到AbstarctApplicationContext类。
+
+```java
+public AbstractApplicationContext(@Nullable ApplicationContext parent) {
+   //设置资源文件解析器
+   this();
+   //设置父容器
+   setParent(parent);
+}
+```
+
+```java
+//this();
+public AbstractApplicationContext() {
+   this.resourcePatternResolver = getResourcePatternResolver();
+}
+
+// getResourcePatternResolver();
+protected ResourcePatternResolver getResourcePatternResolver() {
+    //支持Ant风格的路径解析
+	return new PathMatchingResourcePatternResolver(this);
+}
+```
+
+```java
+public void setParent(@Nullable ApplicationContext parent) {
+   //设置父容器
+   this.parent = parent;
+   if (parent != null) {
+       //父容器的环境设置到parentEnvironment属性中
+       Environment parentEnvironment = parent.getEnvironment();
+      if (parentEnvironment instanceof ConfigurableEnvironment) {
+         getEnvironment().merge((ConfigurableEnvironment) parentEnvironment);
+      }
+   }
+}
+```
+
+## setConfigLocations(configLocations)
+
+传入的路径可能包含占位符等，需要进行解析，对占位符进行替换。
+
+```java
+public void setConfigLocations(@Nullable String... locations) {
+   if (locations != null) {
+      Assert.noNullElements(locations, "Config locations must not be null");
+      this.configLocations = new String[locations.length];
+      for (int i = 0; i < locations.length; i++) {
+         //解析路径
+         this.configLocations[i] = resolvePath(locations[i]).trim();
+      }
+   }
+   else {
+      this.configLocations = null;
+   }
+}
+```
+
+```java
+protected String resolvePath(String path) {
+   //获取Environment，进行解析
+   return getEnvironment().resolveRequiredPlaceholders(path);
+}
+```
+
+getEnvironment()中如果this.environment为空则调用createEnvironment()方法创建新的StandardEnvironment对象。
+
+```java
+protected ConfigurableEnvironment createEnvironment() {
+    return new StandardEnvironment();
+}
+```
+
+### Environment
+
+![Environment](C:\Users\xia\Desktop\spring-analysis\note\images\Environment.jpg)
+
+Environmen接口**代表了当前应用所处的环境。**从此接口的方法可以看出，其主要和profile、Property相关。
+
+**构造方法：**
+
+StandardEnvironment没有显示的构造方法，其父类AbstractEnvironment中构造方法如下：
+
+```java
+private final MutablePropertySources propertySources = new MutablePropertySources();
+/** System environment property source name: {@value} */
+public static final String SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME = "systemEnvironment";
+/** JVM system properties property source name: {@value} */
+public static final String SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME = "systemProperties";
+
+//父类构造
+public AbstractEnvironment() {
+   customizePropertySources(this.propertySources);
+}
+
+protected void customizePropertySources(MutablePropertySources propertySources) {
+		propertySources.addLast(
+				new PropertiesPropertySource(SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME, getSystemProperties()));
+		propertySources.addLast(
+				new SystemEnvironmentPropertySource(SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME, getSystemEnvironment()));
+}
+```
+
+MutablePropertySources实现了**PropertySources**接口，其作用是作为PropertySource的容器。内部包含一个CopyOnWriteArrayList作为容器。
+
+customizePropertySources()是向MutablePropertySources中注册PropertySource。getSystemProperties(）底层调用的`System.getProperties()`，getSystemEnvironment()底层调用的 `System.getenv()`。
+
+**PropertySource**接口代表了键值对的Property来源。内部包含name和source属性，代表property的来源和值。继承体系：
+
+![PropertySource](C:\Users\xia\Desktop\spring-analysis\note\images\PropertySource.jpg)
+
+到这里StandardEnvironment对象已经创建完成。接下来就是`resolveRequiredPlaceholders(path)`方法了。
+
+### resolveRequiredPlaceholders(path)
+
+StandardEnvironment并没有重写父类AbstractEnvironment中的这个方法
+
+AbstractEnvironment.resolveRequiredPlaceholders:
+
+```java
+private final ConfigurablePropertyResolver propertyResolver = new PropertySourcesPropertyResolver(this.propertySources);
+
+public String resolveRequiredPlaceholders(String text) throws IllegalArgumentException {
+   return this.propertyResolver.resolveRequiredPlaceholders(text);
+}
+```
+
+**PropertyResolver**继承关系图：
+
+![PropertyResolver](C:\Users\xia\Desktop\spring-analysis\note\images\PropertyResolver.jpg)
+
+resolveRequiredPlaceholders()最终调用是在AbstractPropertyResolver中。
+
+AbstractPropertyResolver.resolveRequiredPlaceholders:
+
+```java
+public String resolveRequiredPlaceholders(String text) throws IllegalArgumentException {
+   if (this.strictHelper == null) {
+      this.strictHelper = createPlaceholderHelper(false);
+   }
+   return doResolvePlaceholders(text, this.strictHelper);
+}
+```
+
+```java
+private PropertyPlaceholderHelper createPlaceholderHelper(boolean ignoreUnresolvablePlaceholders) {
+    //三个参数分别是${, }, :
+   return new PropertyPlaceholderHelper(this.placeholderPrefix, this.placeholderSuffix,
+         this.valueSeparator, ignoreUnresolvablePlaceholders);
+}
+```
+
+```java
+private String doResolvePlaceholders(String text, PropertyPlaceholderHelper helper) {
+   return helper.replacePlaceholders(text, this::getPropertyAsRawString);
+}
+protected String getPropertyAsRawString(String key) {
+	return getProperty(key, String.class, false);
+}
+protected <T> T getProperty(String key, Class<T> targetValueType, boolean resolveNestedPlaceholders) {
+		if (this.propertySources != null) {
+			for (PropertySource<?> propertySource : this.propertySources) {
+				Object value = propertySource.getProperty(key);
+				if (value != null) {
+					if (resolveNestedPlaceholders && value instanceof String) {
+						value = resolveNestedPlaceholders((String) value);
+					}
+					logKeyFound(key, propertySource, value);
+					return convertValueIfNecessary(value, targetValueType);
+				}
+			}
+		}
+	return null;
 }
 ```
 
@@ -2697,16 +2833,3 @@ public void preInstantiateSingletons() throws BeansException {
    }
 }
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
