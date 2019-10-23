@@ -1,11 +1,12 @@
-title: spring-core源码阅读笔记
+---
+title: spring-ioc源码阅读笔记
 author: XIA
+date: 2019-09-25 19:33:02
 categories:
-
-  - null
+- 后端
 tags:
-  - null
-date: 2019-09-15 20:03:23
+- Spring
+---
 
 # Spring IOC 相关知识点回顾
 
@@ -73,7 +74,7 @@ xml配置文件中的最顶层元素，它下面包含0或1个<description>以�
 
 Spring IOC启动流程总的可以分为两大步骤，容器启动阶段和容器实例化阶段。
 
-![1569061930193](C:\Users\xia\AppData\Roaming\Typora\typora-user-images\1569061930193.png)
+![1569061930193](https://xbxblog.bj.bcebos.com/beanPactory%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B.png)
 
 容器的加载阶段主要是加载配置的xml文件到内存中，对xml文件的结构与定义信息进行分析，将xml中定义的信息注册到一个BeanDefinition对象中。至于上图中的其他后处理主要指的是BeanFactoryPostProcessor接口的功能，它在bean实例化之前执行，可以用来进行修改已经定义BeanDefinition信息等操作。BeanFactory需要手动注册并执行BeanFactoryPostProcessor接口，ApplicationContext可以自动注册BeanFactoryPostProcessor注册完成后自动执行相关方法。
 
@@ -111,7 +112,7 @@ BeanFactory使用BeanFactoryPostProcessor需要手动注册，而ApplicationCont
 
 在BeanFactory中默认是使用延迟加载的，只有ioc容器对象显式调用getBean方法或者对象间依赖进行的隐式调用时bean才开始进行创建。如下图就是bean的生命周期：
 
-![1569079638040](C:\Users\xia\AppData\Roaming\Typora\typora-user-images\1569079638040.png)
+![1569079638040](https://xbxblog.bj.bcebos.com/bean%E5%AE%9E%E4%BE%8B%E5%8C%96%E8%BF%87%E7%A8%8B.png)
 
 #### Bean的实例化与BeanWrapper
 
@@ -203,7 +204,7 @@ spring提供了两种容器类型：BeanFactory与ApplicationContext
 
 * 如图表示这两者间的关系：
 
-  ![beanfactory和applicationContext](C:\Users\xia\Desktop\beanfactory和applicationContext.png)
+  ![beanfactory和applicationContext](https://xbxblog.bj.bcebos.com/beanfactory%E5%92%8CapplicationContext.png)
 
 # 从BeanFactory开始吧
 
@@ -251,7 +252,7 @@ public class XBFTest {
 
 ## XmlBeanFactory继承结构与主要类的作用
 
-![XmlBeanFactory](C:\Users\xia\Desktop\XmlBeanFactory.png)
+![XmlBeanFactory](https://xbxblog.bj.bcebos.com/XmlBeanFactory.png)
 
 根据上图可以看到，XmlBeanFactory直接继承自DefaultListableBeanFactory。DefaultListableBeanFactory是BeanFactory接口的一个比较通用的实现类，DefaultListableBeanFactory除了间接实现了BeanFactory接口，还间接实现了BeanDefinitionRegistry接口。BeanFactory接口负责Bean容器的访问操作，BeanDefinitionRegistry接口负责容器内Bean的注册管理操作。
 
@@ -296,7 +297,7 @@ spring通过Resource和ResourceLoader接口对资源进行了重新的封装。R
 
 可以看到XmlBeanDefinitionReader类型的reader属性调用loadBeanDefinitions方法开始对resource进行解析。
 
-![1568591560605](C:\Users\xia\AppData\Roaming\Typora\typora-user-images\1568591560605.png)
+![1568591560605](https://xbxblog.bj.bcebos.com/loadBeanDefnition%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B.png)
 
 1.1-1.2：根据resource获取EncodedResource类型实例，该实例封装了Resource对象的编码等信息，spring需要根据这些信息作为输入流的编码。
 
@@ -1826,7 +1827,7 @@ protected void autowireByName(
 
 #### autowireByType
 
-```
+```java
 protected void autowireByType(
       String beanName, AbstractBeanDefinition mbd, BeanWrapper bw, MutablePropertyValues pvs) {
 
@@ -2305,7 +2306,7 @@ protected ConfigurableEnvironment createEnvironment() {
 
 ### Environment
 
-![Environment](C:\Users\xia\Desktop\spring-analysis\note\images\Environment.jpg)
+![Environment](https://xbxblog.bj.bcebos.com/Environment.jpg)
 
 Environmen接口**代表了当前应用所处的环境。**从此接口的方法可以看出，其主要和profile、Property相关。
 
@@ -2339,7 +2340,7 @@ customizePropertySources()是向MutablePropertySources中注册PropertySource。
 
 **PropertySource**接口代表了键值对的Property来源。内部包含name和source属性，代表property的来源和值。继承体系：
 
-![PropertySource](C:\Users\xia\Desktop\spring-analysis\note\images\PropertySource.jpg)
+![PropertySource](https://xbxblog.bj.bcebos.com/PropertySource.jpg)
 
 到这里StandardEnvironment对象已经创建完成。接下来就是`resolveRequiredPlaceholders(path)`方法了。
 
@@ -2359,7 +2360,7 @@ public String resolveRequiredPlaceholders(String text) throws IllegalArgumentExc
 
 **PropertyResolver**继承关系图：
 
-![PropertyResolver](C:\Users\xia\Desktop\spring-analysis\note\images\PropertyResolver.jpg)
+![PropertyResolver](https://xbxblog.bj.bcebos.com/PropertyResolver.jpg)
 
 resolveRequiredPlaceholders()最终调用是在AbstractPropertyResolver中。
 
@@ -2844,7 +2845,7 @@ spring在解析注解时使用了很多元数据类，可以看这篇博客：<h
 
 关于自定义标签的解析流程在上面已经进行了总结，简单说就是根据自定义标签的名字空间uri查询spring.handlers文件找到解析方法并执行其中定义的init方法，init方法中一般都是对localName（localName是个什么东西呢，比如对于context:annotation-config标签就是annotation-config）的解析器注册。接下来根据localName获取对应解析器执行解析方法parse。
 
-![1570979542838](C:\Users\xia\AppData\Roaming\Typora\typora-user-images\1570979542838.png)
+![1570979542838](https://xbxblog.bj.bcebos.com/%E5%A4%96%E9%83%A8%E8%A7%A3%E6%9E%90.png)
 
 **注册各种localName的解析器**
 
