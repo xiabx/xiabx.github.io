@@ -20,7 +20,7 @@ class文件只有两种数据结构：无符号数和表。
 
 **class文件结构：**
 
-![](C:\Users\xia\Desktop\classStructure.png)
+![](https://xbxblog.bj.bcebos.com/classStructure.png)
 
 # 示例代码
 
@@ -37,7 +37,7 @@ public class Animal{
 
 然后编译为class文件后使用notepad++打开
 
-![classHex](C:\Users\xia\Desktop\classHex.png)
+![classHex](https://xbxblog.bj.bcebos.com/classHex.png)
 
 # 魔数和class文件版本
 
@@ -45,7 +45,7 @@ class文件的前4个字节称为魔数，用来确定这个文件能否被虚�
 
 魔数后面的4个字节表示class文件的版本信息，其中前两个字节表示次版本号，后两个字节表示主版本号。
 
-![classVersionNum](C:\Users\xia\Desktop\classVersionNum.png)
+![classVersionNum](https://xbxblog.bj.bcebos.com/classVersionNum.png)
 
 # 常量池
 
@@ -57,17 +57,17 @@ class文件的前4个字节称为魔数，用来确定这个文件能否被虚�
 
 常量池中每一项常量都是一个表，每个常量的第一位都是一个u1类型的标志位，代表当前这个常量属于哪种类型。
 
-![](C:\Users\xia\Desktop\常量类型.png)
+![](https://xbxblog.bj.bcebos.com/%E5%B8%B8%E9%87%8F%E7%B1%BB%E5%9E%8B.png)
 
 根据这个表我们来尝试分析以下实例代码的常量池
 
-![](C:\Users\xia\Desktop\常量实例.png)
+![](https://xbxblog.bj.bcebos.com/%E5%B8%B8%E9%87%8F%E5%AE%9E%E4%BE%8B.png)
 
 如上第一个常量的tag为0a，对应为CONSTANT_Methodref_info类型，其结构包括两个2bit的索引，0004和000f，有了索引再根据索引找到常量池中对应的值。javap命令可以直接查看class文件的字节码内容。
 
 可以看到常量池中的数量与每个常量的内容。
 
-![](C:\Users\xia\Desktop\javap.png)
+![](https://xbxblog.bj.bcebos.com/javap.png)
 
 # 访问标志
 
@@ -154,7 +154,7 @@ class文件的前4个字节称为魔数，用来确定这个文件能否被虚�
 |     标志名称     | 标志值 |         描述         |
 | :--------------: | :----: | :------------------: |
 |    ACC_PUBLIC    | 0x0001 |   是否为public类型   |
-|   ACC_PRIVATE    | 0x0002 |   是否为final类型    |
+|   ACC_PRIVATE    | 0x0002 |  是否为private类型   |
 |  ACC_PROTECTED   | 0x0004 | 是否为protected类型  |
 |    ACC_STATIC    | 0x0008 |   是否为static类型   |
 |    ACC_FINAL     | 0x0010 |   是否为final类型    |
@@ -174,19 +174,37 @@ class文件的前4个字节称为魔数，用来确定这个文件能否被虚�
 
 方法表集合同样也不会保存父类中的方法。
 
+`00 02 00 01 00 07 00 01`表示有两个方法。第一个方法的访问标志为public、方法名为`<init>`，方法描述为()V。第一个方法的属性表集合中有一个属性。接下来就是属性表集合了~
 
+# 属性表集合
 
+在字段表和方法表的结构中都有一项attributes，这一项就是属性表。
 
+属性表并不像其他数据项目由严格的要求，只要不与已有属性名重复，编译器可以向属性表中写入自己定义的属性信息。但是java虚拟机规范中还是确定了21项预定义属性信息。一些常用的如：
 
+|      属性名称      |      使用位置      |               含义               |
+| :----------------: | :----------------: | :------------------------------: |
+|        Code        |       方法表       |    java代码编译成的字节码指令    |
+|   ConstantValue    |       字段表       |     final关键字定义的常量值      |
+|     Deprecated     | 类、字段表、方法表 |  被声明为deprecated的方法和字段  |
+|    InnerClasses    |       类文件       |            内部类列表            |
+|     Exception      |       方法表       |          方法抛出的异常          |
+|  LineNumberTable   |      Code属性      | 源代码行号与字节码指令的对应关系 |
+| LocalVariableTable |     Codes属性      |        方法的局部变量描述        |
+|     Signature      | 类、字段表、方法表 |           记录泛型信息           |
 
+对于每个属性，它的名称都需要从常量池中引用一个常量来表示，属性值则是自定义的，只需要通过一个u4长度的长度属性说明即可。
 
+| 类型 |         名称         |       数量       |
+| :--: | :------------------: | :--------------: |
+|  u2  | attribute_name_index |        1         |
+|  u4  |   attribute_length   |        1         |
+|  u2  |         info         | attribute_length |
 
+**Code属性**
 
+* Code属性的属性信息包含最大操作数栈、编译后的字节码指令等。字节码指令通过一个u1类型的单字节表示，然后虚拟机根据该字节的表示找出对应的操作指令
 
+**ConstantValue属性**
 
-
-
-
-
-
-
+当一个字段被static修饰时才会使用这个属性。对于实例变量的赋值是在实例构造器`<init>`中，而类变量则是在类构造器`<clinit>`方法或使用ConstantValue属性。javac规定当一个基本类型或字符串变量使用static和final修饰时就使用ConstantValue属性进行初始化。
