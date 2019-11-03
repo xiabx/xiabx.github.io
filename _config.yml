@@ -37,7 +37,7 @@ jsonContent:
     tags: true
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://smallbear1996.github.io
+url: http://xiabaoxin.cn
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
