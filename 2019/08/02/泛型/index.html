@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="XIA">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="XIA">
+    
+    <meta name="keywords" content="hexo,java,恰饭">
+    
+    <meta name="description" content="My Blog">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>泛型 · XIA&#39;S BLOG</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/avatar/icon.png">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+        <!-- algolia -->
+        <script>
+            
+            var hits = JSON.parse('{"per_page":10}')
+            var labels = JSON.parse('{"input_placeholder":"Search for Posts","hits_empty":"We did not find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}')
+
+            var algolia = {
+                applicationID: '5W1B0UUYAF',
+                apiKey: 'cfcd1aa1acd064324fe47f143b3ac36f',
+                indexName: 'blog',
+                hits: hits,
+                labels: labels
+            }
+        </script>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >xia&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">泛型</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>xia's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            泛型
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "java">java</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">4.1k</span>阅读时长: <span class="post-count reading-time">16 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/08/02</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在java5以后java加入了泛型这一语言特性。通过最近对他的学习使我重新对它有了认识，之前一直以为泛型是个很强大的语法特性，现在看来它的存在似乎就是一种妥协，向java迫切需要这一特性和java必须向下兼容而妥协。它仅仅在编译期提供语法检查，而在运行期间java的泛型将被全部“擦除”。</p>
+<h1 id="什么是泛型"><a href="#什么是泛型" class="headerlink" title="什么是泛型"></a>什么是泛型</h1><p>想象一个场景，当我们需要向一个容器中添加对象，但是我们不知道所要添加的对象是什么类型，如果没有泛型我们会这样定义这个类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectContainer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Object obj;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getObj</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setObj</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.obj = obj;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当向该容器中存储对象时将向上转型为Object类型，而当取出所存储的对象使用时通常需要将其向下转型。而向下转型过程中会埋下发生类型转换异常的隐患。</p>
+<p>而使用泛型可以解决这个问题。在定义这个容器时使用类型参数，在实例化这个容器时再指定这个类型参数所代表的类型。像如下的代码就是一个简单的泛型类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenericContainer</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> T obj;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">GenericContainer</span><span class="params">()</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">GenericContainer</span><span class="params">(T t)</span></span>&#123;</span><br><span class="line">        obj = t;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getObj</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setObj</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">        obj = t;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>像这样定义一个泛型类，在使用时对泛型参数进行赋值就可以了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        GenericContainer&lt;Integer&gt; myInt =  <span class="keyword">new</span> GenericContainer&lt;Integer&gt;();</span><br><span class="line">        myInt.setObj(<span class="number">3</span>);  <span class="comment">// OK</span></span><br><span class="line">		myInt.setObj(<span class="string">"Int"</span>); <span class="comment">// 编译错误</span></span><br><span class="line">        <span class="keyword">int</span> i = myInt.getObj(); <span class="comment">//自动转型</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以泛型的核心概念就是：告诉编译器想使用什么类型，然后编译器帮你处理一切细节。</p>
+<h1 id="泛型接口与泛型方法"><a href="#泛型接口与泛型方法" class="headerlink" title="泛型接口与泛型方法"></a>泛型接口与泛型方法</h1><p>前面已经看到了如何定义一个泛型类，只需要在这个类的类名的后面使用尖括号进行声明类型参数，之后就可以在类中使用这个类型参数了。当实例化这个类时为类型参数进行赋值即可。</p>
+<h2 id="泛型接口"><a href="#泛型接口" class="headerlink" title="泛型接口"></a>泛型接口</h2><p>在定义接口时也可以使用泛型，类似下面代码：这段代码是ArraryList的继承结构，其中Iterable就是一个泛型接口，实现此接口的类可以使用foreach循环。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义一个泛型接口，其语法与定义一个泛型类相同</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Iterable</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function">Iterator&lt;T&gt; <span class="title">iterator</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">forEach</span><span class="params">(Consumer&lt;? <span class="keyword">super</span> T&gt; action)</span> </span>&#123;</span><br><span class="line">        Objects.requireNonNull(action);</span><br><span class="line">        <span class="keyword">for</span> (T t : <span class="keyword">this</span>) &#123;</span><br><span class="line">            action.accept(t);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">default</span> Spliterator&lt;T&gt; <span class="title">spliterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Spliterators.spliteratorUnknownSize(iterator(), <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//泛型接口的继承</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Collection</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">Iterable</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//再继承。。。</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">Collection</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//实现一个泛型接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">RandomAccess</span>, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span>&#123;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可见泛型接口与泛型类的定义相同。</p>
+<h2 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h2><p>泛型方法在泛型类与非泛型类中都可以存在。</p>
+<p>定义泛型方法时，在当泛型类中未声明泛型要使用到的泛型参数时或者在非泛型类中定义泛型方法时，需要在返回值前用尖括号声明泛型参数。如果泛型类中对要使用个泛型参数声明了，那直接拿来用就好了。。。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义一个非泛型类，其中包含一个泛型方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenericMethods</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T x)</span></span>&#123;</span><br><span class="line">        System.out.println(x.getClass().getSimpleName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用泛型方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        GenericMethods methods = <span class="keyword">new</span> GenericMethods();</span><br><span class="line">        methods.f(<span class="string">"hello"</span>); <span class="comment">//out：String</span></span><br><span class="line">        methods.f(<span class="number">123</span>); <span class="comment">//out：Integer</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到使用泛型方法时不必像使用泛型类那样在创建对象时指定泛型参数的值，因为编译器可以为我们进行类型参数推断。</p>
+<p>还有一种发生在赋值时的类型推断，它的作用是这样的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">New</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;K,V&gt; <span class="function">Map&lt;K,V&gt; <span class="title">map</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> HashMap&lt;K,V&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;K&gt; <span class="function">List&lt;K&gt; <span class="title">list</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;K&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//通过接收类型的引用指定泛型参数</span></span><br><span class="line">        Map&lt;String, Integer&gt; map = New.map();</span><br><span class="line">        List&lt;String&gt; list = New.list();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在调用泛型方法时也可以显示指定泛型类型，但是这种方式不常用，一般都是自动推断的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">New</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;K,V&gt; <span class="function">Map&lt;K,V&gt; <span class="title">map</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> HashMap&lt;K,V&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">(Map&lt;String,Integer&gt; map)</span></span>&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//在点操作符与方法明之间使用尖括号对类型进行显示声明</span></span><br><span class="line">        f(New.&lt;String,Integer&gt;map());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用泛型方法的原则：如果泛型方法可以取代整个泛型类，那么就应该只用泛型方法，因为他可以使事情更清楚明白。</p>
+<p>对于static方法，他无法访问泛型类的泛型参数，所以如果需要static方法具有泛型能力，就必须使用泛型方法。</p>
+<h1 id="泛型擦除"><a href="#泛型擦除" class="headerlink" title="泛型擦除"></a>泛型擦除</h1><p>java在编译后会将所有的泛型信息进行擦除，当未对泛型设置边界时将擦除到Object，当设置边界时则擦除到边界。</p>
+<p>java使用泛型擦除来实现泛型的优点是，这样就不必在引入泛型以后对jvm进行更改，只需要对编译器进行更改就可以了。在class文件规范中通过Signature属性来表示泛型的信息。</p>
+<p>如下代码，我们定义一个泛型类并使用一个泛型参数，当编译结束后。泛型参数会被擦除为Object类型。而使用了边界的泛型类泛型参数将被擦除到边界处，如下面第二段代码，编译后的效果就像String代替了泛型参数T。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//未使用边界的泛型类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Caculate</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> T num;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用了边界的泛型类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Caculate</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">String</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> T num; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为么这样就会有一个问题，在编译后泛型都被擦除了，那么当在泛型类中返回泛型类型的对象时，是怎么返回正确类型的呢？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这是 ArrayList 内部的一个方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    .....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当泛型擦除之后，方法 get 的返回值 E 会被擦除为 Object 类型，那么为什么我们看到的确实返回的 Integer 类型呢？</p>
+<p><img src="\img\泛型1.png" alt="泛型1"></p>
+<p>这是上述三行代码的一个反编译结果，可以看到，实际上编译器会正常的将 ArrayList 编译并进行类型擦除，然后返回实例。但是除此之外的是，如果构建 ArrayList 实例时使用了泛型语法，那么编译器将标记该实例并关注该实例后续所有方法的调用，每次调用前都进行安全检查，非指定类型的方法都不能调用成功。</p>
+<p>其实还有一点可能大家都很少关注，大多数人只是知道编译器会类型擦除一个泛型类并对创建出来的实例进行一定的安全检查。但是实际上编译器不仅关注一个泛型方法的调用，它还会为某些返回值为限定的泛型类型的方法进行强制类型转换，由于类型擦除，返回值为泛型类型的方法都会擦除成 Object 类型，当这些方法被调用后，编译器会额外插入一行 checkcast 指令用于强制类型转换。</p>
+<p>其实这一个过程，我们管它叫做『泛型翻译』。不得不感叹一下，编译器为了蒙骗虚拟机对程序员提供泛型服务可是没少费心思啊。</p>
+<p>泛型不能用于显示地引用运行时类型的操作之中，例如转型、instanceof操作和new表达式（编译器无法确定T是否有默认构造器）。因为所有关于参数的类型信息都丢失了，无论何时，当你在编写泛型代码时，必须时刻提醒自己，你只是看起来拥有有关参数的类型信息而已，你实际操作的只是一个Object。解决这些问题的方法都在《java编程思想》，通常都是使用反射来解决。。。</p>
+<p>不能创建泛型数组，因为数组有严格的类型检查。而在运行时泛型的类型已经被擦除。而对数组的创建动作发生在运行时，此时泛型已经被擦除。无法确定数组此时的类型。通常用泛型容器，如来实现同样的需求。在《java编程思想》中给出的创建泛型数组的建议是使用反射进行创建。<code>(T[]) Array.newInstance(clazz, size);</code> </p>
+<h1 id="边界和通配符"><a href="#边界和通配符" class="headerlink" title="边界和通配符"></a>边界和通配符</h1><p>泛型的边界和通配符容易搞混，所以放在一起进行总结。这两者的主要区别是：边界是在定义一个泛型类、方法、接口时使用的，而通配符是用于解决泛型之间引用传递问题的特殊语法。</p>
+<h2 id="边界"><a href="#边界" class="headerlink" title="边界"></a>边界</h2><p>在定义一个泛型类、泛型方法、泛型接口时可以为泛型参数设置边界，这样做通常有两个作用：</p>
+<ul>
+<li>强制规定泛型可以应用的类型。</li>
+<li>由于java的泛型擦除，所以没有设置边界的泛型只能调用Object的方法，设置边界后可以按照自己定义的边界来调用方法。（有种多态的味道）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HasF</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">HasF</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span>  T obj;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//若不定义边界，则无法使用该方法，因为编译结束后泛型已经被擦除了</span></span><br><span class="line">        obj.f();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//实例化这个泛型类，传递的泛型参数也只能是HasF及其子类</span></span><br><span class="line">        Test&lt;HasF&gt; hasFMain = <span class="keyword">new</span> Test&lt;&gt;();</span><br><span class="line">        hasFMain.obj = <span class="keyword">new</span> HasF();</span><br><span class="line">        hasFMain.main();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h2><p>在说通配符之前先要明白什么是数组的“协变性”，以及他的使用场景，存在的必要性。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Fruit</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Apple</span> <span class="keyword">extends</span> <span class="title">Fruit</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Orange</span> <span class="keyword">extends</span> <span class="title">Fruit</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  		<span class="comment">//数组协变性的表现</span></span><br><span class="line">        Fruit[] apples = <span class="keyword">new</span> Apple[<span class="number">10</span>];</span><br><span class="line">        apples[<span class="number">0</span>] = <span class="keyword">new</span> Apple(); <span class="comment">//ok</span></span><br><span class="line">        apples[<span class="number">1</span>] = <span class="keyword">new</span> Fruit(); <span class="comment">//error</span></span><br><span class="line">        apples[<span class="number">2</span>] = <span class="keyword">new</span> Orange(); <span class="comment">//error</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所谓的数组协变性就是将父类数组的引用可以指向子类数组的对象。但是这么设计有什么好处呢？在Arrays工具类中有一个可以对数组进行比较的方法，其方法的定义如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object[] a, Object[] a2)</span> </span>&#123;</span><br><span class="line">......</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>若是没有了数组的协变性，那么在这个方法定义时就无法定义了。</p>
+<p>但是数组的协变性也存在一些问题，如在Demo类中的两个运行时报错的语句，他们却能通过编译。因为编译器认为apples数组时Fruit类型的所以可以将Fruit和Orange类型的实例放进去。</p>
+<p>为什么数组设计成”协变“不会有大问题呢？这是基于数组的一个独有特性：数组记得它内部元素的具体类型，并且会在运行时做类型检查。apples[0]会记住他时属于Apple类型，当不是Apple类型或者其子类型的对象插入时就会报错。这样还是会保证程序是安全的。</p>
+<p>而容器Collection不能设计成协变的原因就是Collection不做运行时类型检查。那么当存在需要数组协变性特性的场景时怎么办呢？这里就需要使用泛型的通配符了。</p>
+<h3 id="上边界限定通配符"><a href="#上边界限定通配符" class="headerlink" title="上边界限定通配符"></a>上边界限定通配符</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Plant</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Fruit</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Apple</span> <span class="keyword">extends</span> <span class="title">Fruit</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Orange</span> <span class="keyword">extends</span> <span class="title">Fruit</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="comment">//在定义方法时使用上边界限定符</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">(List&lt;? extends Fruit&gt; list)</span></span>&#123;</span><br><span class="line">        list.add(<span class="keyword">new</span> Fruit()); <span class="comment">//compile error</span></span><br><span class="line">        list.add(<span class="keyword">new</span> Apple()); <span class="comment">//compile error</span></span><br><span class="line">        list.add(<span class="keyword">new</span> Object()); <span class="comment">//compile error</span></span><br><span class="line">        list.add(<span class="keyword">null</span>);</span><br><span class="line">        Fruit fruit = list.get(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//Apple是Fruit的子类</span></span><br><span class="line">        f(<span class="keyword">new</span> ArrayList&lt;Apple&gt;());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上代码所示，在定义方法f时使用了上边界通配符。它表示传递给f方法的list的实例的泛型参数必须为Fruit类或者子类。</p>
+<p>使用上边界通配符时是不能向其对象添加数据的，包括Object类型也不可以添加只能添加null。而取值却是可以的。why？</p>
+<p>首先明确两点：</p>
+<ol>
+<li><p>f方法中的<code>&lt;? extends Fruit&gt;</code>只是一个声明，<code>?</code>并没有什么实际用处，只是个声明而已他不会拥有确切的类型。</p>
+</li>
+<li><p>f方法的形参list只是一个引用，他并不知道它指向的对象的确切类型。</p>
+</li>
+</ol>
+<p>所以list无法进行add操作，因为他是为一个确切类型的List对象做添加，而他不知道这个类型是什么，如果执行add可能会引起系统错误。比如一个List对象的泛型类型是Apple而向他添加Orange，这样是会出事情的。若是允许了添加这种情况在编译时无法发现，运行时也无法发现。。。而取值是允许的因为无论是什么类型他一定可以向上转化为Fruit类型。</p>
+<p>在使用上边界通配符声明的List时并不是所有传递对象的方法都无法使用，只有形参是使用泛型声明的无法使用，使用Object类型声明的则可以使用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//List中的方法</span></span><br><span class="line"><span class="comment">//使用泛型声明的形参，无法使用</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span></span>&#123;&#125;</span><br><span class="line"><span class="comment">//使用Object声明的形参，可以使用</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span></span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="下边界限定通配符"><a href="#下边界限定通配符" class="headerlink" title="下边界限定通配符"></a>下边界限定通配符</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Plant</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Fruit</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Apple</span> <span class="keyword">extends</span> <span class="title">Fruit</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Orange</span> <span class="keyword">extends</span> <span class="title">Fruit</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">(List&lt;? <span class="keyword">super</span> Fruit&gt; list)</span></span>&#123;</span><br><span class="line">        list.add(<span class="keyword">new</span> Fruit());</span><br><span class="line">        list.add(<span class="keyword">new</span> Apple());</span><br><span class="line">        Object fruit = list.get(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ArrayList&lt;Plant&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        list.add(<span class="keyword">new</span> Plant());</span><br><span class="line">        f(list);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码f方法的形参接收泛型参数为Fruit以及其父类的List对象。这就是下边界限定符的使用。使用下边界限定符时可以进行add操作，因为list所指向的对象他的泛型参数一定是Fruit类型的父类，此时可以添加Fruit类型以及其子类的对象，因为多态。而取值时不知道确切的类型,所以取出的对象可以使用Object进行接收。</p>
+<h3 id="无边界通配符"><a href="#无边界通配符" class="headerlink" title="无边界通配符"></a>无边界通配符</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Plant</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Fruit</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Apple</span> <span class="keyword">extends</span> <span class="title">Fruit</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Orange</span> <span class="keyword">extends</span> <span class="title">Fruit</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">(List&lt;?&gt; list)</span></span>&#123;</span><br><span class="line">        list.add(<span class="keyword">new</span> Fruit()); <span class="comment">//error</span></span><br><span class="line">        list.add(<span class="keyword">new</span> Apple()); <span class="comment">//error</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        f(<span class="keyword">new</span> ArrayList&lt;Fruit&gt;());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>无边界通配符的使用形式是一个单独的问号：<code>List&lt;?&gt;</code>，也就是没有任何限定。不做任何限制，跟不用类型参数的 <code>List</code> 有什么区别呢？</p>
+<p><code>List&lt;?&gt; list</code> 表示 <code>list</code> 是持有某种特定类型的 List，但是不知道具体是哪种类型。那么我们可以向其中添加对象吗？当然不可以，因为并不知道实际是哪种类型，所以不能添加任何类型，这是不安全的。而单独的 <code>List list</code> ，也就是没有传入泛型参数，表示这个 list 持有的元素的类型是 <code>Object</code>，因此可以添加任何类型的对象，只不过编译器会有警告信息。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>数组的协变性将类型检查放在了运行期间，而通配符则放在了编译期间。</p>
+<p>参考：</p>
+<blockquote>
+<p>java编程思想</p>
+<p>泛型的基本原理：<a href="https://www.cnblogs.com/yangming1996/p/9199557.html" target="_blank" rel="noopener">https://www.cnblogs.com/yangming1996/p/9199557.html</a></p>
+<p>关于泛型的思考：<a href="https://www.cnblogs.com/zhangyiqinga/p/9777127.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhangyiqinga/p/9777127.html</a></p>
+<p>泛型：工作原理及其重要性：<a href="https://blog.csdn.net/garfielder007/article/details/80502239" target="_blank" rel="noopener">https://blog.csdn.net/garfielder007/article/details/80502239</a></p>
+<p>数组协变性：<a href="https://blog.csdn.net/magi1201/article/details/45127487" target="_blank" rel="noopener">https://blog.csdn.net/magi1201/article/details/45127487</a></p>
+<p>泛型通配符：<a href="https://segmentfault.com/a/1190000005337789#articleHeader5" target="_blank" rel="noopener">https://segmentfault.com/a/1190000005337789#articleHeader5</a></p>
+</blockquote>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://xiabaoxin.cn">XIA</a>
+            <p>原文链接：<a href="http://xiabaoxin.cn/2019/08/02/泛型/">http://xiabaoxin.cn/2019/08/02/泛型/</a>
+            <p>发表日期：<a href="http://xiabaoxin.cn/2019/08/02/泛型/">August 2nd 2019, 11:34:44 pm</a>
+            <p>更新日期：<a href="http://xiabaoxin.cn/2019/08/02/泛型/">December 9th 2019, 9:50:54 am</a>
+            <p>后&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记：系统地学习，是入门的第一步。</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/09/25/spring-ioc源码阅读笔记/" title= "spring-ioc源码阅读笔记">
+                    <div class="nextTitle">spring-ioc源码阅读笔记</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/07/29/正则表达式/" title= "正则表达式">
+                    <div class="prevTitle">正则表达式</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:189651903@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/SmallBear1996" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/img/wc.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是泛型"><span class="toc-number">2.</span> <span class="toc-text">什么是泛型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#泛型接口与泛型方法"><span class="toc-number">3.</span> <span class="toc-text">泛型接口与泛型方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#泛型接口"><span class="toc-number">3.1.</span> <span class="toc-text">泛型接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泛型方法"><span class="toc-number">3.2.</span> <span class="toc-text">泛型方法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#泛型擦除"><span class="toc-number">4.</span> <span class="toc-text">泛型擦除</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#边界和通配符"><span class="toc-number">5.</span> <span class="toc-text">边界和通配符</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#边界"><span class="toc-number">5.1.</span> <span class="toc-text">边界</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通配符"><span class="toc-number">5.2.</span> <span class="toc-text">通配符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#上边界限定通配符"><span class="toc-number">5.2.1.</span> <span class="toc-text">上边界限定通配符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下边界限定通配符"><span class="toc-number">5.2.2.</span> <span class="toc-text">下边界限定通配符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#无边界通配符"><span class="toc-number">5.2.3.</span> <span class="toc-text">无边界通配符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 13
+        </div>
+        <!-- search  -->
+        
+            <div class="site-search popup-trigger">
+                <span class="iconfont-archer search-icon">&#xe627;</span>
+            </div>
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/25</span><a class="archive-post-title" href= "/2019/12/25/Spring-JDBC/" >Spring-JDBC</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/13</span><a class="archive-post-title" href= "/2019/12/13/spring-aop/" >spring-aop</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2019/11/03/类加载机制/" >类加载机制</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/30</span><a class="archive-post-title" href= "/2019/10/30/class文件结构/" >class文件结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href= "/2019/10/23/JVM/" >JVM</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/spring-ioc源码阅读笔记/" >spring-ioc源码阅读笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/02</span><a class="archive-post-title" href= "/2019/08/02/泛型/" >泛型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/29</span><a class="archive-post-title" href= "/2019/07/29/正则表达式/" >正则表达式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/27</span><a class="archive-post-title" href= "/2019/07/27/动态代理/" >动态代理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/07</span><a class="archive-post-title" href= "/2019/06/07/Linux笔记/" >Linux笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/31</span><a class="archive-post-title" href= "/2019/05/31/Spring事物控制/" >Spring事物控制</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/30</span><a class="archive-post-title" href= "/2019/05/30/JQuery-笔记/" >JQuery 笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/2019/05/29/js笔记/" >js笔记</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="js&JQuery"><span class="iconfont-archer">&#xe606;</span>js&JQuery</span>
+    
+        <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="Spring"><span class="iconfont-archer">&#xe606;</span>Spring</span>
+    
+        <span class="sidebar-tag-name" data-tags="设计模式"><span class="iconfont-archer">&#xe606;</span>设计模式</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
+    
+        <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+    
+        <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
+    
+        <span class="sidebar-category-name" data-categories="设计模式"><span class="iconfont-archer">&#xe60a;</span>设计模式</span>
+    
+        <span class="sidebar-category-name" data-categories="java基础"><span class="iconfont-archer">&#xe60a;</span>java基础</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "XIA"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+        <div class="site-search">
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="iconfont-archer">&#xe609;</i>
+    </span>
+  </div>
+</div>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.8.0/dist/instantsearch.min.js" defer></script>
+        <script src="/scripts/search.js" defer></script>
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

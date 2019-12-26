@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="XIA">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="XIA">
+    
+    <meta name="keywords" content="hexo,java,恰饭">
+    
+    <meta name="description" content="My Blog">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>class文件结构 · XIA&#39;S BLOG</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/avatar/icon.png">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+        <!-- algolia -->
+        <script>
+            
+            var hits = JSON.parse('{"per_page":10}')
+            var labels = JSON.parse('{"input_placeholder":"Search for Posts","hits_empty":"We did not find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}')
+
+            var algolia = {
+                applicationID: '5W1B0UUYAF',
+                apiKey: 'cfcd1aa1acd064324fe47f143b3ac36f',
+                indexName: 'blog',
+                hits: hits,
+                labels: labels
+            }
+        </script>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >xia&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">class文件结构</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>xia's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            class文件结构
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "jvm">jvm</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.6k</span>阅读时长: <span class="post-count reading-time">9 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/10/30</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>java文件通过编译命令javac编译为class文件，class文件直接在虚拟机上运行。正是因为jvm直接运行class文件，其他语言经过相应的编译器编译后都可以获取到相应的class文件，然后运行在jvm上，像kotlin、groovy等。所以class文件是jvm语言无关性的基石。</p>
+<p>class文件是一组以8位字节位基础单位的二进制流，各个数据项目之间严格按照顺序排列，中间没有分隔符。</p>
+<p>class文件只有两种数据结构：无符号数和表。</p>
+<p>无符号数属于基本数据类型，以u1、u2、u4、u8分别表示1个字节、2个字节、4个字节、8个字节的无符号数。表是由多个无符号数构成的符合数据结构，通常我们说起表会联想到纵列的表格，其实这里的表更像是一个Map数据类型，class文件规范定义了这个Map的键和值的特定含义。表结构一般以_info结尾。</p>
+<p><strong>class文件结构：</strong></p>
+<p><img src="https://xbxblog.bj.bcebos.com/classStructure.png" alt></p>
+<h1 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h1><p>我们准备一个简单的java类，然后通过javac命令编译位class文件，使用notepad++打开。notepad++如果要查看16进制需要安装HEX-Editor插件。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Animal</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">addAge</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> age++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后编译为class文件后使用notepad++打开</p>
+<p><img src="https://xbxblog.bj.bcebos.com/classHex.png" alt="classHex"></p>
+<h1 id="魔数和class文件版本"><a href="#魔数和class文件版本" class="headerlink" title="魔数和class文件版本"></a>魔数和class文件版本</h1><p>class文件的前4个字节称为魔数，用来确定这个文件能否被虚拟机接受。可以看到class文件的魔数为cafebabe（咖啡宝贝）。</p>
+<p>魔数后面的4个字节表示class文件的版本信息，其中前两个字节表示次版本号，后两个字节表示主版本号。</p>
+<p><img src="https://xbxblog.bj.bcebos.com/classVersionNum.png" alt="classVersionNum"></p>
+<h1 id="常量池"><a href="#常量池" class="headerlink" title="常量池"></a>常量池</h1><p>常量池是class文件中的资源仓库，而且常量池是一个表结构。</p>
+<p>由于常量池中常量数量不是固定的，所以在常量池入口有一个u2类型的数据表示常量池中常量的数量。该值是从1开始计数的，如上面示例代码代码的class文件这个值为0x0013，转化为十进制就是19，所以一共有18个常量。</p>
+<p>常量池中的常量分为两种：字面量和符号引用。字面量就是字符串或声明为final的常量值等，符号引用属于编译原理的概念，包括：类和接口的全限定名、字段的名称和描述符、方法的名称和描述符。java在编译时不会像C++那样有连接的步骤，而需要在类创建时或运行时解析、翻译到具体内存地址。</p>
+<p>常量池中每一项常量都是一个表，每个常量的第一位都是一个u1类型的标志位，代表当前这个常量属于哪种类型。</p>
+<p><img src="https://xbxblog.bj.bcebos.com/%E5%B8%B8%E9%87%8F%E7%B1%BB%E5%9E%8B.png" alt></p>
+<p>根据这个表我们来尝试分析以下实例代码的常量池</p>
+<p><img src="https://xbxblog.bj.bcebos.com/%E5%B8%B8%E9%87%8F%E5%AE%9E%E4%BE%8B.png" alt></p>
+<p>如上第一个常量的tag为0a，对应为CONSTANT_Methodref_info类型，其结构包括两个2bit的索引，0004和000f，有了索引再根据索引找到常量池中对应的值。javap命令可以直接查看class文件的字节码内容。</p>
+<p>可以看到常量池中的数量与每个常量的内容。</p>
+<p><img src="https://xbxblog.bj.bcebos.com/javap.png" alt></p>
+<h1 id="访问标志"><a href="#访问标志" class="headerlink" title="访问标志"></a>访问标志</h1><p>在常量池结束后紧跟着两个为访问标识符，用来标志类或者接口层次的一些信息。包括该class是类还是接口、是否为public、是否为abstract类型等。</p>
+<p>在class文件中寻找着两个字节的技巧：根据常量池中最后一个字面量的值然后根据javap的结构对照着找到常量池的结尾。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">标志名称</th>
+<th style="text-align:center">标志值</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ACC_PUBLIC</td>
+<td style="text-align:center">0x0001</td>
+<td style="text-align:center">是否为public类型</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_FINAL</td>
+<td style="text-align:center">0x0010</td>
+<td style="text-align:center">是否为final类型</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_SUPER</td>
+<td style="text-align:center">0x0020</td>
+<td style="text-align:center">是否允许使用invokespcial字节码指令的新语义，jdk1.0.2之后编译出来的类，此标志都为真</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_INTERFACE</td>
+<td style="text-align:center">0x0200</td>
+<td style="text-align:center">是否为接口</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_ABSTRACT</td>
+<td style="text-align:center">0x0400</td>
+<td style="text-align:center">是否为abstract类型(对接口和抽象类来说，此标志都为真)</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_SYNTHETIC</td>
+<td style="text-align:center">0x1000</td>
+<td style="text-align:center">标识这个类并非由用户代码产生</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_ANNOTATION</td>
+<td style="text-align:center">0x2000</td>
+<td style="text-align:center">是否是注解</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_ENUM</td>
+<td style="text-align:center">0x4000</td>
+<td style="text-align:center">是否是枚举</td>
+</tr>
+</tbody>
+</table>
+<p>在实例代码中访问标志位0x0021，对应为public类型。</p>
+<h1 id="类索引、父类索引、接口索引集合"><a href="#类索引、父类索引、接口索引集合" class="headerlink" title="类索引、父类索引、接口索引集合"></a>类索引、父类索引、接口索引集合</h1><p>这三个索引用来描述类的层次关系，包括类的全限定名称、父类名称、实现的接口名称。</p>
+<p>类索引和父类索引是一个u2类型的数据，接口索引集合在入口有一个u2类型的计数器，用来对实现的接口进行计数，当没有实现接口时则为0。</p>
+<p>示例代码中这节个数据为 <code>00 03 00 04 00 00</code>，对应类的全限定名为索引3，父类名为索引04，没有实现接口。</p>
+<h1 id="字段表集合"><a href="#字段表集合" class="headerlink" title="字段表集合"></a>字段表集合</h1><p>字段表集合用来描述class文件中声明的变量,只包含当前类的不包含父类中的字段。字段表集合的开头有一个u2类型的数据用来表示字段表的大小。</p>
+<p>接着是字段表的结构：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">数量</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:center">access_flags</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">字段修饰符</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:center">name_index</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">字段和方法简单名称在常量池中的引用</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:center">descriptor_index</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">字段和方法描述符在常量池中的引用</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:center">attributes_count</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">描述字段额外信息属性的个数</td>
+</tr>
+<tr>
+<td style="text-align:center">attribute_info</td>
+<td style="text-align:center">attributes</td>
+<td style="text-align:center">attributes_count</td>
+<td style="text-align:center">具体描述字段的额外信息属性</td>
+</tr>
+</tbody>
+</table>
+<p><strong>access_flags</strong>表示字段的描述符信息，如访问修饰符、是否为静态类型等：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">标志名称</th>
+<th style="text-align:center">标志值</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ACC_PUBLIC</td>
+<td style="text-align:center">0x0001</td>
+<td style="text-align:center">是否为public类型</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_PRIVATE</td>
+<td style="text-align:center">0x0002</td>
+<td style="text-align:center">是否为private类型</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_PROTECTED</td>
+<td style="text-align:center">0x0004</td>
+<td style="text-align:center">是否为protected类型</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_STATIC</td>
+<td style="text-align:center">0x0008</td>
+<td style="text-align:center">是否为static类型</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_FINAL</td>
+<td style="text-align:center">0x0010</td>
+<td style="text-align:center">是否为final类型</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_VOLATILE</td>
+<td style="text-align:center">0x0040</td>
+<td style="text-align:center">是否volatile类型</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_TRANSIENT</td>
+<td style="text-align:center">0x0080</td>
+<td style="text-align:center">是否transient类型</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_SYNTHETIC</td>
+<td style="text-align:center">0x1000</td>
+<td style="text-align:center">是否由编译器自动产生</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_ENUM</td>
+<td style="text-align:center">0x4000</td>
+<td style="text-align:center">是否enum类型</td>
+</tr>
+</tbody>
+</table>
+<p><strong>name_index</strong>表示字段的名称</p>
+<p><strong>descriptor_index</strong>表示字段的数据类型，class文件中数据类型的对应规则：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">描述符</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">B</td>
+<td style="text-align:center">基本类型byte</td>
+</tr>
+<tr>
+<td style="text-align:center">C</td>
+<td style="text-align:center">基本类型char</td>
+</tr>
+<tr>
+<td style="text-align:center">D</td>
+<td style="text-align:center">基本类型double</td>
+</tr>
+<tr>
+<td style="text-align:center">F</td>
+<td style="text-align:center">基本类型float</td>
+</tr>
+<tr>
+<td style="text-align:center">I</td>
+<td style="text-align:center">基本类型int</td>
+</tr>
+<tr>
+<td style="text-align:center">J</td>
+<td style="text-align:center">基本类型long</td>
+</tr>
+<tr>
+<td style="text-align:center">S</td>
+<td style="text-align:center">基本类型short</td>
+</tr>
+<tr>
+<td style="text-align:center">Z</td>
+<td style="text-align:center">基本类型boolean</td>
+</tr>
+<tr>
+<td style="text-align:center">V</td>
+<td style="text-align:center">基本类型void</td>
+</tr>
+<tr>
+<td style="text-align:center">L</td>
+<td style="text-align:center">对象类型，如Ljava/lang/Object</td>
+</tr>
+</tbody>
+</table>
+<p>如果是数组类型，每一个维度用一个<code>[</code>表示。如：<code>[[Ljava/lang/String</code>表示<code>java.lang.String[]][]</code>。</p>
+<p>如示例代码的这部分为<code>00 01 00 02 00 05 00 06 00 00</code>表示只有一个字段，访问标识符为private，字段名的索引为常量池中第5个常量，描述索引为常量池中第6个索引，属性集合长度为0。</p>
+<h1 id="方法表集合"><a href="#方法表集合" class="headerlink" title="方法表集合"></a>方法表集合</h1><p>与字段表集合类似，也包括访问标志、名称索引、描述符索引、属性表集合这几项。</p>
+<p>对方法描述的方式与对字段描述的方式基本一致，方法表的结构也与字段表的结构完全一致，不同之处在于方法的访问标志与字段的访问标志有所区别。例如volatile与transient不能修饰方法，但是方法却有synchronized、native、strictfp和abstract等属性。其具体访问标志如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">标志名称</th>
+<th style="text-align:center">标志值</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ACC_PUBLIC</td>
+<td style="text-align:center">0x0001</td>
+<td style="text-align:center">是否为public类型</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_PRIVATE</td>
+<td style="text-align:center">0x0002</td>
+<td style="text-align:center">是否为private类型</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_PROTECTED</td>
+<td style="text-align:center">0x0004</td>
+<td style="text-align:center">是否为protected类型</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_STATIC</td>
+<td style="text-align:center">0x0008</td>
+<td style="text-align:center">是否为static类型</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_FINAL</td>
+<td style="text-align:center">0x0010</td>
+<td style="text-align:center">是否为final类型</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_SYNCHRONIZED</td>
+<td style="text-align:center">0x0020</td>
+<td style="text-align:center">是否synchronized类型</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_BRIDGE</td>
+<td style="text-align:center">0x0040</td>
+<td style="text-align:center">是否桥接方法</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_VARARGS</td>
+<td style="text-align:center">0x0080</td>
+<td style="text-align:center">是否接收不定参数</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_NATIVE</td>
+<td style="text-align:center">0x0100</td>
+<td style="text-align:center">是否native方法</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_ABSTRACT</td>
+<td style="text-align:center">0x0400</td>
+<td style="text-align:center">是否abstract</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_STRICTFP</td>
+<td style="text-align:center">0x0800</td>
+<td style="text-align:center">是否strictfp</td>
+</tr>
+<tr>
+<td style="text-align:center">ACC_SYNTHETIC</td>
+<td style="text-align:center">0x1000</td>
+<td style="text-align:center">是否由编译器自动产生</td>
+</tr>
+</tbody>
+</table>
+<p>描述符索引在表示方法时，按照先参数，后返回值的顺序描述，参数列表按照参数的顺序方法<code>()</code>中。</p>
+<p>在方法表集合中有一个隐藏方法<code>&lt;init&gt;</code>，对应源码中的构造方法。</p>
+<p>方法表集合中只是对方法的声明进行了保存，方法的执行命令则保存在方法的属性集合的code属性中。</p>
+<p>方法表集合同样也不会保存父类中的方法。</p>
+<p><code>00 02 00 01 00 07 00 01</code>表示有两个方法。第一个方法的访问标志为public、方法名为<code>&lt;init&gt;</code>，方法描述为()V。第一个方法的属性表集合中有一个属性。接下来就是属性表集合了~</p>
+<h1 id="属性表集合"><a href="#属性表集合" class="headerlink" title="属性表集合"></a>属性表集合</h1><p>在字段表和方法表的结构中都有一项attributes，这一项就是属性表。</p>
+<p>属性表并不像其他数据项目由严格的要求，只要不与已有属性名重复，编译器可以向属性表中写入自己定义的属性信息。但是java虚拟机规范中还是确定了21项预定义属性信息。一些常用的如：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">属性名称</th>
+<th style="text-align:center">使用位置</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Code</td>
+<td style="text-align:center">方法表</td>
+<td style="text-align:center">java代码编译成的字节码指令</td>
+</tr>
+<tr>
+<td style="text-align:center">ConstantValue</td>
+<td style="text-align:center">字段表</td>
+<td style="text-align:center">final关键字定义的常量值</td>
+</tr>
+<tr>
+<td style="text-align:center">Deprecated</td>
+<td style="text-align:center">类、字段表、方法表</td>
+<td style="text-align:center">被声明为deprecated的方法和字段</td>
+</tr>
+<tr>
+<td style="text-align:center">InnerClasses</td>
+<td style="text-align:center">类文件</td>
+<td style="text-align:center">内部类列表</td>
+</tr>
+<tr>
+<td style="text-align:center">Exception</td>
+<td style="text-align:center">方法表</td>
+<td style="text-align:center">方法抛出的异常</td>
+</tr>
+<tr>
+<td style="text-align:center">LineNumberTable</td>
+<td style="text-align:center">Code属性</td>
+<td style="text-align:center">源代码行号与字节码指令的对应关系</td>
+</tr>
+<tr>
+<td style="text-align:center">LocalVariableTable</td>
+<td style="text-align:center">Codes属性</td>
+<td style="text-align:center">方法的局部变量描述</td>
+</tr>
+<tr>
+<td style="text-align:center">Signature</td>
+<td style="text-align:center">类、字段表、方法表</td>
+<td style="text-align:center">记录泛型信息</td>
+</tr>
+</tbody>
+</table>
+<p>对于每个属性，它的名称都需要从常量池中引用一个常量来表示，属性值则是自定义的，只需要通过一个u4长度的长度属性说明即可。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:center">attribute_name_index</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">u4</td>
+<td style="text-align:center">attribute_length</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:center">info</td>
+<td style="text-align:center">attribute_length</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Code属性</strong></p>
+<ul>
+<li>Code属性的属性信息包含最大操作数栈、编译后的字节码指令等。字节码指令通过一个u1类型的单字节表示，然后虚拟机根据该字节的表示找出对应的操作指令</li>
+</ul>
+<p><strong>ConstantValue属性</strong></p>
+<p>当一个字段被static修饰时才会使用这个属性。对于实例变量的赋值是在实例构造器<code>&lt;init&gt;</code>中，而类变量则是在类构造器<code>&lt;clinit&gt;</code>方法或使用ConstantValue属性。javac规定当一个基本类型或字符串变量使用static和final修饰时就使用ConstantValue属性进行初始化。</p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://xiabaoxin.cn">XIA</a>
+            <p>原文链接：<a href="http://xiabaoxin.cn/2019/10/30/class文件结构/">http://xiabaoxin.cn/2019/10/30/class文件结构/</a>
+            <p>发表日期：<a href="http://xiabaoxin.cn/2019/10/30/class文件结构/">October 30th 2019, 8:47:07 pm</a>
+            <p>更新日期：<a href="http://xiabaoxin.cn/2019/10/30/class文件结构/">December 9th 2019, 9:50:54 am</a>
+            <p>后&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记：系统地学习，是入门的第一步。</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/11/03/类加载机制/" title= "类加载机制">
+                    <div class="nextTitle">类加载机制</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/10/23/JVM/" title= "JVM">
+                    <div class="prevTitle">JVM</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:189651903@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/SmallBear1996" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/img/wc.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#概述"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#示例代码"><span class="toc-number">2.</span> <span class="toc-text">示例代码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#魔数和class文件版本"><span class="toc-number">3.</span> <span class="toc-text">魔数和class文件版本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常量池"><span class="toc-number">4.</span> <span class="toc-text">常量池</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#访问标志"><span class="toc-number">5.</span> <span class="toc-text">访问标志</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#类索引、父类索引、接口索引集合"><span class="toc-number">6.</span> <span class="toc-text">类索引、父类索引、接口索引集合</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#字段表集合"><span class="toc-number">7.</span> <span class="toc-text">字段表集合</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#方法表集合"><span class="toc-number">8.</span> <span class="toc-text">方法表集合</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#属性表集合"><span class="toc-number">9.</span> <span class="toc-text">属性表集合</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 13
+        </div>
+        <!-- search  -->
+        
+            <div class="site-search popup-trigger">
+                <span class="iconfont-archer search-icon">&#xe627;</span>
+            </div>
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/25</span><a class="archive-post-title" href= "/2019/12/25/Spring-JDBC/" >Spring-JDBC</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/13</span><a class="archive-post-title" href= "/2019/12/13/spring-aop/" >spring-aop</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2019/11/03/类加载机制/" >类加载机制</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/30</span><a class="archive-post-title" href= "/2019/10/30/class文件结构/" >class文件结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href= "/2019/10/23/JVM/" >JVM</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/spring-ioc源码阅读笔记/" >spring-ioc源码阅读笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/02</span><a class="archive-post-title" href= "/2019/08/02/泛型/" >泛型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/29</span><a class="archive-post-title" href= "/2019/07/29/正则表达式/" >正则表达式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/27</span><a class="archive-post-title" href= "/2019/07/27/动态代理/" >动态代理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/07</span><a class="archive-post-title" href= "/2019/06/07/Linux笔记/" >Linux笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/31</span><a class="archive-post-title" href= "/2019/05/31/Spring事物控制/" >Spring事物控制</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/30</span><a class="archive-post-title" href= "/2019/05/30/JQuery-笔记/" >JQuery 笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/2019/05/29/js笔记/" >js笔记</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="js&JQuery"><span class="iconfont-archer">&#xe606;</span>js&JQuery</span>
+    
+        <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="Spring"><span class="iconfont-archer">&#xe606;</span>Spring</span>
+    
+        <span class="sidebar-tag-name" data-tags="设计模式"><span class="iconfont-archer">&#xe606;</span>设计模式</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
+    
+        <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+    
+        <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
+    
+        <span class="sidebar-category-name" data-categories="设计模式"><span class="iconfont-archer">&#xe60a;</span>设计模式</span>
+    
+        <span class="sidebar-category-name" data-categories="java基础"><span class="iconfont-archer">&#xe60a;</span>java基础</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "XIA"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+        <div class="site-search">
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="iconfont-archer">&#xe609;</i>
+    </span>
+  </div>
+</div>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.8.0/dist/instantsearch.min.js" defer></script>
+        <script src="/scripts/search.js" defer></script>
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="XIA">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="XIA">
+    
+    <meta name="keywords" content="hexo,java,恰饭">
+    
+    <meta name="description" content="My Blog">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>JVM · XIA&#39;S BLOG</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/avatar/icon.png">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+        <!-- algolia -->
+        <script>
+            
+            var hits = JSON.parse('{"per_page":10}')
+            var labels = JSON.parse('{"input_placeholder":"Search for Posts","hits_empty":"We did not find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}')
+
+            var algolia = {
+                applicationID: '5W1B0UUYAF',
+                apiKey: 'cfcd1aa1acd064324fe47f143b3ac36f',
+                indexName: 'blog',
+                hits: hits,
+                labels: labels
+            }
+        </script>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >xia&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">JVM</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>xia's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            JVM
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "java">java</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3.4k</span>阅读时长: <span class="post-count reading-time">11 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/10/23</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h1><p>jdk8之后运行时数据区域采用如下的类型：</p>
+<p><img src="https://xbxblog.bj.bcebos.com/%E8%BF%90%E8%A1%8C%E6%97%B6%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F.png" alt></p>
+<p><strong>程序计数器：</strong>线程私有。可以看作当前线程所执行的字节码的行号指示器，因为java中的多线程是通过线程轮流切换并分配处理器执行时间来实现的，因此处理器为了在每次切换线程后能够回到正确执行的位置，所以每个线程都要有一个独立的程序计数器。如果当前执行的是一个java方法那么这个值是正在执行的字节码指令的地址，如果是Native方法则这个值为空。</p>
+<p><strong>虚拟机栈：</strong>线程私有。每个方法执行时会创建一个栈帧用来保存局部变量表、操作数栈、动态链接、方法出口等信息。每个方法从调用到执行完成的过程就对应着一个栈帧的入栈到出栈的过程。局部变量表存放着编译期可知的各种基本数据类型（boolean、byte、char、short、int、float、long、double）和对象引用reference、returnAddress类型。此区域可以抛出StackOverflowError异常和OutOfMemoryError异常。</p>
+<p>可以通过-Xss参数设置栈容量，当一个线程中的虚拟机栈被填满后就会抛出StackOverflowError异常，无论是方法调用栈的深度太大还是栈中的本地变量太多。</p>
+<p>当在多线程中就有可能发生OutOfMemoryError异常，当循环创建线程，每个循环中进行死递归，虚拟机的内存将被这些线程的虚拟机栈耗尽最终发生OutOfMemoryError异常。这种情况下可以通过减少最大堆或者减少栈容量来换取更多线程。</p>
+<p><em>操作数栈</em>是个初始状态为空的桶式结构栈。在方法执行过程中， 会有各种指令往栈中写入和提取信息。JVM 的执行引擎是基于栈的执行引擎， 其中的栈指的就是操作栈。字节码指令集的定义都是基于栈类型的，栈的深度在方法元信息的 stack 属性中。</p>
+<p>关于操作数栈可以参考简单的i++与++i执行的底层汇编指令区别，来理解操作数栈。</p>
+<p>i++与++i：<a href="https://www.cnblogs.com/czwbig/p/11127124.html" target="_blank" rel="noopener">https://www.cnblogs.com/czwbig/p/11127124.html</a></p>
+<p><em>returnAddress类型</em>可看参考1于参考2。</p>
+<blockquote>
+<p>returnAddress 类型的值是指向字节码的指针，不管是物理机还是虚拟机，运行时内存中的数据总归可分为两类：代码，数据。对于冯诺依曼结构的计算机，指令数据和数值数据都存储在内存中，而哈弗结构的计算机，将程序指令与数据分开存储。</p>
+<p>对于 JVM 来说，程序就是存储在方法区的字节码指令，而 returnAddress 类型的值就是指向特定指令内存地址的指针。</p>
+<p>JVM支持多线程，每个线程有自己的程序计数器（pc register），而 pc 中的值就是当前指令所在的内存地址，即 returnAddress 类型的数据，当线程执行 native 方法时，pc 中的值为 undefined。</p>
+</blockquote>
+<blockquote>
+<p>方法执行时有两种退出情况：</p>
+<ol>
+<li>正常退出，即正常执行到任何方法的返回字节码指令，如 RETURN、IRETURN、ARETURN 等；</li>
+<li>异常退出。</li>
+</ol>
+<p>无论何种退出情况，都将返回至方法当前被调用的位置。方法退出的过程相当于弹出当前栈帧，退出可能有三种方式：</p>
+<ol>
+<li>返回值压入上层调用栈帧。</li>
+<li>异常信息抛给能够处理的栈帧。</li>
+<li>PC计数器指向方法调用后的下一条指令。</li>
+</ol>
+</blockquote>
+<p><strong>本地方法栈：</strong>线程私有。作用与虚拟机栈类似，不同的是本地方法栈是为虚拟机使用到的Native方法服务。</p>
+<p><strong>堆：</strong>线程共享。该区域的目的是存放对象实例，所有的对象实例和数组都要在堆上分配内存。堆也是垃圾收集器管理的主要区域，因此也叫做GC堆。堆可以处于物理上不连续的内存空间，只要逻辑上连续即可。可以通过-Xmx和-Xms控制该区域的大小。该区域可以抛出OutOfMemoryError异常。</p>
+<p><strong>方法区：</strong>线程共享。用来存放被虚拟机加载的类信息、常量、静态变量、即时编译后的代码等数据。JDK8 之前，Hotspot 中方法区的实现是永久代（Perm），JDK8 开始使用元空间（Metaspace），以前永久代所有内容的字符串常量移至堆内存，其他内容移至元空间，元空间直接在本地内存分配。</p>
+<p>为什么要使用元空间取代永久代的实现？</p>
+<ol>
+<li>字符串存在永久代中，容易出现性能问题和内存溢出。</li>
+<li>类及方法的信息等比较难确定其大小，因此对于永久代的大小指定比较困难，太小容易出现永久代溢出，太大则容易导致老年代溢出。</li>
+<li>永久代会为 GC 带来不必要的复杂度，并且回收效率偏低。</li>
+<li>将 HotSpot 与 JRockit 合二为一。</li>
+</ol>
+<p>运行时常量池是方法区的一部分，Class文件中除了有类的版本、字段等信息外，还有一项信息是常量池。存放编译期生成的各种字面量和符号引用，这部分内容将在类加载后进入方法区的运行时常量池中存放。运行时常量池相对于Class常量池具有动态性，并非只有预置在class常量池中的常量才会进入运行时常量池，运行期间也可以将新的常量放入池中，如String的intern()方法。</p>
+<p>方法区可以抛出OutOfMemoryError异常。</p>
+<p><strong>直接内存：</strong>直接内存并不是jvm定义的内存区域，在jdk1.4以后新增的NIO类引入了一种基于管道与缓冲区的IO方式，可以通过Native函数直接分配直接内存，然后通过堆中的FirectByteBuffer对象作为这块内存的引用进行操作，可以在某些场景中可以显著提高性能。</p>
+<p><a href="https://www.cnblogs.com/xing901022/p/5243657.html" target="_blank" rel="noopener">https://www.cnblogs.com/xing901022/p/5243657.html</a></p>
+<h1 id="对象的创建"><a href="#对象的创建" class="headerlink" title="对象的创建"></a>对象的创建</h1><p>在语言层面上，对象的创建仅仅通过一个new关键字。在虚拟机中当遇到一条new指令，首先检查这个指令的参数是否是否能在常量池中定位到一个类的符号引用，并且检查这个类是否被加载、解析、初始化过。</p>
+<p>当类经过加载检查后，接下来虚拟机将为新生对象分配内存。对象所需内存在类加载完成后便确定了，分配内存可以通过指针碰撞法和空闲列表法。在并发时还需要考虑线程安全的问题，一种是对分配内存空间的动作进行同步处理，一种是把内存分配动作按照线程划分在不同的空间之中进行，即每个线程在java堆中先分配一小块内存，称为本地线程分配缓冲（TLAB），哪个线程要分配内存，就在哪个线程的TLAB上分配，当TLAB用完再进行加锁分配新的TLAB。</p>
+<p>分配内存后，将分配到的内存空间都初始化为零值，保证对象的实例字段再java代码中可以不赋值直接俄使用。</p>
+<p>接下来jvm会对对象头进行设置，对象头中保存着对象是哪个类的实例、哈希码、GC分代信息等。</p>
+<p>在上面工作完成后接下来就是执行<init>方法了。将对象按照程序员的意愿进行初始化。</init></p>
+<h3 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h3><p>对象在内存中可以分为3块区域：对象头、实例数据、对齐填充。</p>
+<p><strong>对象头：</strong></p>
+<p>包括两部分信息，一部分是存储对象自身的运行时数据，如哈希码、GC分代信息、锁标志等。这部分数据在32位和64位虚拟机中分别为32bit和64bit。但是它实际存储的信息已经超过32bit或64bit。所以采用了一种可以复用自己空间的结构，根据对象的状态这部分的数据代表的结构也不相同。</p>
+<p><img src="https://xbxblog.bj.bcebos.com/%E5%AF%B9%E8%B1%A1%E5%A4%B4.jpg" alt="对象头"></p>
+<p>另一部分是类型指针，即执行类元数据的指针。类型指针不一定执行方法区的类的元数据信息，也有可能指向堆内的句柄访问对象。</p>
+<p>如果对象是一个数组，则对象头中还有一部分用于保存数组长度。</p>
+<p><strong>数据实例：</strong></p>
+<p>保存对象的真正有效信息，也就是程序中定义的各种类型的字段内容。它受虚拟机分配策略参数的影响。</p>
+<p><strong>对齐填充：</strong></p>
+<p>对齐填充不是必然的，只是起着占位的作用。</p>
+<h1 id="垃圾收集机制"><a href="#垃圾收集机制" class="headerlink" title="垃圾收集机制"></a>垃圾收集机制</h1><h2 id="谁是垃圾"><a href="#谁是垃圾" class="headerlink" title="谁是垃圾"></a>谁是垃圾</h2><p>进行垃圾收集的第一步就是需要判断一个对象是不是垃圾，通常有两种方法：引用计数法和可达性分析算法。</p>
+<p>引用计数法无法解决对象间循环依赖的问题，一般很少使用。</p>
+<p>可达性分析算法通过一系列的“GC Roots”作为起点，从这些节点向下搜索所走过的路径叫做引用链，当一个对象到GC Roots没有任何引用链相连时就表明该对象不可达，可以作为垃圾。</p>
+<p>可以作为GC Roots的对象：</p>
+<ul>
+<li>虚拟机栈中引用的对象</li>
+<li>方法区静态属性引用的对象</li>
+<li>方法区中常量引用的对象</li>
+<li>本地方法栈中JNI引用的对象</li>
+</ul>
+<h2 id="四种引用"><a href="#四种引用" class="headerlink" title="四种引用"></a>四种引用</h2><p>在jdk1.2之前对引用的定义非常笼统，在jdk1.2之后在原有的引用概念之上进行了扩充，将引用分为了强引用、软引用、弱引用、虚引用。</p>
+<ul>
+<li>强引用：类似<code>Object obj = new Object()</code>,只要有强引用的存在，垃圾收集器就不会回收掉被引用的对象。</li>
+<li>软引用：用来描述还有用但是并非必须的对象。在即将发生内存溢出之前，将会对这些对象进行二次回收，如果回收之后还没有足够内存才会抛出内存溢出异常。SoftReference类表示软引用。</li>
+<li>弱引用：被弱引用关联的对象只能生存到下一次垃圾收集之前。WeakReference类表示弱引用。</li>
+<li>虚引用：最弱的一种引用，无法通过虚引用来取得一个对象实例。为一个对象设置虚引用的唯一目的就是在这个对象被收集之前可以收到一个系统通知。PhantomReference类表示虚引用。</li>
+</ul>
+<h2 id="finalize"><a href="#finalize" class="headerlink" title="finalize()"></a>finalize()</h2><p>真正对一个对象进行垃圾收集至少要进行两次标记过程，如果对象在进行第一次可达性分析后发现没有与GC Roots相连接，那么将会被第一次标记并且进行一次筛选，筛选条件为此对象是否有必要执行finalize()方法，当对象没有覆盖finalize()或finalize()已经被虚拟机调用过则表示没有必要执行。</p>
+<p>当对象被判断为有必要执行finalize()方法，那么这个对象将会放置在一个队列中，在一个虚拟机创建的低优先级线程中执行。finalize()方法并不保证能够执行完成。</p>
+<p>finalize()是一个对象最后逃脱死亡的机会，可以在finalize()方法中与GC Roots相连来逃脱第二次标记过程。</p>
+<h2 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h2><h3 id="标记-清除法"><a href="#标记-清除法" class="headerlink" title="标记-清除法"></a>标记-清除法</h3><p>该算法分为标记和清除两个阶段，首先标记出 需要回收的对象，标记完成后统一回收所有标记对象。该方法存在两个问题：效率低和空间碎片过多。</p>
+<p><img src="https://xbxblog.bj.bcebos.com/%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4.png" alt="1571758503791"></p>
+<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>复制算法是为了解决效率问题而产生的，思路是将内存划分为两部分，每次只使用一部分，在进行垃圾收集时将正在使用的内存上的存活对象复制到另一部分未使用的内存中，然后将已经使用过的内存一次性清理。</p>
+<p>但是两块内存的划分比例是个问题，IBM研究在java中新生成的对象98%是朝生夕死的。在现在虚拟机中通常将内存划分为一块Eden空间和两块Survivor空间，HotSpot中比例默认为8:1。也就是每次新生代可用容量为90%。</p>
+<h3 id="标记-整理算法"><a href="#标记-整理算法" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h3><p>用于老年代垃圾的收集。类似于标记-清除算法，不同的是在标记之后会将存活的对象移动至一端，然后清除掉端边界以外的空间。</p>
+<h3 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h3><p>按照对象存活周期的不同将内存分为新生代和老年代，然后根据每个内存区的特点选择不同的收集算法。在新生代中对象多是“朝生夕死”类型的，使用复制算法。在老年代中对象的存活率高且没有额外的空间进行分配担保，使用标记-清除算法或标记-整理算法。</p>
+<h2 id="HotSpot的算法实现"><a href="#HotSpot的算法实现" class="headerlink" title="HotSpot的算法实现"></a>HotSpot的算法实现</h2><p>准确式GC、安全点、安全区域</p>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><blockquote>
+<ol>
+<li><p>深入理解 JVM 中的 returnAddress：<a href="https://blog.csdn.net/antony1776/article/details/89843145" target="_blank" rel="noopener">https://blog.csdn.net/antony1776/article/details/89843145</a></p>
+</li>
+<li><p>Java内存区域（运行时数据区域）和内存模型（JMM）:<a href="https://www.cnblogs.com/czwbig/p/11127124.html" target="_blank" rel="noopener">https://www.cnblogs.com/czwbig/p/11127124.html</a></p>
+</li>
+</ol>
+</blockquote>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://xiabaoxin.cn">XIA</a>
+            <p>原文链接：<a href="http://xiabaoxin.cn/2019/10/23/JVM/">http://xiabaoxin.cn/2019/10/23/JVM/</a>
+            <p>发表日期：<a href="http://xiabaoxin.cn/2019/10/23/JVM/">October 23rd 2019, 9:55:28 pm</a>
+            <p>更新日期：<a href="http://xiabaoxin.cn/2019/10/23/JVM/">December 9th 2019, 9:50:54 am</a>
+            <p>后&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记：系统地学习，是入门的第一步。</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/10/30/class文件结构/" title= "class文件结构">
+                    <div class="nextTitle">class文件结构</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/09/25/spring-ioc源码阅读笔记/" title= "spring-ioc源码阅读笔记">
+                    <div class="prevTitle">spring-ioc源码阅读笔记</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:189651903@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/SmallBear1996" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/img/wc.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#运行时数据区域"><span class="toc-number">1.</span> <span class="toc-text">运行时数据区域</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对象的创建"><span class="toc-number">2.</span> <span class="toc-text">对象的创建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#对象的内存布局"><span class="toc-number">2.0.1.</span> <span class="toc-text">对象的内存布局</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#垃圾收集机制"><span class="toc-number">3.</span> <span class="toc-text">垃圾收集机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#谁是垃圾"><span class="toc-number">3.1.</span> <span class="toc-text">谁是垃圾</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四种引用"><span class="toc-number">3.2.</span> <span class="toc-text">四种引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#finalize"><span class="toc-number">3.3.</span> <span class="toc-text">finalize()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#垃圾回收算法"><span class="toc-number">3.4.</span> <span class="toc-text">垃圾回收算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#标记-清除法"><span class="toc-number">3.4.1.</span> <span class="toc-text">标记-清除法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#复制算法"><span class="toc-number">3.4.2.</span> <span class="toc-text">复制算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标记-整理算法"><span class="toc-number">3.4.3.</span> <span class="toc-text">标记-整理算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分代收集算法"><span class="toc-number">3.4.4.</span> <span class="toc-text">分代收集算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HotSpot的算法实现"><span class="toc-number">3.5.</span> <span class="toc-text">HotSpot的算法实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考："><span class="toc-number">4.</span> <span class="toc-text">参考：</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 13
+        </div>
+        <!-- search  -->
+        
+            <div class="site-search popup-trigger">
+                <span class="iconfont-archer search-icon">&#xe627;</span>
+            </div>
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/25</span><a class="archive-post-title" href= "/2019/12/25/Spring-JDBC/" >Spring-JDBC</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/13</span><a class="archive-post-title" href= "/2019/12/13/spring-aop/" >spring-aop</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2019/11/03/类加载机制/" >类加载机制</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/30</span><a class="archive-post-title" href= "/2019/10/30/class文件结构/" >class文件结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href= "/2019/10/23/JVM/" >JVM</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/spring-ioc源码阅读笔记/" >spring-ioc源码阅读笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/02</span><a class="archive-post-title" href= "/2019/08/02/泛型/" >泛型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/29</span><a class="archive-post-title" href= "/2019/07/29/正则表达式/" >正则表达式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/27</span><a class="archive-post-title" href= "/2019/07/27/动态代理/" >动态代理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/07</span><a class="archive-post-title" href= "/2019/06/07/Linux笔记/" >Linux笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/31</span><a class="archive-post-title" href= "/2019/05/31/Spring事物控制/" >Spring事物控制</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/30</span><a class="archive-post-title" href= "/2019/05/30/JQuery-笔记/" >JQuery 笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/2019/05/29/js笔记/" >js笔记</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="js&JQuery"><span class="iconfont-archer">&#xe606;</span>js&JQuery</span>
+    
+        <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="Spring"><span class="iconfont-archer">&#xe606;</span>Spring</span>
+    
+        <span class="sidebar-tag-name" data-tags="设计模式"><span class="iconfont-archer">&#xe606;</span>设计模式</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
+    
+        <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+    
+        <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
+    
+        <span class="sidebar-category-name" data-categories="设计模式"><span class="iconfont-archer">&#xe60a;</span>设计模式</span>
+    
+        <span class="sidebar-category-name" data-categories="java基础"><span class="iconfont-archer">&#xe60a;</span>java基础</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "XIA"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+        <div class="site-search">
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="iconfont-archer">&#xe609;</i>
+    </span>
+  </div>
+</div>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.8.0/dist/instantsearch.min.js" defer></script>
+        <script src="/scripts/search.js" defer></script>
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

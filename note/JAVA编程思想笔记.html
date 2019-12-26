@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="XIA">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="XIA">
+    
+    <meta name="keywords" content="hexo,java,恰饭">
+    
+    <meta name="description" content="My Blog">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>JAVA编程思想笔记 · XIA&#39;S BLOG</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/avatar/icon.png">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+        <!-- algolia -->
+        <script>
+            
+            var hits = JSON.parse('{"per_page":10}')
+            var labels = JSON.parse('{"input_placeholder":"Search for Posts","hits_empty":"We did not find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}')
+
+            var algolia = {
+                applicationID: '5W1B0UUYAF',
+                apiKey: 'cfcd1aa1acd064324fe47f143b3ac36f',
+                indexName: 'blog',
+                hits: hits,
+                labels: labels
+            }
+        </script>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <a class="home-link" href=/>xia's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+">
+    
+    <!-- 主页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="一切都是对象"><a href="#一切都是对象" class="headerlink" title="一切都是对象"></a>一切都是对象</h1><ul>
+<li>尽管在java中一切都是对象，但操纵的操作符实际是对象的一个引用。例如使用<code>String s</code>创建的并不是对象，而是一个引用。</li>
+<li>对象存放的位置：<ul>
+<li>寄存器：位于cpu内部，是最快的储存区。由于寄存器的大小限制所以我们不能直接控制他，也无法感知到他的存在。</li>
+<li>堆栈：位于RAM，通过堆栈指针的上下移动来快速分配存储空间，java对象的引用就存储在这里。</li>
+<li>堆：位于RAM，用来存放对象。</li>
+<li>常量存储：通常直接存放在代码内部，因为它是一直不会改变的。</li>
+<li>非RAM存储：有些数据存活于程序之外，他们可以不受程序的控制，比如流对象和持久化对象等。他们保存在硬盘中。</li>
+</ul>
+</li>
+<li>基本数据类型不存储在堆中，他们直接存储在堆栈中，比如：boolean、inti、long等。</li>
+</ul>
+<h1 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h1><ul>
+<li>当使用直接常量时，可能会产生模棱两可的情况。此时需要在常量后面添加后缀标识符：L（l）代表long类型，F（f）代表float类型，D（d）代表double类型。</li>
+</ul>
+<h1 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h1><ul>
+<li><p>java中不允许使用数字来代表true和false。即不可以使用非零的数代表true，零代表false。</p>
+</li>
+<li><p>当在循环中使用标签时，使用continue和break关键字可以中断循环，直到标签所在的位置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//输出的结果中没有i==2的值。</span></span><br><span class="line">		outer:</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            inner:</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">5</span>; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (i == <span class="number">2</span>)&#123;</span><br><span class="line">                    <span class="keyword">continue</span> outer;</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(<span class="string">"i = "</span>+i+<span class="string">",j = "</span>+j);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="初始化和清理"><a href="#初始化和清理" class="headerlink" title="初始化和清理"></a>初始化和清理</h1><ul>
+<li><p>类的构造器必须要与类同名，且没有返回值。</p>
+</li>
+<li><p>区分方法的重载的依据就是方法必须要有独一无二的参数列表</p>
+</li>
+<li><p>this关键字：当调用方法时可以看作“发送消息给对象”，但是在发送消息时编译器也作了一些幕后工作，就是将“所操作对象的引用”作为第一个参数传递给方法。如果想在方法中使用当前对象的引用则可以使用this关键字。</p>
+</li>
+<li><p>当在方法中调用当前类的其他方法时可以直接调用无需使用this关键字。</p>
+</li>
+<li><p>可以在构造方法中使用this()调用其他的构造方法，但是必须置于起始位置。</p>
+</li>
+<li><p>static方法就是没有this的方法</p>
+</li>
+<li><p>垃圾清理主要讲了finalize方法的问题和垃圾收集的原理，这里留到JAVA虚拟机部分再整理。</p>
+</li>
+<li><p>成员初始化：</p>
+<ul>
+<li>类成员变量如果使用前未初始化编译器则会为其设置默认值，对于方法里的局部变量，编译器则会报错。</li>
+<li>在构造器被调用之前，类成员的初始化已经完成。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//i先为0,后为1</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Init</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        i = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在类的内部，变量定义的顺序就是初始化的顺序。即使变量定义在方法中间，它们也会在任何方法调用之前得到初始化。</li>
+<li>无论创建多少个对象static数据只占用一份存储区域。static关键字不允许用在局部变量。static修饰的变量初始化的值同非static修饰的值。</li>
+<li>静态代码块，在首次生成该类的对象或访问属于这个类的静态数据成员时，这段代码就会执行一次。而且只执行一次。</li>
+<li>非静态代码块，在每次创建对象时都会执行一次。</li>
+</ul>
+</li>
+<li><p>数组也是对象。数组对象有一个成员变量length，用来查看数组中元素的个数。</p>
+</li>
+<li><p>每个java源代码文件被称为一个编译单元。编译单元必须为.java后缀名。每个编译单元内必须有且只有一个public类，这个类要与编译单元的文件名相同（为了提高编译效率）。</p>
+</li>
+<li><p>默认权限为包访问权限，protected访问权限也提供包访问权限也提供子类的访问权限。</p>
+</li>
+<li>类访问权限只可以为public和默认包访问权限。</li>
+</ul>
+<h1 id="复用类"><a href="#复用类" class="headerlink" title="复用类"></a>复用类</h1><ul>
+<li>在子类中创建的对象会隐含的包含一个父类的对象。</li>
+<li>组合就是在一个类中包含另一个类的对象。</li>
+<li>选择继承还是组合时is-a和has-a的问题。另一个判断标准是是否需要向上转型。</li>
+<li>final关键字的两个场景：<ul>
+<li>一个永不可变的编译时常量</li>
+<li>一个在运行时被初始化的值，而你不希望它被改变</li>
+</ul>
+</li>
+<li>final允许进行留白，即在声明final时不给出初始值。只要在空白的final使用前被初始化即可。</li>
+<li>final也可以修饰方法中的参数</li>
+<li>final修饰方法，是为了将方法锁定，防止继承类修改他的含义。当方法用private修饰时也隐式的使用了final。因为他都无法取用了，当然也无法被覆盖了呀～～～</li>
+<li>final修饰类，表示这个类无法被继承。</li>
+<li>子类不继承父类的私有成员</li>
+<li>继承类的对象初始化顺序：<ul>
+<li>首先初始化父类的static变量和static代码块，然后是子类的static变量和static代码块。</li>
+<li>然后是父类的成员变量，非静态代码块，父类构造方法执行。子类的成员变量初始化，非静态代码块，子类构造方法执行。</li>
+</ul>
+</li>
+</ul>
+<h1 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h1><ul>
+<li><p>方法调用时绑定：将一个方法调用同一个方法主体关联起来被称作绑定。若在程序执行前进行绑定叫做前期绑定，在运行时根据对象的类型进行绑定的被称作后期绑定或动态绑定或运行时绑定。</p>
+</li>
+<li><p>java中除了static和final（private方法属于final方法）都是后期绑定的。</p>
+</li>
+<li><p>在类中将一个方法使用final声明可以防止其他人覆盖方法，也可以说成是关闭动态绑定。</p>
+</li>
+<li><p>只有普通的方法调用可以是多态的。</p>
+</li>
+<li><p>当在父类的构造器中调用多态方法时：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//父类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">say</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"A say()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">A</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"instance A before"</span>);</span><br><span class="line">        <span class="comment">//调用多态方法</span></span><br><span class="line">        say();</span><br><span class="line">        System.out.println(<span class="string">"instance A after"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//子类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">B</span><span class="params">(<span class="keyword">int</span> j)</span></span>&#123;</span><br><span class="line">        i = j;</span><br><span class="line">        System.out.println(<span class="string">"instance B "</span>+i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">say</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"B say() "</span>+i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> B(<span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">instance A before</span><br><span class="line"><span class="function">B <span class="title">say</span><span class="params">()</span> 0</span></span><br><span class="line"><span class="function">instance A after</span></span><br><span class="line"><span class="function">instance B 2</span></span><br></pre></td></tr></table></figure>
+<p>这种情况可以用初始化的过程来解释：</p>
+<ol>
+<li>在对象初始化之前将分配给对象的初始化空间初始化成二进制零</li>
+<li>调用父类的构造器。调用被覆盖的方法B中的方法say()，因为第一步的原因i为0.</li>
+<li>调用子类的构造器主体</li>
+</ol>
+</li>
+<li><p>编写构造器的一条原则：尽可能的使用简单的方法使对象进入正常状态，如果可以的话避免使用其他方法。</p>
+</li>
+</ul>
+<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><ul>
+<li>将一个不含抽象方法的类使用abstract修饰后可以防止其创建对象</li>
+<li>接口中的方法默认都是public的，如果省略则默认为public的，且必须为public 的。</li>
+<li>接口可以进行多继承，一个接口可以继承多个接口。</li>
+<li>使用接口的两个核心原因：为了能向上转型为多个基类型和防止创建创建该类的对象。</li>
+<li>在接口中声明的字段默认都是static final的。接口中定义的域不允许出现“空final”</li>
+</ul>
+<h1 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h1><ul>
+<li><p>内部类就是将一个类定义在一个类的内部</p>
+</li>
+<li><p>当在外部类的非静态方法之外的任意位置创建某个内部类对象时，应这样指定对象的类型：OuterClassName.InnerClassName</p>
+</li>
+<li><p>内部类拥有一个外部类对象的引用，所以内部类拥有对其外部类所有成员的访问权</p>
+</li>
+<li><p>当需要外部类对象的引用时可以使用<code>OuterClassName.this</code>获取。</p>
+</li>
+<li><p>要创建内部类对象时，必须拥有外部类的对象。根据外部类对象创建内部类对象时使用<code>.new</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Outer</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Inner</span></span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Outer outer = <span class="keyword">new</span> Outer();</span><br><span class="line">        <span class="comment">//创建内部类对象</span></span><br><span class="line">        Outer.Inner inner = outer.<span class="keyword">new</span> Inner();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>局部内部类就是在方法中定义的类。局部内部类不能有访问控制符，因为他不是外部类的一部分。但是他可以访问当前代码块内的常量和外部类的所有成员。</p>
+</li>
+<li><p>匿名内部类就相当于新建一个接口或抽象类的具体实现的对象，或具体的类的子类的对象，然后使用多态使其返回接口或抽象类的引用，因为中间的实现类没有名字，所以叫做匿名内部类。</p>
+</li>
+<li><p>当定义一个匿名内部类，并且希望他使用一个在其外部定义的对象，那么编译器会要求其参数引用为final</p>
+</li>
+<li><p>普通内部对象都和其外部类对象间存在联系，如果不需要其存在联系可以使用static修饰内部类。这样的内部类叫做静态内部类或嵌套类。</p>
+</li>
+<li><p>普通内部类中不可以包含static修饰的数据字段。</p>
+</li>
+<li><p>接口中也可以包含内部类，默认为public static修饰的。</p>
+</li>
+<li><p>有点晕。。。。。。</p>
+</li>
+</ul>
+<h1 id="持有对象"><a href="#持有对象" class="headerlink" title="持有对象"></a>持有对象</h1><ul>
+<li><p>自javase5之后引入了泛型</p>
+</li>
+<li><p>可以通过Arrays和collections类中的方法添加一组元素</p>
+</li>
+<li><p>迭代器的设计模式，遍历序列中的对象，而不必关心该序列底层的结构。Iterator只能正向遍历，而ListIterator既可以正向遍历也可以反向遍历。</p>
+</li>
+<li><p>java1.0的stack类的设计者犯了一个错误，他将Stack类继承了Vector类，导致添加了很多无用的方法。</p>
+</li>
+<li><p>HashSet由于哈希算法的原因插入的元素会失去顺序。TreeSet底层红黑树实现，可以在插入的时候进行排序，排序规则为指定的Comparator方法。LinkedHashSet顺序为插入的顺序。</p>
+</li>
+<li><p>Map</p>
+</li>
+<li><p>Collection接口继承了Ierator接口，所以所有collection都可以使用迭代器</p>
+</li>
+<li><p>javase5增加了foreach语法，只要类实现了Interable接口，那么这个类的对象就可以使用foreach语法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//实现Iterable接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IterableClass</span> <span class="keyword">implements</span> <span class="title">Iterable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span>[] arr =&#123;<span class="number">1</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">6</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">9</span>,<span class="number">0</span>,<span class="number">3</span>&#125;;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Iterator <span class="title">iterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Iterator() &#123;</span><br><span class="line">            <span class="keyword">private</span> <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> arr.length &gt; index;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">next</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> arr[index++];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用foreach语法</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        IterableClass iterableClass = <span class="keyword">new</span> IterableClass();</span><br><span class="line">        <span class="keyword">for</span> (Object aClass : iterableClass) &#123;</span><br><span class="line">            System.out.println(aClass);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h1><ul>
+<li>所有的标准异常类一般包含两个构造器：一个默认构造器，一个接受字符串作为参数的构造器</li>
+<li>通过继承Exception类可以自定义异常</li>
+<li>异常声明，当方法中有跑出异常时，可以在方法上对要抛出的异常进行声明。也可以在抽象类或接口的方法上声明异常，这样可以这样可以先占个位子，在以后实现这些方法时候不用再去修改已有的代码。</li>
+<li>在catch捕获到异常后可以重新将其抛出。</li>
+<li>异常链可以将捕获到的异常重新封装到一个新的异常中，并重新抛出。异常信息中<code>Caused by</code>部分就是这么来的</li>
+<li>RunTimeException是<code>不受检查异常</code>，而其他的异常是<code>受检查异常</code></li>
+<li><p>异常时覆盖的注意事项：</p>
+<ul>
+<li>子类在覆盖父类方法时，父类方法抛出异常，那么只能抛出的异常只能抛出父类异常或父类异常的子类或不抛出异常。</li>
+<li>如果父类抛出多个异常，那么子类只能抛出父类的子集。</li>
+<li>如果父类的方法没有抛出异常，那么子类覆盖时决不能抛出，只有try。</li>
+</ul>
+</li>
+</ul>
+<h1 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h1><ul>
+<li><p>String对象是不可变的。String中用来操纵内容的方法最后返回的都是一个新的String对象，原来的对象并不会改变。</p>
+</li>
+<li><p>Java重载了“+”操作符，使用“+”连接符对字符串进行连接实际上是调用了StringBuilder类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">//使用‘+’，在每个循环中都会创建一个StringBuilder对象</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">implicit</span><span class="params">(String...strings)</span></span>&#123;</span><br><span class="line">       String result=<span class="string">""</span>;</span><br><span class="line">       <span class="keyword">for</span> (String string : strings) &#123;</span><br><span class="line">           result+= string;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> result;</span><br><span class="line">   &#125;</span><br><span class="line"><span class="comment">//只创建一个StringBuilder对象</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">explicit</span><span class="params">(String...strings)</span></span>&#123;</span><br><span class="line">       StringBuilder result = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">       <span class="keyword">for</span> (String string : strings) &#123;</span><br><span class="line">           result.append(string);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> result.toString();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>无意识的递归：在toString()方法中使用this关键字，this也会点用toSting()方法，所以就形成了递归。</p>
+</li>
+<li><p>格式化工具：想c语言中printf()函数，根据占位符进行填充。</p>
+<ul>
+<li><p>System.out.format()：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">      String s=<span class="string">"xia"</span>;</span><br><span class="line">      System.out.format(<span class="string">"%s is nice"</span>, s);</span><br><span class="line"><span class="comment">//out</span></span><br><span class="line">xia is nice</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Formatter类：构造时可传入输出路径。输出时还可以对个是进行设置（缩进、对其等）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">      Formatter f = <span class="keyword">new</span> Formatter(System.out);</span><br><span class="line">      String s=<span class="string">"xia"</span>;</span><br><span class="line">      f.format(<span class="string">"%s is a great boy!"</span>,s);</span><br><span class="line"><span class="comment">//out</span></span><br><span class="line">xia is a great boy!</span><br></pre></td></tr></table></figure>
+<p>| 说明符 | 适用于                                                  | 输出                                                         |<br>| :—– | :—————————————————— | :———————————————————– |                                                             |<br>| %b     | boolean                                                 | 如果为非空则为“true”，为空则为“false”                        |<br>| %c     | 字符                                                    | Unicode字符                                                  |<br>| %d     | 整型(包括byte, short, int, long, bigint)                | 十进制整数                                                   |<br>| %e     | 浮点数                                                  | 科学计数的十进制数                                           |<br>| %f     | 浮点数                                                  | 十进制数                                                     |<br>| %g     | 浮点数                                                  | 十进制数，根据值和精度可能以科学计数法显示                   |<br>| %h     | 任何类型                                                | 通过hashCode()方法输出的16进制数                             |<br>| %n     | 无                                                      | 平台相关的换行符                                             |<br>| %o     | 整数(包括byte, short, int, long, bigint)                | 八进制数                                                     |<br>| %s     | 任何类型                                                | 字符串                                                       |<br>| %t     | 日期/时间 (包含long, Calendar, Date 和TemporalAccessor) | %t是日期/时间转换的前缀。后面还需要跟其他的标识，请参考下面的日期/时间转换。 |<br>| %x     | 整数(包含byte, short, int, long, bigint)                | 十六进制字符串                                               |</p>
+</li>
+<li><p>String.format():同上面的格式化类似，该方法返回一个字符串对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String s=<span class="string">"xia"</span>;</span><br><span class="line">System.out.println(String.format(<span class="string">"%s is nice"</span>, s));</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>正则表达式，待这本书看完单独拿出一天整理</p>
+</li>
+<li><p>扫描输入相关：Scanner类</p>
+</li>
+</ul>
+<h1 id="类型信息"><a href="#类型信息" class="headerlink" title="类型信息"></a>类型信息</h1><ul>
+<li><p>RTTI（Runtime Type Information，运行时类型信息。</p>
+<blockquote>
+<p>我们经常讲运行时类型判定即RTTI有两种形式：（1）传统的RTTI;（2）反射reflection机制。RTTI的初期想法非常简单：当有一个指向基础型别（父类）的reference（引用）时，RTTI机制让你找出其所指的确切型别，不过当拓展到java.lang.reflection的时候,展现了全新的功能。这里我们可以这样理解：RTTI是一种思想，Java中多态和反射的使用都利用了这一思想。什么时候用到传统的RTTI呢？我认为是在使用多态的时候，Java的所有方法绑定都采用“后期绑定”技术，若一种语言实现了后期绑定，那么同时还要提供一些机制，以便在运行时间正确判断对象类型，并调用适当的方法。也就是说，编译器此时仍然不知道对象的类型，但方法调用机制能自己去调查，找到正确的方法主体。反射是RTTI发展产生的概念和技术，反射的作用是分析类的结构，并可以创建类的对象。总结为一句话：多态是隐式地利用RTTI，反射则是显式地使用RTTI。</p>
+</blockquote>
+</li>
+<li><p>生成类的class对象使用了JVM中的‘类加载器’。所有的类都是在其第一次使用时，动态的加载到JVM中。当程序创建第一个对类的静态成员（包括使用new对构造方法的调用）引用时，就会加载这个类。</p>
+</li>
+<li><p>创建类的对象可以使用：</p>
+<ul>
+<li>Class.forName(“完整类名”)</li>
+<li>object.getClass():一个类的实例对象获取类的对象</li>
+<li>ClassName.class:类明.class就可以获取这个类的对象。这中方法不仅适用于普通的类，还适用于接口、数组、基本数据类型。</li>
+</ul>
+</li>
+<li><p>当使用“.class”创建Class对象时不会初始化该Class对象。通常使用类所做的准备工作包含三部分：</p>
+<ol>
+<li>加载：由类加载器完成。该步骤将查找字节码，从字节码中创建Class对象。</li>
+<li>链接：验证类中的字节码，为静态域分配存储空间，如果需要的话将解析这个类创建的对其他类的所有引用</li>
+<li>初始化：如果该类具有父类，则对其初始化，执行静态初始化器和静态初始化块。</li>
+</ol>
+</li>
+<li><p>当使用“.class”语法获取对类的引用时不会发生初始化，但是使用Class.forName()将立即进行初始化。</p>
+</li>
+<li><p>如果一个static final字段的值是一个“编译期”常量，那么这个值不需要初始化就可以读取。但是当他不是一个“编译期”常量时就需要初始化类以后才可以读取</p>
+</li>
+<li><p>如果一个字段是static而不是final。那么在读取之前需要先进行链接和初始化。</p>
+</li>
+<li><p>可以使用泛型对Class对象进行限定</p>
+</li>
+<li><p>当进行向下转型时，为防止转型中报错。可以使用instaceof运算符或isInstance()方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span></span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Main</span></span>&#123;</span><br><span class="line">   A a = <span class="keyword">new</span> B();</span><br><span class="line">   System.out.println(a <span class="keyword">instanceof</span> B);</span><br><span class="line">   System.out.println(A<span class="class">.<span class="keyword">class</span>.<span class="title">isInstance</span>(<span class="title">a</span>))</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>反射：传统的RTTI需要在编译时就要知道class文件内容。而反射则可以在运行时通过本地文件、网络加载class文件。反射工具可以获取class文件中包含的方法，构造，字段等信息。</p>
+</li>
+<li><p>动态代理：<a href="../../27/动态代理/">动态代理</a></p>
+</li>
+</ul>
+<h1 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h1><ul>
+<li><a href="../../../08/02/泛型/">泛型</a></li>
+</ul>
+<h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><ul>
+<li><p>数组的效率比List要高</p>
+</li>
+<li><p>length只表示数组的大小，而不是实际保存的元素个数</p>
+</li>
+<li><p>不能实例化具有参数化类型的数组：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Peel&lt;Banana&gt; peels = <span class="keyword">new</span> Peel&lt;Banana&gt;[<span class="number">10</span>];   <span class="comment">//这是不合法的</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Arrays.fill()可以对数组进行数据填充</p>
+</li>
+<li><p>System.arraycopy()可以对数组进行复制，但是在复制对象时只是复制了对象的引用而不是对象本身，这种方式被称为“潜复制”。</p>
+</li>
+<li><p>Arrays.equals()方法可以对数组进行比较，当数组长度相同，且里面的元素也都相同（元素间的比较也是调用元素对象的equals方法）时即返回true。</p>
+</li>
+<li><p>Arrays.sort()方法可以对数组进行排序，要排序的对象要么实现comparable接口，要么需要在方法中传入comparator接口的实现类。</p>
+</li>
+<li><p>对已排序的数组使用Arrays.binarySearch()进行二分查找。</p>
+</li>
+</ul>
+<h1 id="容器深入研究"><a href="#容器深入研究" class="headerlink" title="容器深入研究"></a>容器深入研究</h1><ul>
+<li>为什么collection中许多数据类型都有了接口，还要定义一个抽象类呢？抽象类只是部分实现了特定接口的工具，有了抽象类可以为自己定义的数据结构时提供便利，这样就可以直接继承抽象类就好了。</li>
+<li>实现collection接口的类有些并没有完全实现collection中定义的方法。例如<code>Arrays.asList()</code>返回的ArrayList是一个Arrays中的内部类，这个类就是不支持add等操作的。总结来说，这种未支持的操作一般发生在由固定尺寸的容器在执行修改容器大小时出现。当调用这些方法时会抛出<code>UnsupportedOperationException</code>异常。</li>
+</ul>
+<h1 id="IO"><a href="#IO" class="headerlink" title="IO"></a>IO</h1><ul>
+<li><p>File类的对象可以表示一个文件或一个路径。他可以执行访问对文件名称或路径进行访问，也可以判断是否是文件可否读写以及创建新文件等操作。</p>
+<p>File对象的list()方法可以返回当前路径下的所有文件名和路径名。该方法还可以接收一个FilenameFilter对象用来对文件名进行过滤。</p>
+</li>
+<li><p>字节流和字符流</p>
+<ul>
+<li>字节流操作的数据单元是字节，字符流操作的数据单元是字符。</li>
+<li>IO的抽象类基类有四个，输入流：InputStream（字节流）和Reader（字符流），OutputStream（字节流）和Writer（字符流）。</li>
+<li>节点流和处理流：节点流是直接与数据源进行对接，处理流是对节点流进行的包装。区分他们的方式就是节点流的构造接受的参数是文件类型，而处理流接受的参数为节点流。</li>
+</ul>
+</li>
+<li><p>………….</p>
+</li>
+</ul>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://xiabaoxin.cn">XIA</a>
+            <p>原文链接：<a href="http://xiabaoxin.cn/note/JAVA编程思想笔记.html">http://xiabaoxin.cn/note/JAVA编程思想笔记.html</a>
+            <p>发表日期：<a href="http://xiabaoxin.cn/note/JAVA编程思想笔记.html">July 19th 2019, 9:01:32 pm</a>
+            <p>更新日期：<a href="http://xiabaoxin.cn/note/JAVA编程思想笔记.html">December 9th 2019, 9:50:54 am</a>
+            <p>后&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记：系统地学习，是入门的第一步。</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:189651903@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/SmallBear1996" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/img/wc.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 13
+        </div>
+        <!-- search  -->
+        
+            <div class="site-search popup-trigger">
+                <span class="iconfont-archer search-icon">&#xe627;</span>
+            </div>
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/25</span><a class="archive-post-title" href= "/2019/12/25/Spring-JDBC/" >Spring-JDBC</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/13</span><a class="archive-post-title" href= "/2019/12/13/spring-aop/" >spring-aop</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2019/11/03/类加载机制/" >类加载机制</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/30</span><a class="archive-post-title" href= "/2019/10/30/class文件结构/" >class文件结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href= "/2019/10/23/JVM/" >JVM</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/spring-ioc源码阅读笔记/" >spring-ioc源码阅读笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/02</span><a class="archive-post-title" href= "/2019/08/02/泛型/" >泛型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/29</span><a class="archive-post-title" href= "/2019/07/29/正则表达式/" >正则表达式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/27</span><a class="archive-post-title" href= "/2019/07/27/动态代理/" >动态代理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/07</span><a class="archive-post-title" href= "/2019/06/07/Linux笔记/" >Linux笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/31</span><a class="archive-post-title" href= "/2019/05/31/Spring事物控制/" >Spring事物控制</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/30</span><a class="archive-post-title" href= "/2019/05/30/JQuery-笔记/" >JQuery 笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/2019/05/29/js笔记/" >js笔记</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="js&JQuery"><span class="iconfont-archer">&#xe606;</span>js&JQuery</span>
+    
+        <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="Spring"><span class="iconfont-archer">&#xe606;</span>Spring</span>
+    
+        <span class="sidebar-tag-name" data-tags="设计模式"><span class="iconfont-archer">&#xe606;</span>设计模式</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
+    
+        <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+    
+        <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
+    
+        <span class="sidebar-category-name" data-categories="设计模式"><span class="iconfont-archer">&#xe60a;</span>设计模式</span>
+    
+        <span class="sidebar-category-name" data-categories="java基础"><span class="iconfont-archer">&#xe60a;</span>java基础</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "XIA"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+        <div class="site-search">
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="iconfont-archer">&#xe609;</i>
+    </span>
+  </div>
+</div>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.8.0/dist/instantsearch.min.js" defer></script>
+        <script src="/scripts/search.js" defer></script>
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+     
+    </body>
+</html>
+
+
