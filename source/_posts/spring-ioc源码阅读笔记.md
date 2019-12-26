@@ -178,6 +178,8 @@ public interface BeanPostProcessor {
 >
 >不过，通常情况下都是Spring容器内部使用这种特殊类型的BeanPostProcessor做一些动态对象代理等工作，我们使用普通的BeanPostProcessor实现就可以。这里简单提及一下，目的是让大家有所了解。
 
+spring aop自动代理实现类就是InstantiationAwareBeanPostProcessor类型
+
 #### InitializingBean和init-method
 
 在BeanPostProcessor的前置方法调用结束后，接下来如果被实例化的对象实现了InitializingBean接口，那么就会调用afterPropertiesSet方法用为进一步调整实例的状态。
@@ -3891,10 +3893,3 @@ protected final SourceClass doProcessConfigurationClass(ConfigurationClass confi
 > * Spring元数据Metadata的使用 ：<https://blog.csdn.net/f641385712/article/details/88765470>
 > * ConfigurationClassPostProcessor解析：<https://blog.csdn.net/qq_26000415/article/details/78917682#commentBox>
 > * spring-analysis：<https://github.com/seaswalker/spring-analysis>
-
-
-
-
-
-
-
