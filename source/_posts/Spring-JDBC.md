@@ -31,7 +31,7 @@ JDBC在使用中会存在一些问题，就是jdbc的设计主要是面向较为
 
 ## JDBCTemplate的诞生
 
-JdbcTemplate主要做两件事情，第一就是封装所有基于JDBC的数据访问代码，以统一的格式和规范来使用JDBC API。第二就是对SQLException所提供的异常信息在框架内进行统一转译，将JDBC的异常体系转换为SPring提供的异常体系。
+JdbcTemplate主要做两件事情，第一就是封装所有基于JDBC的数据访问代码，以统一的格式和规范来使用JDBC API。第二就是对SQLException所提供的异常信息在框架内进行统一转译，将JDBC的异常体系转换为Spring提供的异常体系。
 
 ## JDBCTemplate的实现
 
@@ -39,7 +39,7 @@ JDBCTemplate主要就是使用了模板方法的设计模式，但是标准的�
 
 实际的jdbcTemplate直接继承自JdbcAccessor抽象类，实现JdbcOperations接口。
 
-![image-20191226202849699](C:\Users\xiabx\AppData\Roaming\Typora\typora-user-images\image-20191226202849699.png)
+![image-20191226202849699](https://xbxblog2.bj.bcebos.com/springJdbc/image-20191226202849699.png)
 
 JdbcOperations定义了JdbcTemplate可以使用的JDBC操作集合，从增删改查到存储过程调用无所不包。JdbcAccessor则提供了一些公用的属性：表示数据源的DataSource和用于对SQLException转译的SQLExceptionTranslator。
 
@@ -69,7 +69,7 @@ public interface SQLExceptionTranslator {
 
 类的继承关系与实现类如下：
 
-![image-20191226223903966](C:\Users\xiabx\AppData\Roaming\Typora\typora-user-images\image-20191226223903966.png)
+![image-20191226223903966](https://xbxblog2.bj.bcebos.com/springJdbc%2Fimage-20191226223903966.png)
 
 + SQLExceptionSubclassTranslator主要是用来将JDBC4中定义的异常体系转化为spring的数据访问异常体系。
 + SQLErrorCodeExceptionTranslator会基于SQLException所返回的ErrorCode进行异常转译。
@@ -86,6 +86,104 @@ SQLErrorCodeExceptionTranslator的异常转译流程如下：
 
 1. 在流程第一步会先检查customTranslate方法，这里可以通过继承SQLErrorCodeExceptionTranslator类，重写此方法。并将子类设置到JdbcTemplate中。
 2. 在流程的第三步，会通过classpath下的根路径的sql-error-codes.xml进行覆盖默认定义，所以这里可以通过配置这个xml文件来插入逻辑。
+
+# JdbcTemplate的使用
+
+## 初始化JdbcTemplate
+
+初始化JdbcTemplate其实比较容易，只需要设置DataSource即可。
+
+## 查询数据
+
+JdbcTemplate针对数据查询提供了多个重载方法，我们可以根据自己的需求选择不同的模板方法。
+
+![image-20191231211133395](https://xbxblog2.bj.bcebos.com/springJdbc%2Fimage-20191231211133395.png)
+
+如果以上接口无法满足需求时可以使用相应的Callback接口对查询结果进行定制。
+
++ ResultSetExtractor：该接口定义如下，我们可以对结果进行任意形式的包装后返回
+
+  ```java
+  public interface ResultSetExtractor<T> {
+      
+  	@Nullable
+  	T extractData(ResultSet rs) throws SQLException, DataAccessException;
+  }
+  ```
+
++ RowCallbackHandler：相对于ResultSetExtractor来说只关注于单行处理结果，处理后的结果可以根据需求放在当前RowCallbackHandler对象中或JdbcTemplate的程序上下文中。
+
+  这个回调接口的背后是使用RowCallbackHandlerResultSetExtractor对其封装的，RowCallbackHandlerResultSetExtractor是ResultSetExtractor的一个实现类。
+
+  该接口定义如下：
+
+  ```java
+  public interface RowCallbackHandler {
+  
+  	void processRow(ResultSet rs) throws SQLException;
+  }
+  ```
+
++ RowMapper：ResultSetExtractor的精简版，功能类似于RowCallbackHandler，只关注单行的结果处理。
+
+  其实使用这个回调接口的背后也是ResultSetExtractor的支持，当我们使用这个回调接口是，spring内部会使用RowMapperResultSetExtractor将其封装。
+
+  接口定义如下：
+
+  ```java
+  public interface RowMapper<T> {
+  
+  	@Nullable
+  	T mapRow(ResultSet rs, int rowNum) throws SQLException;
+  }
+  ```
+
+## 更新数据
+
+无论是对数据库的增删改都可以使用JdbcTemplate重载的一组update()方法进行。
+
+![image-20191231213922281](https://xbxblog2.bj.bcebos.com/springJdbc%2Fimage-20191231213922281.png)
+
+如果我们相对更新方法有更多的控制权可以使用PreparedStatementCreator或PreparedStatementSetter回调接口。
+
+批量更新的话可以使用`int[] batchUpdate(final String... sql) `或`int[] batchUpdate(String sql, final BatchPreparedStatementSetter pss)`方法。
+
+## 其他操作
+
+**调用存储过程**
+
+因为存储过程的调用过程也是可以进行模板化处理的，所以这里也可以像jdbc的增删改查操作似的进行封装。
+
+**递增主键策略的抽象**
+
+数据库的逐渐自增可以放在数据库服务器上，也可以放在应用程序中。通常使用第二种，因为有更好的性能。根据数据库对递增主键的生成支持，spring提供了两种方式，一种是像mysql这类的不支持sequence的，一种是支持squence的数据库，例如oracle。
+
+**NamedParameterJdbcTemplate**
+
+可以使用`:name`这种预占符号对原来sql中的？进行替换。内部封装了一个JdbcTemplate对象来实现基本操作。
+
+# Spring中的DataSource
+
+自JDBC2.0以后，jdbc获取connection的操作都是用dataSource进行。
+
+## 简单的DataSource
+
+这类datasource只提供获取connection的基本功能。可以作为开发或测试使用，不可以作为生产使用。
+
++ DriverManagerDataSource：基于最基本的DriverManager获取connection，当每次请求一个数据库时都会返回新的连接。
++ SingleConnectionDataSource：每次请求数据库都会返回同一个connection。
+
+## 拥有连接池的DataSource
+
+这类DataSource除了可以获取connection的基本功能之外。还提供缓冲池对连接进行管理。这类DataSource实现的代表：DBCP，C3P0等。
+
+## 支持分布式事务的DataSource
+
+这一类DataSource实现类，应该是XADataSource的实现类。
+
+# JdbcDaoSupport
+
+当我们使用JdbcTemplate实现DAO层时，通常需要JdbcTemplate和DataSource对象。DAO层可以直接继承JdbcDaoSupport抽象类来避免每次都声明这两个对象。
 
 
 
