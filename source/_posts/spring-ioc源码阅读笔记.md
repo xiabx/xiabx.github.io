@@ -31,10 +31,10 @@ xml配置文件中的最顶层元素，它下面包含0或1个<description>以�
 
 `<beans>`下的子元素含义：
 
-- <description>：配置一些描述信息
-- <import>: 合并一些spring的配置文件
-- <alias>：为bean进行起别名
-- <bean>: 就是定义spring的bean啊
+- `<description>`：配置一些描述信息
+- `<import>`: 合并一些spring的配置文件
+- `<alias>`：为bean进行起别名
+- `<bean>`: 就是定义spring的bean啊
 
 ### `<bean>`
 
@@ -51,24 +51,24 @@ xml配置文件中的最顶层元素，它下面包含0或1个<description>以�
 - 工厂方法：如果一个bean是通过 工厂方法获得的，可以在bean定义时指定工厂方法的属性，工厂方法又分为静态工厂方法和非静态工厂方法之分。配置时要分开配置。
   - 配置静态工厂方法时，指定bean的class属性为静态工厂方法所在的类名，factory-method为工厂方法的名称。如：`<bean id="stu" class="....StudentFactory" factory-method="getStudent"/>`
   - 配置非静态工厂方法时，需要使用工厂方法所在的bean的引用，然后再声明工厂方法。`<bean id="stu" factory-bean="stuFactory" factory-method="getStu">`
-  - 当工厂方法存在需要参数的时候，可以使用<constructor-arg>来指定方法调用的参数。
+  - 当工厂方法存在需要参数的时候，可以使用`<constructor-arg>`来指定方法调用的参数。
 
 **`<bean>的子元素`**
 
-- <constructor-arg>：为构造方法的参数进行注入。该元素可以使用如下属性：type，要注入的属性的类型；index，所传入的依赖在构造方法顺序的第几位；
-- <property>: 为bean中的变量进行注入。该元素可以使用如下属性：name，用来指定将要注入的变量名称。
-- <constructor-arg>和<property>的可配置项：
-  - <value>: 可以注入一个简单数据类型
-  - <ref>：用来引用容器中其他对象实例。该元素有三个属性可供选择：local，parent，bean。分别代表被引用的实例来自：与当前配置对象在同一配置文件，只能位于当前容器的父容器，既可以在同一文件也可以在父容器。
-  - <idref>：如果注入一个所依赖的对象名称，可以使用该元素。它与<vlaue>元素的区别在于，它可以检查所指定的所依赖的对象名称对应的对象是否存在。
-  - 内部<bean>：有时我们所依赖的对象只有当前一个对象引用，或者不想别的对象通过<ref>引用他，这是就可以使用内部<bean>，内部<bean>可以不指定id属性
-  - <list>：如果注入的对象是java.util.List类型或者是数组类型，使用该元素
-  - <set>：如果注入的对象是java.util.Set类型则使用该元素
+- `<constructor-arg>`：为构造方法的参数进行注入。该元素可以使用如下属性：type，要注入的属性的类型；index，所传入的依赖在构造方法顺序的第几位；
+- `<property>`: 为bean中的变量进行注入。该元素可以使用如下属性：name，用来指定将要注入的变量名称。
+- `<constructor-arg>`和`<property>`的可配置项：
+  - `<value>`: 可以注入一个简单数据类型
+  - `<ref>`：用来引用容器中其他对象实例。该元素有三个属性可供选择：local，parent，bean。分别代表被引用的实例来自：与当前配置对象在同一配置文件，只能位于当前容器的父容器，既可以在同一文件也可以在父容器。
+  - `<idref>`：如果注入一个所依赖的对象名称，可以使用该元素。它与`<vlaue>`元素的区别在于，它可以检查所指定的所依赖的对象名称对应的对象是否存在。
+  - 内部`<bean>`：有时我们所依赖的对象只有当前一个对象引用，或者不想别的对象通过`<ref>`引用他，这是就可以使用内部`<bean>`，内部`<bean>`可以不指定id属性
+  - `<list>`：如果注入的对象是java.util.List类型或者是数组类型，使用该元素
+  - `<set>`：如果注入的对象是java.util.Set类型则使用该元素
   - `<map>` : 如果注入的对象是java.util.Map类型则使用该元素
-  - <props>:如果注入的对象是java.util.Properties类型则使用该元素，其key和value只能是String类型
-  - <null/>:注入一个空对象
-- <lookup-method>：方法注入，可以为一个方法注入一个bean。配置时name属性表示所要进行注入的方法，bean属性表示要被注入的bean的名称。
-- <replace-method>：方法替换，可以将bean中的一个方法替换为另一个方法。使用时需要一个类实现MethodReplace接口，然后在将要被替换的方法所在的bean定义中添加replace-method元素，name属性表示将要被替换的方法，replacer属性表示实现了MethodReplace接口的类的bean的名称。
+  - `<props>`:如果注入的对象是java.util.Properties类型则使用该元素，其key和value只能是String类型
+  - `<null/>`:注入一个空对象
+- `<lookup-method>`：方法注入，可以为一个方法注入一个bean。配置时name属性表示所要进行注入的方法，bean属性表示要被注入的bean的名称。
+- `<replace-method>`：方法替换，可以将bean中的一个方法替换为另一个方法。使用时需要一个类实现MethodReplace接口，然后在将要被替换的方法所在的bean定义中添加replace-method元素，name属性表示将要被替换的方法，replacer属性表示实现了MethodReplace接口的类的bean的名称。
 
 ## Spring IOC 执行流程
 
@@ -188,7 +188,7 @@ spring aop自动代理实现类就是InstantiationAwareBeanPostProcessor类型
 
 #### DisposableBean与destroy-method方法
 
-与InitializingBean和init-method功能类似，DisposableBean与destroy-method同样是一个是接口一个是<bean>的配置属性，他们表示bean的销毁时调用的方法。
+与InitializingBean和init-method功能类似，DisposableBean与destroy-method同样是一个是接口一个是`<bean>`的配置属性，他们表示bean的销毁时调用的方法。
 
 但是这个方法并不会自动调用，当在BeanFactory容器中需要调用ConfigurableBeanFactory提供的destroySingletons方法。
 
