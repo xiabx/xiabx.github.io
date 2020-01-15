@@ -287,7 +287,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">25k</span>阅读时长: <span class="post-count reading-time">115 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">25.1k</span>阅读时长: <span class="post-count reading-time">115 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -427,10 +427,10 @@ height:50vh;
 </ul>
 <p><code>&lt;beans&gt;</code>下的子元素含义：</p>
 <ul>
-<li><description>：配置一些描述信息</description></li>
-<li><import>: 合并一些spring的配置文件</import></li>
-<li><alias>：为bean进行起别名</alias></li>
-<li><bean>: 就是定义spring的bean啊</bean></li>
+<li><code>&lt;description&gt;</code>：配置一些描述信息</li>
+<li><code>&lt;import&gt;</code>: 合并一些spring的配置文件</li>
+<li><code>&lt;alias&gt;</code>：为bean进行起别名</li>
+<li><code>&lt;bean&gt;</code>: 就是定义spring的bean啊</li>
 </ul>
 <h3 id="lt-bean-gt"><a href="#lt-bean-gt" class="headerlink" title="&lt;bean&gt;"></a><code>&lt;bean&gt;</code></h3><p><strong><code>&lt;bean&gt;的属性</code></strong></p>
 <ul>
@@ -445,28 +445,28 @@ height:50vh;
 <li>工厂方法：如果一个bean是通过 工厂方法获得的，可以在bean定义时指定工厂方法的属性，工厂方法又分为静态工厂方法和非静态工厂方法之分。配置时要分开配置。<ul>
 <li>配置静态工厂方法时，指定bean的class属性为静态工厂方法所在的类名，factory-method为工厂方法的名称。如：<code>&lt;bean id=&quot;stu&quot; class=&quot;....StudentFactory&quot; factory-method=&quot;getStudent&quot;/&gt;</code></li>
 <li>配置非静态工厂方法时，需要使用工厂方法所在的bean的引用，然后再声明工厂方法。<code>&lt;bean id=&quot;stu&quot; factory-bean=&quot;stuFactory&quot; factory-method=&quot;getStu&quot;&gt;</code></li>
-<li>当工厂方法存在需要参数的时候，可以使用<constructor-arg>来指定方法调用的参数。</constructor-arg></li>
+<li>当工厂方法存在需要参数的时候，可以使用<code>&lt;constructor-arg&gt;</code>来指定方法调用的参数。</li>
 </ul>
 </li>
 </ul>
 <p><strong><code>&lt;bean&gt;的子元素</code></strong></p>
 <ul>
-<li><constructor-arg>：为构造方法的参数进行注入。该元素可以使用如下属性：type，要注入的属性的类型；index，所传入的依赖在构造方法顺序的第几位；</constructor-arg></li>
-<li><property>: 为bean中的变量进行注入。该元素可以使用如下属性：name，用来指定将要注入的变量名称。</property></li>
-<li><constructor-arg>和<property>的可配置项：<ul>
-<li><value>: 可以注入一个简单数据类型</value></li>
-<li><ref>：用来引用容器中其他对象实例。该元素有三个属性可供选择：local，parent，bean。分别代表被引用的实例来自：与当前配置对象在同一配置文件，只能位于当前容器的父容器，既可以在同一文件也可以在父容器。</ref></li>
-<li><idref>：如果注入一个所依赖的对象名称，可以使用该元素。它与<vlaue>元素的区别在于，它可以检查所指定的所依赖的对象名称对应的对象是否存在。</vlaue></idref></li>
-<li>内部<bean>：有时我们所依赖的对象只有当前一个对象引用，或者不想别的对象通过<ref>引用他，这是就可以使用内部<bean>，内部<bean>可以不指定id属性</bean></bean></ref></bean></li>
-<li><list>：如果注入的对象是java.util.List类型或者是数组类型，使用该元素</list></li>
-<li><set>：如果注入的对象是java.util.Set类型则使用该元素</set></li>
+<li><code>&lt;constructor-arg&gt;</code>：为构造方法的参数进行注入。该元素可以使用如下属性：type，要注入的属性的类型；index，所传入的依赖在构造方法顺序的第几位；</li>
+<li><code>&lt;property&gt;</code>: 为bean中的变量进行注入。该元素可以使用如下属性：name，用来指定将要注入的变量名称。</li>
+<li><code>&lt;constructor-arg&gt;</code>和<code>&lt;property&gt;</code>的可配置项：<ul>
+<li><code>&lt;value&gt;</code>: 可以注入一个简单数据类型</li>
+<li><code>&lt;ref&gt;</code>：用来引用容器中其他对象实例。该元素有三个属性可供选择：local，parent，bean。分别代表被引用的实例来自：与当前配置对象在同一配置文件，只能位于当前容器的父容器，既可以在同一文件也可以在父容器。</li>
+<li><code>&lt;idref&gt;</code>：如果注入一个所依赖的对象名称，可以使用该元素。它与<code>&lt;vlaue&gt;</code>元素的区别在于，它可以检查所指定的所依赖的对象名称对应的对象是否存在。</li>
+<li>内部<code>&lt;bean&gt;</code>：有时我们所依赖的对象只有当前一个对象引用，或者不想别的对象通过<code>&lt;ref&gt;</code>引用他，这是就可以使用内部<code>&lt;bean&gt;</code>，内部<code>&lt;bean&gt;</code>可以不指定id属性</li>
+<li><code>&lt;list&gt;</code>：如果注入的对象是java.util.List类型或者是数组类型，使用该元素</li>
+<li><code>&lt;set&gt;</code>：如果注入的对象是java.util.Set类型则使用该元素</li>
 <li><code>&lt;map&gt;</code> : 如果注入的对象是java.util.Map类型则使用该元素</li>
-<li><props>:如果注入的对象是java.util.Properties类型则使用该元素，其key和value只能是String类型</props></li>
-<li><null>:注入一个空对象</null></li>
+<li><code>&lt;props&gt;</code>:如果注入的对象是java.util.Properties类型则使用该元素，其key和value只能是String类型</li>
+<li><code>&lt;null/&gt;</code>:注入一个空对象</li>
 </ul>
-</property></constructor-arg></li>
-<li><lookup-method>：方法注入，可以为一个方法注入一个bean。配置时name属性表示所要进行注入的方法，bean属性表示要被注入的bean的名称。</lookup-method></li>
-<li><replace-method>：方法替换，可以将bean中的一个方法替换为另一个方法。使用时需要一个类实现MethodReplace接口，然后在将要被替换的方法所在的bean定义中添加replace-method元素，name属性表示将要被替换的方法，replacer属性表示实现了MethodReplace接口的类的bean的名称。</replace-method></li>
+</li>
+<li><code>&lt;lookup-method&gt;</code>：方法注入，可以为一个方法注入一个bean。配置时name属性表示所要进行注入的方法，bean属性表示要被注入的bean的名称。</li>
+<li><code>&lt;replace-method&gt;</code>：方法替换，可以将bean中的一个方法替换为另一个方法。使用时需要一个类实现MethodReplace接口，然后在将要被替换的方法所在的bean定义中添加replace-method元素，name属性表示将要被替换的方法，replacer属性表示实现了MethodReplace接口的类的bean的名称。</li>
 </ul>
 <h2 id="Spring-IOC-执行流程"><a href="#Spring-IOC-执行流程" class="headerlink" title="Spring IOC 执行流程"></a>Spring IOC 执行流程</h2><p>Spring IOC启动流程总的可以分为两大步骤，容器启动阶段和容器实例化阶段。</p>
 <p><img src="https://xbxblog.bj.bcebos.com/beanPactory%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B.png" alt="1569061930193"></p>
@@ -524,7 +524,7 @@ height:50vh;
 <p>spring aop自动代理实现类就是InstantiationAwareBeanPostProcessor类型</p>
 <h4 id="InitializingBean和init-method"><a href="#InitializingBean和init-method" class="headerlink" title="InitializingBean和init-method"></a>InitializingBean和init-method</h4><p>在BeanPostProcessor的前置方法调用结束后，接下来如果被实例化的对象实现了InitializingBean接口，那么就会调用afterPropertiesSet方法用为进一步调整实例的状态。</p>
 <p>但是使用InitializingBean会显得spring容器具有侵入性，所以一般使用<bean>的init-method属性（或<beans>的default-init-method属性为所有bean指定默认init方法）为bean指定初始化方法。用来调整实例的状态。由bean的实例化流程图可以看出来该方法的执行位于InitializingBean接口的afterPropertiesSet方法之后。</beans></bean></p>
-<h4 id="DisposableBean与destroy-method方法"><a href="#DisposableBean与destroy-method方法" class="headerlink" title="DisposableBean与destroy-method方法"></a>DisposableBean与destroy-method方法</h4><p>与InitializingBean和init-method功能类似，DisposableBean与destroy-method同样是一个是接口一个是<bean>的配置属性，他们表示bean的销毁时调用的方法。</bean></p>
+<h4 id="DisposableBean与destroy-method方法"><a href="#DisposableBean与destroy-method方法" class="headerlink" title="DisposableBean与destroy-method方法"></a>DisposableBean与destroy-method方法</h4><p>与InitializingBean和init-method功能类似，DisposableBean与destroy-method同样是一个是接口一个是<code>&lt;bean&gt;</code>的配置属性，他们表示bean的销毁时调用的方法。</p>
 <p>但是这个方法并不会自动调用，当在BeanFactory容器中需要调用ConfigurableBeanFactory提供的destroySingletons方法。</p>
 <p>在ApplicationContext容器中需要AbstractApplicationContext为我们提供了registerShutdownHook()方法，该方法底层使用标准的Runtime类的addShutdownHook()方式来调用相应bean对象的销毁逻辑，从而保证在Java虚拟机退出之前，这些singtleton类型的bean对象实例的自定义销毁逻辑会被执行。当然AbstractApplicationContext注册的shutdownHook不只是调用对象实例的自定义销毁逻辑，也包括ApplicationContext相关的事件发布等。</p>
 <p>同样的道理，在自定义scope之后，使用自定义scope的相关对象实例的销毁逻辑，也应该在合适的时机被调用执行。不过，所有这些规则不包含prototype类型的bean实例，因为prototype对象实例在容器实例化并返回给请求方之后，容器就不再管理这种类型对象实例的生命周期了。</p>
@@ -922,7 +922,7 @@ height:50vh;
             <p>原文作者：<a href="http://xiabaoxin.cn">XIA</a>
             <p>原文链接：<a href="http://xiabaoxin.cn/2019/09/25/spring-ioc源码阅读笔记/">http://xiabaoxin.cn/2019/09/25/spring-ioc源码阅读笔记/</a>
             <p>发表日期：<a href="http://xiabaoxin.cn/2019/09/25/spring-ioc源码阅读笔记/">September 25th 2019, 7:33:02 pm</a>
-            <p>更新日期：<a href="http://xiabaoxin.cn/2019/09/25/spring-ioc源码阅读笔记/">December 26th 2019, 9:46:55 am</a>
+            <p>更新日期：<a href="http://xiabaoxin.cn/2019/09/25/spring-ioc源码阅读笔记/">January 15th 2020, 10:42:07 am</a>
             <p>后&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记：系统地学习，是入门的第一步。</p>
         </div>
     
@@ -1211,9 +1211,20 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 13
+        Total : 14
         </div>
         <!-- search  -->
         
@@ -1227,6 +1238,20 @@ top:50vh;
     
     
     
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href= "/2020/01/01/Spring事务/" >Spring事务</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
@@ -1305,9 +1330,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
     
-        <span class="sidebar-tag-name" data-tags="Spring"><span class="iconfont-archer">&#xe606;</span>Spring</span>
-    
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="Spring"><span class="iconfont-archer">&#xe606;</span>Spring</span>
     
         <span class="sidebar-tag-name" data-tags="设计模式"><span class="iconfont-archer">&#xe606;</span>设计模式</span>
     

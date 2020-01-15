@@ -361,59 +361,22 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/23/JVM/" >
+        <a class="abstract-title" href = "/2020/01/01/Spring事务/" >
             
-                <span>JVM</span>
+                <span>Spring事务</span>
         </a>
         <div class="abstract-content">
-            运行时数据区域jdk8之后运行时数据区域采用如下的类型：
+            Spring事务管理概述JDBC的事务控制是由同一个Connection完成的，所以在两个DAO方法中要保证使用同一个Connection对象，spring将这个要使用的connection对象保存到ThreadLocal中。
+让我们回忆下在JdbcTemplate中获取Connection是通过DataSourceUtils这个工具类获取的。该工具类会在ThreadLocal中获取与当前线程绑定的Connection对象，这样就保证了在使用JdbcTemplate时执行的每个方法使用的connection对象都是同一个。
 
-程序计数器：线程私有。可以看作当前线程所执行的字节码的行号指示器，因为java中的多线程是通过线程轮流切换并分配处理器执行时间来实现的，因此处理器为了在每次切换线程后能够回到正确执行的位置，所以每个线程都要有一个独立的程序计数器。如果当前执行的是一个java方法那么这个值是正在执行的字节码指令的地址，如果是Native方法则这个值为空。
-虚拟机栈：线程私有。每个方法执行时会创建一个栈帧用来保存局部变量表、操作数栈、动态链接、方法出口等信息。每个方法从调用到执行完成的过程就对应着一个栈帧的入栈到出栈的过程。局部变量表存放着编译期可...
+PlateformTranscationManager为事务控...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/23</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/01</span>
             </div>
             <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "java">java</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/08/02/泛型/" >
-            
-                <span>泛型</span>
-        </a>
-        <div class="abstract-content">
-            前言在java5以后java加入了泛型这一语言特性。通过最近对他的学习使我重新对它有了认识，之前一直以为泛型是个很强大的语法特性，现在看来它的存在似乎就是一种妥协，向java迫切需要这一特性和java必须向下兼容而妥协。它仅仅在编译期提供语法检查，而在运行期间java的泛型将被全部“擦除”。
-什么是泛型想象一个场景，当我们需要向一个容器中添加对象，但是我们不知道所要添加的对象是什么类型，如果没有泛型我们会这样定义这个类：
-123456789101112public class ObjectContainer &#123;    private Object obj;    public ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/08/02</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "java">java</a>
-    
-</div>
             
         </div>
     </article>
