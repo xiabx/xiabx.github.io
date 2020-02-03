@@ -910,7 +910,7 @@ protected BeanWrapper createBeanInstance(String beanName, RootBeanDefinition mbd
 
 spring通过将已实例化但未属性的注入的bean提前暴露来解决循环依赖。主要通过singletonFactories 缓存来实现。其中涉及这几个的方法：`getSingleton(String beanName, boolean allowEarlyReference)` `getSingleton(String beanName, ObjectFactory<?> singletonFactory)` `beforeSingletonCreation(beanName);`  `addSingletonFactory(String beanName, ObjectFactory<?> singletonFactory)`。
 
-setter形式的循环依赖参考<https://www.cnblogs.com/zzq6032010/p/11406405.html>。站在巨人的肩膀上。。。
+setter形式的循环依赖参考<https://www.cnblogs.com/zzq6032010/p/11406405.html>。
 
 构造方法循环依赖的检测位于`beforeSingletonCreation(beanName)`，当对singletonsCurrentlyInCreation 属性进行add时，若返回false则表示重复创建了一个单例bean，且存在构造函数循环依赖。抛出错误BeanCurrentlyInCreationException。
 
