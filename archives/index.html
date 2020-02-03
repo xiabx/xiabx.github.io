@@ -361,6 +361,165 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/02/Spring-IOC之注解驱动原理/" >
+            
+                <span>Spring-IOC之注解驱动原理</span>
+        </a>
+        <div class="abstract-content">
+            &lt;context:component-scan base-package=”com.*”&gt;`spring在解析注解时使用了很多元数据类，可以看这篇博客：https://blog.csdn.net/f641385712/article/details/88765470
+让我们回到spring解析xml的流程，在DefaultBeanDefinitionDocumentReader.parseBeanDefinitions方法中，会根据名字空间将解析分为默认名字空间的解析和自定义标签的解析，显然这里要走的是自定义标签的解析。所以我们找到了这个这个标签解析的入口，下面让本鸟一步步跟...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/02</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/02/Spring-IOC之ApplicationContext/" >
+            
+                <span>Spring-IOC之ApplicationContext</span>
+        </a>
+        <div class="abstract-content">
+            ClassPathXmlApplicationContext1234567891011public ClassPathXmlApplicationContext(      String[] configLocations, boolean refresh, @Nullable ApplicationContext parent)      throws BeansException &#123;   //设置父容器   super(parent);    //设置配置文件   setConfigLocations(configLocations);   if (refresh) &#1...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/02</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/01/Spring-IOC之Bean的实例化/" >
+            
+                <span>Spring-IOC之Bean的实例化</span>
+        </a>
+        <div class="abstract-content">
+            Spring IOC 执行流程Spring IOC启动流程总的可以分为两大步骤，容器启动阶段和容器实例化阶段。
+
+在传统的xml配置中，容器的加载阶段主要是加载配置的xml文件到内存中，对xml文件的结构与定义信息进行分析，将xml中定义的信息注册到一个BeanDefinition对象中。
+上图中的其他后处理主要指的是BeanFactoryPostProcessor接口的功能，它在bean实例化之前执行，可以用来进行修改已经定义BeanDefinition信息等操作。BeanFactory需要手动注册并执行BeanFactoryPostProcessor接口，ApplicationCon...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/01</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/01/31/Spring-IOC之Environment/" >
+            
+                <span>Spring-IOC之Environment</span>
+        </a>
+        <div class="abstract-content">
+            概览Environmen接口代表了当前应用所处的环境。其主要和profile、Property相关。
+StandardEnvironment为Environment接口的核心实现类。
+StandardEnvironment结构
+在非web应用中常用StandardEnvironment实现类，在web应用中常用StandardServletEnvironment实现类。其区别为StandardServletEnvironment多了些web相关的propertySource。
+
+PropertyResolver：用于properties的操作，他提供了Environment关于prope...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/31</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/01/31/Spring-IOC之XML解析/" >
+            
+                <span>Spring-IOC之XML解析</span>
+        </a>
+        <div class="abstract-content">
+            XML配置&lt;beans&gt;xml配置文件中的最顶层元素，它下面包含0或1个以及多个、、元素。
+&lt;beans&gt;支持的属性：
+
+default-lazy-init。其值可以指定为true或者false，默认值为false。用来标志是否对所有的进行延迟初始化。
+default-autowire。可以取值为no、byName、byType、constructor以及autodetect。默认值为no，如果使用自动绑定的话，用来标志全体bean使用哪一种默认绑定方式。
+default-dependency-check。可以取值none、objects、simple以及all，...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/31</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/01/19/spring-mvc/" >
+            
+                <span>spring-mvc</span>
+        </a>
+        <div class="abstract-content">
+            总览Spring MVC使用两层Controller设计，DispatcherServlet作为对外开放的Front Controller来接受请求，并根据配置规则转发给对应的实际处理请求的Controller。
+当请求到达DispatchServlet后根据HandlerMapping配置的映射规则映射到实际处理请求的Controller实现类。当Controller处理完成后会返回一个ModelAndView实例，ModelAndView包含两部分信息：视图的逻辑名称（DispatchServlet将根据该名称决定用户显示哪个视图），模型数据（视图渲染过程中需要将这些模型数据并入视图...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/19</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "所有人都想拯救世界，却没人帮妈妈洗碗">所有人都想拯救世界，却没人帮妈妈洗碗</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/01/01/Spring事务/" >
             
                 <span>Spring事务</span>
@@ -460,239 +619,6 @@ java虚拟机规范规定了有且只有五种情况会触发类的加载过程�
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "jvm">jvm</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/30/class文件结构/" >
-            
-                <span>class文件结构</span>
-        </a>
-        <div class="abstract-content">
-            概述java文件通过编译命令javac编译为class文件，class文件直接在虚拟机上运行。正是因为jvm直接运行class文件，其他语言经过相应的编译器编译后都可以获取到相应的class文件，然后运行在jvm上，像kotlin、groovy等。所以class文件是jvm语言无关性的基石。
-class文件是一组以8位字节位基础单位的二进制流，各个数据项目之间严格按照顺序排列，中间没有分隔符。
-class文件只有两种数据结构：无符号数和表。
-无符号数属于基本数据类型，以u1、u2、u4、u8分别表示1个字节、2个字节、4个字节、8个字节的无符号数。表是由多个无符号数构成的符合数据结构，通...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/30</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "jvm">jvm</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/23/JVM/" >
-            
-                <span>JVM</span>
-        </a>
-        <div class="abstract-content">
-            运行时数据区域jdk8之后运行时数据区域采用如下的类型：
-
-程序计数器：线程私有。可以看作当前线程所执行的字节码的行号指示器，因为java中的多线程是通过线程轮流切换并分配处理器执行时间来实现的，因此处理器为了在每次切换线程后能够回到正确执行的位置，所以每个线程都要有一个独立的程序计数器。如果当前执行的是一个java方法那么这个值是正在执行的字节码指令的地址，如果是Native方法则这个值为空。
-虚拟机栈：线程私有。每个方法执行时会创建一个栈帧用来保存局部变量表、操作数栈、动态链接、方法出口等信息。每个方法从调用到执行完成的过程就对应着一个栈帧的入栈到出栈的过程。局部变量表存放着编译期可...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/23</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "java">java</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/25/spring-ioc源码阅读笔记/" >
-            
-                <span>spring-ioc源码阅读笔记</span>
-        </a>
-        <div class="abstract-content">
-            Spring IOC 相关知识点回顾XML配置&lt;beans&gt;xml配置文件中的最顶层元素，它下面包含0或1个以及多个、、元素。
-&lt;beans&gt;支持的属性：
-
-default-lazy-init。其值可以指定为true或者false，默认值为false。用来标志是否对所有的进行延迟初始化。
-default-autowire。可以取值为no、byName、byType、constructor以及autodetect。默认值为no，如果使用自动绑定的话，用来标志全体bean使用哪一种默认绑定方式。
-default-dependency-check。可以取值none、ob...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/25</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Spring">Spring</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/08/02/泛型/" >
-            
-                <span>泛型</span>
-        </a>
-        <div class="abstract-content">
-            前言在java5以后java加入了泛型这一语言特性。通过最近对他的学习使我重新对它有了认识，之前一直以为泛型是个很强大的语法特性，现在看来它的存在似乎就是一种妥协，向java迫切需要这一特性和java必须向下兼容而妥协。它仅仅在编译期提供语法检查，而在运行期间java的泛型将被全部“擦除”。
-什么是泛型想象一个场景，当我们需要向一个容器中添加对象，但是我们不知道所要添加的对象是什么类型，如果没有泛型我们会这样定义这个类：
-123456789101112public class ObjectContainer &#123;    private Object obj;    public ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/08/02</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "java">java</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/29/正则表达式/" >
-            
-                <span>正则表达式</span>
-        </a>
-        <div class="abstract-content">
-            正则基础元字符元字符可以看为正则表达式为其预留某些含义的字符，他们有的表示一个单词（在正则表达式中一个\w代表的字符，表示一个单词），有的表示数字，而有的则表示位置信息。常用的元字符如下：
-
-
-
-代码
-说明
-
-
-
-
-.
-匹配除换行符以外的任意字符
-
-
-\w
-匹配字母或数字或下划线
-
-
-\s
-匹配任意的空白符
-
-
-\d
-匹配数字
-
-
-\b
-匹配单词的开始或结束
-
-
-^
-匹配字符串的开始
-
-
-$
-匹配字符串的结束
-
-
-
-这里需要特别说明几点：
-
-\w的范围：在支持ASCII码的语言中，如JavaScript，“\w”等价于[a-zA-Z0-9_] ；在支持Unicode的语言中，如.NET，...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/29</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/27/动态代理/" >
-            
-                <span>动态代理</span>
-        </a>
-        <div class="abstract-content">
-            代理模式与装饰模式区别：
-
-代理模式主要是控制对象的访问，而装饰模式主要是增强对象。
-这两者在代码形式上基本相同，主要区别在于使用意图上。
-
-代理模式代理模式分为静态代理和动态代理。
-静态代理静态代理在使用前需要有一个接口，被代理类和代理类都实现此接口。
-Demo如下：
-定义一个接口
-1234public interface Interface &#123;    void doSomething();    void somethingElse(String args);&#125;
-被代理类
-12345678910public class RealObject implements ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/27</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "设计模式">设计模式</a>
     
 </div>
             
@@ -950,9 +876,87 @@ Demo如下：
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 14
+        Total : 20
         </div>
         <!-- search  -->
         
@@ -969,6 +973,36 @@ Demo如下：
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/02</span><a class="archive-post-title" href= "/2020/02/02/Spring-IOC之ApplicationContext/" >Spring-IOC之ApplicationContext</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/02</span><a class="archive-post-title" href= "/2020/02/02/Spring-IOC之注解驱动原理/" >Spring-IOC之注解驱动原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/01</span><a class="archive-post-title" href= "/2020/02/01/Spring-IOC之Bean的实例化/" >Spring-IOC之Bean的实例化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/31</span><a class="archive-post-title" href= "/2020/01/31/Spring-IOC之Environment/" >Spring-IOC之Environment</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/31</span><a class="archive-post-title" href= "/2020/01/31/Spring-IOC之XML解析/" >Spring-IOC之XML解析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/19</span><a class="archive-post-title" href= "/2020/01/19/spring-mvc/" >spring-mvc</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1058,11 +1092,13 @@ Demo如下：
     
         <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
-    
         <span class="sidebar-tag-name" data-tags="Spring"><span class="iconfont-archer">&#xe606;</span>Spring</span>
     
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
         <span class="sidebar-tag-name" data-tags="设计模式"><span class="iconfont-archer">&#xe606;</span>设计模式</span>
+    
+        <span class="sidebar-tag-name" data-tags="所有人都想拯救世界，却没人帮妈妈洗碗"><span class="iconfont-archer">&#xe606;</span>所有人都想拯救世界，却没人帮妈妈洗碗</span>
     
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
     
