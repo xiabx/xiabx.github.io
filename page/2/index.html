@@ -374,6 +374,66 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2019/12/13/spring-aop/" >
+            
+                <span>spring-aop</span>
+        </a>
+        <div class="abstract-content">
+            AOP基础回顾为什么需要aop软件开发一直在寻找更加高效、更易于维护的方式。
+面向对象编程（OOP）可以对业务需求等普通关注点进行很好的抽象和封装，并使之模块化。但是oop也存在一些缺点，比如我们需要对一个系统中加入日志功能或者对业务方法添加权限限制等。如果系统较小或业务方法少时我们可以手动添加，但是当系统规模较大业务方法增多，那这些方法的书写也会造成很大的负担。
+oop可以对业务中的关注点进行很好的分解并使之模块化，但是无法更好的处理系统中散落的问题。AOP就是为解决和弥补oop模式造成的不足而出现的。在系统中，日志记录、安全检查、事务管理等系统需求就像一把刀横切在我们组织的各个业务功...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/12/13</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/11/03/类加载机制/" >
+            
+                <span>类加载机制</span>
+        </a>
+        <div class="abstract-content">
+            概述类的加载机制就是将描述类的数据加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的java类型。
+类从加载到虚拟机虚拟机开始，到卸载出内存为止。它的整个过程包括：加载、验证、准备、解析、初始化、使用、卸载。其中验证、准备、解析这三个阶段称为连接。
+
+java虚拟机规范规定了有且只有五种情况会触发类的加载过程：
+
+遇到new、getstatic、putstatic、invokestatic这四条字节码指令时，如果类没有进行过初始化，则需要先触发其初始化行为。这四条指令常见的场景为:使用new关键字进行对象实例化、读取或设置一个静态字段、调用一个类的静态方法。
+...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/11/03</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "jvm">jvm</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/10/30/class文件结构/" >
             
                 <span>class文件结构</span>
@@ -666,54 +726,10 @@ sib...
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/05/29/js笔记/" >
-            
-                <span>js笔记</span>
-        </a>
-        <div class="abstract-content">
-            js实现js实现至少应该包括三部分：
-
-核心（ECMAScript）
-文档对象模型（DOM）
-浏览器对象模型（BOM）ECMAScript是一种规范，规定了实现该规范的语言的语法，类型，语句，关键字等的规范。js只是ECMAScript规范的一种实现。
-
-js基本概念数据类型js中有5种数据类型：
-
-Undefined：变量未声明或未初始化
-Null
-Boolean
-Number
-String
-Object：object是所有对象的基础，object的每个实例都包含以下属性：
-constructor:创建对象时的构造函数
-hasOwnProperty(propertyName)：检查给定...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/05/29</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "js&JQuery">js&JQuery</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/">&#60; PREV</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+        <a class="extend prev" rel="prev" href="/">&#60; PREV</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -1129,9 +1145,37 @@ hasOwnProperty(propertyName)：检查给定...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 19
+        Total : 21
         </div>
         <!-- search  -->
         
@@ -1151,12 +1195,22 @@ hasOwnProperty(propertyName)：检查给定...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/02</span><a class="archive-post-title" href= "/2020/02/02/Spring-IOC之ApplicationContext/" >Spring-IOC之ApplicationContext</a>
+            <span class="archive-post-date">02/09</span><a class="archive-post-title" href= "/2020/02/09/Spring Web自动装配/" >Spring Web自动装配</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/04</span><a class="archive-post-title" href= "/2020/02/04/SpringBoot自动装配/" >SpringBoot自动装配</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">02/02</span><a class="archive-post-title" href= "/2020/02/02/Spring-IOC之注解驱动原理/" >Spring-IOC之注解驱动原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/02</span><a class="archive-post-title" href= "/2020/02/02/Spring-IOC之ApplicationContext/" >Spring-IOC之ApplicationContext</a>
         </li>
     
     
@@ -1176,7 +1230,7 @@ hasOwnProperty(propertyName)：检查给定...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/19</span><a class="archive-post-title" href= "/2020/01/19/spring-mvc/" >spring-mvc</a>
+            <span class="archive-post-date">01/19</span><a class="archive-post-title" href= "/2020/01/19/Spring-MVC/" >Spring-MVC</a>
         </li>
     
     
@@ -1258,15 +1312,15 @@ hasOwnProperty(propertyName)：检查给定...
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
+    
         <span class="sidebar-tag-name" data-tags="js&JQuery"><span class="iconfont-archer">&#xe606;</span>js&JQuery</span>
     
-        <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
+        <span class="sidebar-tag-name" data-tags="所有人都想拯救世界，却没人帮妈妈洗碗"><span class="iconfont-archer">&#xe606;</span>所有人都想拯救世界，却没人帮妈妈洗碗</span>
     
         <span class="sidebar-tag-name" data-tags="Spring"><span class="iconfont-archer">&#xe606;</span>Spring</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
-    
-        <span class="sidebar-tag-name" data-tags="所有人都想拯救世界，却没人帮妈妈洗碗"><span class="iconfont-archer">&#xe606;</span>所有人都想拯救世界，却没人帮妈妈洗碗</span>
     
         <span class="sidebar-tag-name" data-tags="设计模式"><span class="iconfont-archer">&#xe606;</span>设计模式</span>
     
@@ -1305,9 +1359,9 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
-    
         <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+    
+        <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     

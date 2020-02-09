@@ -412,7 +412,7 @@ height:50vh;
     <article class="article-entry">
         <h1 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h1><p>Environmen接口<strong>代表了当前应用所处的环境。</strong>其主要和profile、Property相关。</p>
 <p>StandardEnvironment为Environment接口的核心实现类。</p>
-<h1 id="StandardEnvironment结构"><a href="#StandardEnvironment结构" class="headerlink" title="StandardEnvironment结构"></a>StandardEnvironment结构</h1><p><img src="C:\Users\xiabx\AppData\Roaming\Typora\typora-user-images\image-20200131171345020.png" alt="image-20200131171345020"></p>
+<h1 id="StandardEnvironment结构"><a href="#StandardEnvironment结构" class="headerlink" title="StandardEnvironment结构"></a>StandardEnvironment结构</h1><p><img src="https://xbxblog2.bj.bcebos.com/Spring-IOC%E4%B9%8BEnvironment%2Fimage-20200131171345020.png" alt="image-20200131171345020"></p>
 <p>在非web应用中常用StandardEnvironment实现类，在web应用中常用StandardServletEnvironment实现类。其区别为StandardServletEnvironment多了些web相关的propertySource。</p>
 <ul>
 <li><p>PropertyResolver：用于properties的操作，他提供了Environment关于properties功能的定义。</p>
@@ -434,7 +434,7 @@ height:50vh;
 </li>
 </ul>
 <h1 id="MutablePropertySources与PropertySource"><a href="#MutablePropertySources与PropertySource" class="headerlink" title="MutablePropertySources与PropertySource"></a>MutablePropertySources与PropertySource</h1><p>AbstractEnvironment中维护着一个MutablePropertySources对象，MutablePropertySources负责维护PropertySource，内部维护着一个CopyOnWriteArrayList用来存储PropertySource对象。</p>
-<p><img src="C:\Users\xiabx\AppData\Roaming\Typora\typora-user-images\image-20200131192211396.png" alt="image-20200131192211396"></p>
+<p><img src="https://xbxblog2.bj.bcebos.com/Spring-IOC%E4%B9%8BEnvironment%2Fimage-20200131192211396.png" alt="image-20200131192211396"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">PropertySources</span> <span class="keyword">extends</span> <span class="title">Iterable</span>&lt;<span class="title">PropertySource</span>&lt;?&gt;&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">default</span> Stream&lt;PropertySource&lt;?&gt;&gt; stream() &#123;</span><br><span class="line">		<span class="keyword">return</span> StreamSupport.stream(spliterator(), <span class="keyword">false</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(String name)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Nullable</span></span><br><span class="line">	PropertySource&lt;?&gt; get(String name);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>PropertySource</strong>是一个KV形式的对象。保存着Property。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">PropertySource</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">protected</span> <span class="keyword">final</span> Log logger = LogFactory.getLog(getClass());</span><br><span class="line"></span><br><span class="line">	<span class="keyword">protected</span> <span class="keyword">final</span> String name;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">protected</span> <span class="keyword">final</span> T source;</span><br><span class="line">	</span><br><span class="line">    ............</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -449,7 +449,7 @@ height:50vh;
             <p>原文作者：<a href="http://xiabaoxin.cn">XIA</a>
             <p>原文链接：<a href="http://xiabaoxin.cn/2020/01/31/Spring-IOC之Environment/">http://xiabaoxin.cn/2020/01/31/Spring-IOC之Environment/</a>
             <p>发表日期：<a href="http://xiabaoxin.cn/2020/01/31/Spring-IOC之Environment/">January 31st 2020, 5:10:40 pm</a>
-            <p>更新日期：<a href="http://xiabaoxin.cn/2020/01/31/Spring-IOC之Environment/">January 31st 2020, 7:56:23 pm</a>
+            <p>更新日期：<a href="http://xiabaoxin.cn/2020/01/31/Spring-IOC之Environment/">February 5th 2020, 3:45:53 pm</a>
             <p>后&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记：系统地学习，是入门的第一步。</p>
         </div>
     
@@ -816,9 +816,37 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 19
+        Total : 21
         </div>
         <!-- search  -->
         
@@ -838,12 +866,22 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/02</span><a class="archive-post-title" href= "/2020/02/02/Spring-IOC之ApplicationContext/" >Spring-IOC之ApplicationContext</a>
+            <span class="archive-post-date">02/09</span><a class="archive-post-title" href= "/2020/02/09/Spring Web自动装配/" >Spring Web自动装配</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/04</span><a class="archive-post-title" href= "/2020/02/04/SpringBoot自动装配/" >SpringBoot自动装配</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">02/02</span><a class="archive-post-title" href= "/2020/02/02/Spring-IOC之注解驱动原理/" >Spring-IOC之注解驱动原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/02</span><a class="archive-post-title" href= "/2020/02/02/Spring-IOC之ApplicationContext/" >Spring-IOC之ApplicationContext</a>
         </li>
     
     
@@ -863,7 +901,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/19</span><a class="archive-post-title" href= "/2020/01/19/spring-mvc/" >spring-mvc</a>
+            <span class="archive-post-date">01/19</span><a class="archive-post-title" href= "/2020/01/19/Spring-MVC/" >Spring-MVC</a>
         </li>
     
     
@@ -945,15 +983,15 @@ top:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
+    
         <span class="sidebar-tag-name" data-tags="js&JQuery"><span class="iconfont-archer">&#xe606;</span>js&JQuery</span>
     
-        <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
+        <span class="sidebar-tag-name" data-tags="所有人都想拯救世界，却没人帮妈妈洗碗"><span class="iconfont-archer">&#xe606;</span>所有人都想拯救世界，却没人帮妈妈洗碗</span>
     
         <span class="sidebar-tag-name" data-tags="Spring"><span class="iconfont-archer">&#xe606;</span>Spring</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
-    
-        <span class="sidebar-tag-name" data-tags="所有人都想拯救世界，却没人帮妈妈洗碗"><span class="iconfont-archer">&#xe606;</span>所有人都想拯救世界，却没人帮妈妈洗碗</span>
     
         <span class="sidebar-tag-name" data-tags="设计模式"><span class="iconfont-archer">&#xe606;</span>设计模式</span>
     
@@ -992,9 +1030,9 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
-    
         <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+    
+        <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     

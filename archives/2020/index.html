@@ -361,13 +361,64 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/09/Spring Web自动装配/" >
+            
+                <span>Spring Web自动装配</span>
+        </a>
+        <div class="abstract-content">
+            什么是web自动装配Servlet 3.0之前我们搭建Spring MVC项目需要在web.xml中手动配置ContextLoaderListener和DispatchServlet，这么直接写死的方式着实缺乏灵活性。自Servlet 3.0后spring通过相应API实现了在项目运行时自动将项目框架需要的Servlet、Filter注入。这就是web自动注入。
+示例：
+通过在项目中任意位置添加一个AbstractAnnotationConfigDispatcherServletInitializer实现类，就可以实现将ContextLoaderListener和DispatchServ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/09</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/04/SpringBoot自动装配/" >
+            
+                <span>SpringBoot自动装配</span>
+        </a>
+        <div class="abstract-content">
+            注解驱动发展史
+Spring Framework 1.x：由于java5的发布使spring也开始支持注解驱动，这时支持@Transaction等注解，但XML仍是配置方式的唯一选择。
+Spring Framework 2.x：在此版本中，spring开始支持@Autowired  @Qualifier等注解。但是并没有完全替代xml配置驱动，因为这些注解的入口还得需要在xml中配置&lt;context:component-scan&gt;等元素。
+Spring Framework 3.x：在此版本中spring使用@ImportResource和@Import注解结合Annotati...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/04</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/02/02/Spring-IOC之注解驱动原理/" >
             
                 <span>Spring-IOC之注解驱动原理</span>
         </a>
         <div class="abstract-content">
-            &lt;context:component-scan base-package=”com.*”&gt;`spring在解析注解时使用了很多元数据类，可以看这篇博客：https://blog.csdn.net/f641385712/article/details/88765470
-让我们回到spring解析xml的流程，在DefaultBeanDefinitionDocumentReader.parseBeanDefinitions方法中，会根据名字空间将解析分为默认名字空间的解析和自定义标签的解析，显然这里要走的是自定义标签的解析。所以我们找到了这个这个标签解析的入口，下面让本鸟一步步跟...
+            &lt;context:component-scan base-package=”com.*”&gt;`让我们回到spring解析xml的流程，在DefaultBeanDefinitionDocumentReader.parseBeanDefinitions方法中，会根据名字空间将解析分为默认名字空间的解析和自定义标签的解析，显然这里要走的是自定义标签的解析。所以我们找到了这个这个标签解析的入口，下面让本鸟一步步跟进去看看到底注解驱动的原理是什么？
+关于自定义标签的解析流程在上面已经进行了总结，简单说就是根据自定义标签的名字空间uri查询spring.handlers文件找到解析方法并执...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -490,9 +541,9 @@ default-dependency-check。可以取值none、objects、simple以及all，...
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/01/19/spring-mvc/" >
+        <a class="abstract-title" href = "/2020/01/19/Spring-MVC/" >
             
-                <span>spring-mvc</span>
+                <span>Spring-MVC</span>
         </a>
         <div class="abstract-content">
             总览Spring MVC使用两层Controller设计，DispatcherServlet作为对外开放的Front Controller来接受请求，并根据配置规则转发给对应的实际处理请求的Controller。
@@ -854,9 +905,37 @@ PlateformTranscationManager为事务控...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 19
+        Total : 21
         </div>
         <!-- search  -->
         
@@ -876,12 +955,22 @@ PlateformTranscationManager为事务控...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/02</span><a class="archive-post-title" href= "/2020/02/02/Spring-IOC之ApplicationContext/" >Spring-IOC之ApplicationContext</a>
+            <span class="archive-post-date">02/09</span><a class="archive-post-title" href= "/2020/02/09/Spring Web自动装配/" >Spring Web自动装配</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/04</span><a class="archive-post-title" href= "/2020/02/04/SpringBoot自动装配/" >SpringBoot自动装配</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">02/02</span><a class="archive-post-title" href= "/2020/02/02/Spring-IOC之注解驱动原理/" >Spring-IOC之注解驱动原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/02</span><a class="archive-post-title" href= "/2020/02/02/Spring-IOC之ApplicationContext/" >Spring-IOC之ApplicationContext</a>
         </li>
     
     
@@ -901,7 +990,7 @@ PlateformTranscationManager为事务控...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/19</span><a class="archive-post-title" href= "/2020/01/19/spring-mvc/" >spring-mvc</a>
+            <span class="archive-post-date">01/19</span><a class="archive-post-title" href= "/2020/01/19/Spring-MVC/" >Spring-MVC</a>
         </li>
     
     
@@ -983,15 +1072,15 @@ PlateformTranscationManager为事务控...
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
+    
         <span class="sidebar-tag-name" data-tags="js&JQuery"><span class="iconfont-archer">&#xe606;</span>js&JQuery</span>
     
-        <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
+        <span class="sidebar-tag-name" data-tags="所有人都想拯救世界，却没人帮妈妈洗碗"><span class="iconfont-archer">&#xe606;</span>所有人都想拯救世界，却没人帮妈妈洗碗</span>
     
         <span class="sidebar-tag-name" data-tags="Spring"><span class="iconfont-archer">&#xe606;</span>Spring</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
-    
-        <span class="sidebar-tag-name" data-tags="所有人都想拯救世界，却没人帮妈妈洗碗"><span class="iconfont-archer">&#xe606;</span>所有人都想拯救世界，却没人帮妈妈洗碗</span>
     
         <span class="sidebar-tag-name" data-tags="设计模式"><span class="iconfont-archer">&#xe606;</span>设计模式</span>
     
@@ -1030,9 +1119,9 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
-    
         <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+    
+        <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     
