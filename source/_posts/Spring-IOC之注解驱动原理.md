@@ -10,8 +10,6 @@ date: 2020-02-02 19:58:17
 
 # <context:component-scan base-package="com.*">`
 
-spring在解析注解时使用了很多元数据类，可以看这篇博客：<https://blog.csdn.net/f641385712/article/details/88765470>
-
 让我们回到spring解析xml的流程，在`DefaultBeanDefinitionDocumentReader.parseBeanDefinitions`方法中，会根据名字空间将解析分为默认名字空间的解析和自定义标签的解析，显然这里要走的是自定义标签的解析。所以我们找到了这个这个标签解析的入口，下面让本鸟一步步跟进去看看到底注解驱动的原理是什么？
 
 关于自定义标签的解析流程在上面已经进行了总结，简单说就是根据自定义标签的名字空间uri查询spring.handlers文件找到解析方法并执行其中定义的init方法，init方法中一般都是对localName（localName是个什么东西呢，比如对于context:annotation-config标签就是annotation-config）的解析器注册。接下来根据localName获取对应解析器执行解析方法parse。
@@ -115,6 +113,7 @@ protected Set<BeanDefinitionHolder> doScan(String... basePackages) {
    Set<BeanDefinitionHolder> beanDefinitions = new LinkedHashSet<>();
    //逐包扫描
    for (String basePackage : basePackages) {
+       //主要方法
        //扫描basePackage下的class，将其包装为BeanDefinition
       Set<BeanDefinition> candidates = findCandidateComponents(basePackage);
       for (BeanDefinition candidate : candidates) {
@@ -163,13 +162,16 @@ private Set<BeanDefinition> scanCandidateComponents(String basePackage) {
       for (Resource resource : resources) {
          if (resource.isReadable()) {
             try {
-                //根据resource获取MatedataReader
+                //根据resource获取MatedataReader。
+                //模式注解的多层派生性，原理就是从这里。涉及asm库的内容。
                MetadataReader metadataReader = getMetadataReaderFactory().getMetadataReader(resource);
+                //1
                if (isCandidateComponent(metadataReader)) {
                    //创建BeanDefiniton对象，ScannedGenericBeanDefinition是AnnotatedBeanDefinition子类
                   ScannedGenericBeanDefinition sbd = new ScannedGenericBeanDefinition(metadataReader);
                   sbd.setResource(resource);
                   sbd.setSource(resource);
+                   //2
                   if (isCandidateComponent(sbd)) {
                      candidates.add(sbd);
                   }
@@ -179,6 +181,152 @@ private Set<BeanDefinition> scanCandidateComponents(String basePackage) {
    return candidates;
 }
 ```
+
+一个被扫描的类能否作为组件有两个isCandidateComponent方法决定：
+
+```java
+	protected boolean isCandidateComponent(MetadataReader metadataReader) throws IOException {
+		for (TypeFilter tf : this.excludeFilters) {
+			if (tf.match(metadataReader, this.metadataReaderFactory)) {
+				return false;
+			}
+		}
+        //这里includeFilters在ClassPathBeanDefinitionScanner实例化时被设置，
+		for (TypeFilter tf : this.includeFilters) {
+			if (tf.match(metadataReader, this.metadataReaderFactory)) {
+				return isConditionMatch(metadataReader);
+			}
+		}
+		return false;
+	}
+
+	//设置includeFilters
+	protected void registerDefaultFilters() {
+		this.includeFilters.add(new AnnotationTypeFilter(Component.class));
+		ClassLoader cl = ClassPathScanningCandidateComponentProvider.class.getClassLoader();
+		try {
+			this.includeFilters.add(new AnnotationTypeFilter(
+					((Class<? extends Annotation>) cl.loadClass("javax.annotation.ManagedBean")), false));
+			logger.debug("JSR-250 'javax.annotation.ManagedBean' found and supported for component scanning");
+		}
+		catch (ClassNotFoundException ex) {
+			// JSR-250 1.1 API (as included in Java EE 6) not available - simply skip.
+		}
+		try {
+			this.includeFilters.add(new AnnotationTypeFilter(
+					((Class<? extends Annotation>) cl.loadClass("javax.inject.Named")), false));
+			logger.debug("JSR-330 'javax.inject.Named' annotation found and supported for component scanning");
+		}
+		catch (ClassNotFoundException ex) {
+			// JSR-330 API not available - simply skip.
+		}
+	}
+```
+
+#### 主要涉及类
+
+ClassMetadata     AnnotationMetadata    MetadataReader    
+
+<img src="https://xbxblog2.bj.bcebos.com/springioc注解驱动原理/image-20200205143616060.png" alt="image-20200205143616060"  />
+
+**ClassMetadata：**表示class的元数据类，此接口有两个重要实现类：StandardClassMetadata和ClassMetadataReadingVisitor。这两个实现类的区别在于前者使用jdk实现后者使用asm库，使用jdk的优势是实现起来较简单，但是需要将class加载到内存，而asm的优点则是无需将class加载到内存，这样可以提高性能。
+
+```java
+public interface ClassMetadata {
+
+	// 返回类名（注意返回的是最原始的那个className）
+	String getClassName();
+	boolean isInterface();
+	// 是否是注解
+	boolean isAnnotation();
+	boolean isAbstract();
+	// 是否允许创建  不是接口且不是抽象类  这里就返回true了
+	boolean isConcrete();
+	boolean isFinal();
+	// 是否是独立的(能够创建对象的)  比如是Class、或者内部类、静态内部类
+	boolean isIndependent();
+	// 是否有内部类之类的东东
+	boolean hasEnclosingClass();
+	@Nullable
+	String getEnclosingClassName();
+	boolean hasSuperClass();
+	@Nullable
+	String getSuperClassName();
+	// 会把实现的所有接口名称都返回  具体依赖于Class#getSuperclass
+	String[] getInterfaceNames();
+
+	// 基于：Class#getDeclaredClasses  返回类中定义的公共、私有、保护的内部类
+	String[] getMemberClassNames();
+}
+```
+
+**AnnotatedTypeMetadata：**对注解元素的封装，什么叫注解元素(AnnotatedElement)？比如我们常见的Class、Method、Constructor、Parameter等等都属于它的子类都属于注解元素。简单理解：只要能在上面标注注解都属于这种元素。Spring4.0新增的这个接口提供了对注解统一的、便捷的访问，使用起来更加的方便高效了。
+
+```java
+public interface AnnotatedTypeMetadata {
+
+	// 此元素是否标注有此注解
+	// annotationName：注解全类名
+	boolean isAnnotated(String annotationName);
+	
+	// 取得指定类型注解的所有的属性 - 值（k-v）
+	// annotationName：注解全类名
+	// classValuesAsString：若是true表示 Class用它的字符串的全类名来表示。这样可以避免Class被提前加载
+	@Nullable
+	Map<String, Object> getAnnotationAttributes(String annotationName);
+	@Nullable
+	Map<String, Object> getAnnotationAttributes(String annotationName, boolean classValuesAsString);
+
+	// 参见这个方法的含义：AnnotatedElementUtils.getAllAnnotationAttributes
+	@Nullable
+	MultiValueMap<String, Object> getAllAnnotationAttributes(String annotationName);
+	@Nullable
+	MultiValueMap<String, Object> getAllAnnotationAttributes(String annotationName, boolean classValuesAsString);
+}
+```
+
+**AnnotationMetadata：**这是理解`Spring`注解编程的必备知识，它是`ClassMetadata`和`AnnotatedTypeMetadata`的子接口，具有两者共同能力，并且新增了访问注解的相关方法。可以简单理解为它是对注解的抽象。
+
+该接口有两个实现，同样也是分别基于反射和asm库。
+
+```java
+public interface AnnotationMetadata extends ClassMetadata, AnnotatedTypeMetadata {
+
+	//拿到当前类上所有的注解的全类名（注意是全类名）
+	Set<String> getAnnotationTypes();
+	// 拿到指定的注解类型
+	//annotationName:注解类型的全类名
+	Set<String> getMetaAnnotationTypes(String annotationName);
+	
+	// 是否包含指定注解 （annotationName：全类名）
+	boolean hasAnnotation(String annotationName);
+	//这个厉害了，用于判断注解类型自己是否被某个元注解类型所标注
+	//依赖于AnnotatedElementUtils#hasMetaAnnotationTypes
+	boolean hasMetaAnnotation(String metaAnnotationName);
+	
+	// 类里面只有有一个方法标注有指定注解，就返回true
+	//getDeclaredMethods获得所有方法， AnnotatedElementUtils.isAnnotated是否标注有指定注解
+	boolean hasAnnotatedMethods(String annotationName);
+	// 返回所有的标注有指定注解的方法元信息。注意返回的是MethodMetadata 原理基本同上
+	Set<MethodMetadata> getAnnotatedMethods(String annotationName);
+}
+
+```
+
+**MetadataReader接口：**获取指定类的ClassMetadata和AnnotationMetadata的接口。他的实现类为default包访问权限。所以还需要使用一个工厂MetadataReaderFactory接口获取实例。
+
+```java
+public interface MetadataReader {
+	// 返回此Class文件的来源（资源）
+	Resource getResource();
+	// 返回此Class的元数据信息
+	ClassMetadata getClassMetadata();
+	// 返回此类的注解元信息（包括方法的）
+	AnnotationMetadata getAnnotationMetadata();
+}
+```
+
+**参考：**<https://blog.csdn.net/f641385712/article/details/88765470>
 
 ### 生成beanName
 
@@ -1046,3 +1194,19 @@ protected final SourceClass doProcessConfigurationClass(ConfigurationClass confi
 @Import解析，获取属性的值，然后作为配置类再解析。
 
 @Bean的解析。其实就是根据方法解析为BeanDefinition，然后将方法注册为工厂方法，如果是静态的就是静态工厂方法，非静态就是实例化工厂方法。
+
+**@Enable原理**
+
+自spring3.0以后开始引入了@Enable注解模式，例如@EnableWebMVC等。其实现原理就是通过@Import注解。
+
+在ConfigurationClassPostProcessor执行过程中当解析到@Import注解，会递归的进行解析以达到通过委托类来完成某一领域相关Bean的集中注册功能。
+
+```java
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@Documented
+@Import(DelegatingWebMvcConfiguration.class)
+public @interface EnableWebMvc {
+}
+```
+

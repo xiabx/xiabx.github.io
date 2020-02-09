@@ -16,7 +16,7 @@ StandardEnvironment为Environment接口的核心实现类。
 
 # StandardEnvironment结构
 
-![image-20200131171345020](C:\Users\xiabx\AppData\Roaming\Typora\typora-user-images\image-20200131171345020.png)
+![image-20200131171345020](https://xbxblog2.bj.bcebos.com/Spring-IOC%E4%B9%8BEnvironment%2Fimage-20200131171345020.png)
 
 在非web应用中常用StandardEnvironment实现类，在web应用中常用StandardServletEnvironment实现类。其区别为StandardServletEnvironment多了些web相关的propertySource。
 
@@ -129,7 +129,7 @@ StandardEnvironment为Environment接口的核心实现类。
 
 AbstractEnvironment中维护着一个MutablePropertySources对象，MutablePropertySources负责维护PropertySource，内部维护着一个CopyOnWriteArrayList用来存储PropertySource对象。
 
-![image-20200131192211396](C:\Users\xiabx\AppData\Roaming\Typora\typora-user-images\image-20200131192211396.png)
+![image-20200131192211396](https://xbxblog2.bj.bcebos.com/Spring-IOC%E4%B9%8BEnvironment%2Fimage-20200131192211396.png)
 
 ```java
 public interface PropertySources extends Iterable<PropertySource<?>> {

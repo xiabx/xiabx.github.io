@@ -1,5 +1,5 @@
 ---
-title: spring-mvc
+title: Spring-MVC
 author: XIA
 categories:
   - null
