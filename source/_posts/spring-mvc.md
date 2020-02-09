@@ -64,7 +64,7 @@ public interface ViewResolver {
 }
 ```
 
-![image-20200120154514017](C:\Users\xiabx\AppData\Roaming\Typora\typora-user-images\image-20200120154514017.png)
+![image-20200120154514017](https://xbxblog2.bj.bcebos.com/springmvc%2Fimage-20200120154514017.png)
 
 AbstractCachingViewResolver提供了缓存功能，可以将根据视图名解析的View进行缓存，以提高性能。
 
@@ -101,7 +101,7 @@ public interface View {
 }
 ```
 
-![image-20200120205103900](C:\Users\xiabx\AppData\Roaming\Typora\typora-user-images\image-20200120205103900.png)
+![image-20200120205103900](https://xbxblog2.bj.bcebos.com/springmvc%2Fimage-20200120205103900.png)
 
 这里有一个特殊的View实现RedirectView，它负责请求的重定向。
 
@@ -220,7 +220,7 @@ HandlerExceptionResolver可以在Handler处理请求抛出异常时，此时他�
 
 **伪代码：**
 
-![image-20200121000317544](C:\Users\xiabx\AppData\Roaming\Typora\typora-user-images\image-20200121000317544.png)
+![image-20200121000317544](https://xbxblog2.bj.bcebos.com/springmvc%2Fimage-20200121000317544.png)
 
 spring官方提供的处理基于注解的Controller的HandlerMapping是DefaultAnnotationHandlerMapping。
 
