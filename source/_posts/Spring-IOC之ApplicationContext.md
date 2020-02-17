@@ -131,7 +131,7 @@ public void refresh() throws BeansException, IllegalStateException {
 				// 初始化应用消息广播器，并入放applicationEventMulticaster中
 				initApplicationEventMulticaster();
 
-				// I留给子类来初始化其他的Bean
+				// 留给子类来初始化其他的Bean
 				onRefresh();
 
 				// 在所有注册的bean中查找Listener bean，注册到消息广播中
