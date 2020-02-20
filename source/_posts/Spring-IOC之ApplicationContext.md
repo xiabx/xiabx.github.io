@@ -564,4 +564,8 @@ public void preInstantiateSingletons() throws BeansException {
 }
 ```
 
-# 
+# AnnotationConfigApplicationContext
+
+注意AnnotationConfigApplicationContext的BeanFactory在其父类GenericApplicationContext无参构造中创建。以及主配置类BeanDefintion的创建，在AnnotatedBeanDefinitionReader#register方法中。
+
+https://www.cnblogs.com/ashleyboy/p/9662119.html
