@@ -361,6 +361,105 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2019/06/07/Linux笔记/" >
+            
+                <span>Linux笔记</span>
+        </a>
+        <div class="abstract-content">
+            计算机概论
+在网络传输时，使用的是bit为单位 ，常见的传输单位Mbit/s。1Byte=8bit。所以当听到网速为8M/1M时，转换为文件容量常用单位Byte时，为1MB/s或128KB/s
+计算机主板分为南桥和北桥。intel的芯片架构为：北桥负责连接速度较快的CPU、内存、显卡等部件。南桥则负责连接速度较慢的周边接口，包括硬盘、USB、网卡等。
+CPU的频率指的是CPU每秒可以进行的工作次数。如3.0GHz的频率，表示每秒可以进行3.0乘十的九次方次工作，每次工作进行少数指令的运行。不同CPU之间不能通过单纯比较频率来判断性能，因为每个CPU的微指令集不同，架构不同，每次频率处理的...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/06/07</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/05/31/Spring事物控制/" >
+            
+                <span>Spring事物控制</span>
+        </a>
+        <div class="abstract-content">
+            事务的基本知识隔离级别脏读（读到了未提交的数据），不重复读（一个事务前后两次读的数据不一样，即在两次读的中间有另一个事务进行的update操作），幻读（例如，一个事务读取整个表有多少条数据，读完第一次数据后另一个事务在这个表中insert插入了一条数据，第一个事务再次读取有多少条数据时两次的结过不一样）
+Read uncommitted（读未提交）：会出现脏读，不可重复读，幻读。Read committed（都已提交）：解决脏读（出现不可重复读，幻读）Repeatable read（重复读）：解决不可重复读（会出现幻读）Serializable （序列化）：解决幻读`大多数数据库默认的事...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/05/31</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Spring">Spring</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/05/30/JQuery-笔记/" >
+            
+                <span>JQuery 笔记</span>
+        </a>
+        <div class="abstract-content">
+            $()方法
+该方法接收一个css的选择符，通过该选择符获取对象。css选择符
+获取到的对象如果不是一个单对象，可以自动遍历里面的结果。
+通过$()方法获取到的对象是JQuery对象。可以通过[index]或.get(index)获取对应的DOM对象。
+将DOM对象转化为Jquery对象：使用$()方法，参数传递一个DOM对象就可以将其包装为JQuery对象。
+JQuery对象和Dom对象的方法无法相互访问。
+filter()方法:过滤选择器的元素
+next(),nextAll(),prev(),prevAll()：选择对象的下一个或上一个。或者是下面所有或者是上面所有的同级元素。
+sib...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/05/30</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "js&JQuery">js&JQuery</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/05/29/js笔记/" >
             
                 <span>js笔记</span>
@@ -745,9 +844,52 @@ hasOwnProperty(propertyName)：检查给定...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 21
+        Total : 24
         </div>
         <!-- search  -->
         
@@ -767,12 +909,27 @@ hasOwnProperty(propertyName)：检查给定...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/09</span><a class="archive-post-title" href= "/2020/02/09/Spring Web自动装配/" >Spring Web自动装配</a>
+            <span class="archive-post-date">02/29</span><a class="archive-post-title" href= "/2020/02/29/Java多线程-同步机制/" >Java多线程-同步机制</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/04</span><a class="archive-post-title" href= "/2020/02/04/SpringBoot自动装配/" >SpringBoot自动装配</a>
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2020/02/28/Java多线程-基础/" >Java多线程-基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2020/02/18/SpringBoot之SpringApplication/" >SpringBoot之SpringApplication</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/15</span><a class="archive-post-title" href= "/2020/02/15/Spring-Boot自动装配/" >Spring-Boot自动装配</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/09</span><a class="archive-post-title" href= "/2020/02/09/Spring Web自动装配/" >Spring Web自动装配</a>
         </li>
     
     
@@ -802,7 +959,7 @@ hasOwnProperty(propertyName)：检查给定...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/19</span><a class="archive-post-title" href= "/2020/01/19/Spring-MVC/" >Spring-MVC</a>
+            <span class="archive-post-date">01/19</span><a class="archive-post-title" href= "/2020/01/19/Spring MVC/" >Spring-MVC</a>
         </li>
     
     
@@ -884,9 +1041,9 @@ hasOwnProperty(propertyName)：检查给定...
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="js&JQuery"><span class="iconfont-archer">&#xe606;</span>js&JQuery</span>
-    
         <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
+    
+        <span class="sidebar-tag-name" data-tags="js&JQuery"><span class="iconfont-archer">&#xe606;</span>js&JQuery</span>
     
         <span class="sidebar-tag-name" data-tags="所有人都想拯救世界，却没人帮妈妈洗碗"><span class="iconfont-archer">&#xe606;</span>所有人都想拯救世界，却没人帮妈妈洗碗</span>
     
@@ -931,9 +1088,13 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
+        <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+    
+        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
+    
         <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
-        <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+        <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     

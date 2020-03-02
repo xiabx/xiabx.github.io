@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="XIA">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="XIA">
+    
+    <meta name="keywords" content="hexo,java,恰饭">
+    
+    <meta name="description" content="My Blog">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Java多线程-基础 · XIA&#39;S BLOG</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/avatar/icon.png">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+        <!-- algolia -->
+        <script>
+            
+            var hits = JSON.parse('{"per_page":10}')
+            var labels = JSON.parse('{"input_placeholder":"Search for Posts","hits_empty":"We did not find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}')
+
+            var algolia = {
+                applicationID: '5W1B0UUYAF',
+                apiKey: 'cfcd1aa1acd064324fe47f143b3ac36f',
+                indexName: 'blog',
+                hits: hits,
+                labels: labels
+            }
+        </script>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >xia&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Java多线程-基础</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>xia's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Java多线程-基础
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3.3k</span>阅读时长: <span class="post-count reading-time">11 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2020/02/28</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="认识线程"><a href="#认识线程" class="headerlink" title="认识线程"></a>认识线程</h1><h2 id="进程、线程、任务"><a href="#进程、线程、任务" class="headerlink" title="进程、线程、任务"></a>进程、线程、任务</h2><p>三者的关系：进程是程序运行的实例，一个进程可以包含多个线程，每个线程索要完成的工作就是任务。</p>
+<p>程序与进程的关系就好比播放器中播放的视频与相应的视频为你教案的关系，程序从静态角度刻画事物，进程从动态角度刻画事物。</p>
+<p>进程和线程的关系可以比作饭店和员工，一个饭店对外提供餐饮服务，而服务最终由员工完成。而员工们则共享饭店的资源。</p>
+<p>任务则代表线程要完成的工作，可以是一次网络下载、一次文件解压等。</p>
+<h2 id="线程的创建、启动与运行"><a href="#线程的创建、启动与运行" class="headerlink" title="线程的创建、启动与运行"></a>线程的创建、启动与运行</h2><p>Java中创建一个线程就是创建一个Thread类的实例，线程的任务逻辑位于Thread类的run方法中。启动一个线程则是调用start方法。创建的每个线程都有自己的名字。但是创建Thread对象需要额外分配调用栈，所以创建线程对象的成本会比创建普通对象的成本要高一些。Thread类有两个常用构造器：<code>Thread()和Thread(Runnable target)</code>。</p>
+<p>Thread的run方法，target表示Runnable对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (target != <span class="keyword">null</span>) &#123;</span><br><span class="line">        target.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不管是哪种方式创建的线程，一旦run方法执行结束，线程所占用的资源就会被jvm回收。且每个线程实例的start方法只能调用一次。</p>
+<h2 id="线程属性"><a href="#线程属性" class="headerlink" title="线程属性"></a>线程属性</h2><p><img src="https://xbxblog2.bj.bcebos.com/java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%9F%BA%E7%A1%80%2Fimage-20200228201910397.png" alt="image-20200228201910397"></p>
+<h2 id="Thread类常用方法"><a href="#Thread类常用方法" class="headerlink" title="Thread类常用方法"></a>Thread类常用方法</h2><p><img src="https://xbxblog2.bj.bcebos.com/java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%9F%BA%E7%A1%80%2Fimage-20200228202105891.png" alt="image-20200228202105891"></p>
+<h2 id="线程的层次关系"><a href="#线程的层次关系" class="headerlink" title="线程的层次关系"></a>线程的层次关系</h2><p>线程之间存在着层级关系，例如我们在main线程中创建了线程thread-01，那么main就称为线程thread-01的父线程，反之亦然。</p>
+<p>默认情况下父线程的优先级、是否为守护线程的属性决定子线程的这些属性。但是父子线程的生命周期却没有必然的联系。</p>
+<h2 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h2><p>线程的状态可以使用Thread.getState()方法获取。线程的状态包括以下几种：</p>
+<ul>
+<li>NEW:线程已经被创建但是未启动就处于该状态。</li>
+<li>RUNNABLE:处于该状态的线程被称为活跃线程。该状态包括两个子状态：READY和RUNNING。前者表示可以线程可以被调度器调度使之处于RUNNING状态，而后者表示该状态的线程正在运行。执行Thread.yield()的线程可能其状态会由RUNNING转为READY。</li>
+<li>BLOCKED：一个线程发起一个阻塞式IO操作或者申请一个其他线程独占的资源，相应的线程就会处于该状态。处于该状态的线程不会占用cpu资源，当等待的资源获得后可以转为RUNNABLE状态。</li>
+<li>WAITING：一个线程执行了<code>Object.wait(),Thread.join(),LockSupport.patk(object)</code>方法后会处于该等待状态。当<code>Object.notify()/notifyAll()和LockSupport.unpark(object)</code>方法被调用后等待状态收到通知就会变为RUNNABLE状态。</li>
+<li>TIMED_WAITING：与WAITING类似，不同之处在于该状态不会无限期的等下去，当在指定时间内没有收到指定的通知后会自动转变为RUNNABLE状态。</li>
+<li>TERMINATED：已经执行结束的线程处于该状态。</li>
+</ul>
+<p><img src="https://xbxblog2.bj.bcebos.com/java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%9F%BA%E7%A1%80%2Fimage-20200228204718636.png" alt="image-20200228204718636"></p>
+<h1 id="多线程编程目标与挑战"><a href="#多线程编程目标与挑战" class="headerlink" title="多线程编程目标与挑战"></a>多线程编程目标与挑战</h1><h2 id="串行、并发与并行"><a href="#串行、并发与并行" class="headerlink" title="串行、并发与并行"></a>串行、并发与并行</h2><p>假设由三件事情：A、B、C。串行的处理方式为先处理A，待A完成再做B然后再C。并发的方式为处理A时若处理过程中A需要等待则会在等待时去处理B。而并行则是A、B、C一起做。</p>
+<p>并发的极致就是并行。</p>
+<h2 id="竞态"><a href="#竞态" class="headerlink" title="竞态"></a>竞态</h2><p>在多个线程同时操作一个属性时，由于多线程的运行顺序是受操作系统控制的，在运行期由于竞态条件的存在会产生属性的操作结果与预期不符的情况。</p>
+<p>一个竞态例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TicketSell</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> ticketNum = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sell</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (ticketNum &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName()+<span class="string">":  "</span> +ticketNum);</span><br><span class="line">            ticketNum--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            sell();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TicketMain</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        TicketSell ticketSell = <span class="keyword">new</span> TicketSell();</span><br><span class="line">        Thread thread = <span class="keyword">new</span> Thread(ticketSell);</span><br><span class="line">        Thread thread1 = <span class="keyword">new</span> Thread(ticketSell);</span><br><span class="line">        thread.start();</span><br><span class="line">        thread1.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://xbxblog2.bj.bcebos.com/java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%9F%BA%E7%A1%80%2Fimage-20200228225915379.png" alt="image-20200228225915379"></p>
+<p>这里两个线程都对ticketNum属性进行操作，当两个线程操作过程中没有实行同步机制则会出现竞态。其原因是当某个线程在判断if条件后暂停或者执行ticketNum–操作过程中被暂停。</p>
+<p>这个例子包含两种竞态条件：read-modify-write和check-then-act</p>
+<p>read-modify-write使竞态发生的原因在于执行<code>ticketNum--</code>过程中，实际上<code>ticketNum--</code>分解为三条指令，<code>分别为读取ticketNum值到寄存器--将寄存器中的ticketNum减1--将计算后的ticketNum赋值到内存中的ticketNum</code>。这三步若是中间被暂停使另一个线程运行更新了ticketNum值，则会导致丢失更新的问题。</p>
+<p>check-then-act发生在if判断后，若判断ticketNum &gt; 0为true后，该线程被暂停，另一个线程随后将ticketNum 更新，那么上一个线程就产生了读到过期数据的脏读。</p>
+<p>若要避免竞态可以在sell方法使用synchronized关键字。</p>
+<h2 id="线程安全性"><a href="#线程安全性" class="headerlink" title="线程安全性"></a>线程安全性</h2><p>如果一个类在多线程环境下在其使用发不必为其做任何改变的情况下也能正常运行，那么这个类就是线程的。</p>
+<p>一个类如果不是线程安全的，那么在多线程环境下使用就会存在线程安全问题。线程安全问题表现在三个方面：原子性、可见性、有序性。</p>
+<h3 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h3><p>原子性的含义为不可分割，那么什么是不可分割？假设有两个线程，当一个线程对一组共享变量操作时，从另一个线程看来这个操作要么还没进行要么已经结束。另一个线程时不可以获取到正在操作共享变量所产生的中间结果的。</p>
+<p>以一个设置ip与端口的例子。当一个线程在执行updateHostInfo方法，一个线程执行connnect方法。那么如果没有保证更新ip与port属性的原子性，那么就可能存在一个线程更新了ip属性但是还未更新port属性，另一个线程则读取了新设置的ip与原始port。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AtomicityExample</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> HostInfo hostInfo;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateHostInfo</span><span class="params">(String ip,<span class="keyword">int</span> port)</span></span>&#123;</span><br><span class="line">        hostInfo.setIp(ip);</span><br><span class="line">        hostInfo.setPort(port);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">connnect</span><span class="params">()</span></span>&#123;</span><br><span class="line">        String ip = hostInfo.getIp();</span><br><span class="line">        <span class="keyword">int</span> port = hostInfo.getPort();</span><br><span class="line">        <span class="comment">//do connect</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">HostInfo</span></span>&#123;</span><br><span class="line">        <span class="keyword">private</span> String ip;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> port;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// getter  setter</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>保障原子性有两种方式：使用锁和CAS</p>
+<p>还可以使用java语言特性来对原子性进行保障，如下，使用新建一个对象，然后对hostInfo引用进行更新，在java中对引用型变量的读写操作都是原子性的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateHostInfo</span><span class="params">(String ip,<span class="keyword">int</span> port)</span></span>&#123;</span><br><span class="line">    HostInfo newHostInfo = <span class="keyword">new</span> HostInfo(ip, port);</span><br><span class="line">    hostInfo = newHostInfo;<span class="comment">//原子操作</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h3><p>如果一个线程对共享变量更新以后，其他线程在访问这个变量时无法读取到这个变量更新后的结果，那么这种情况就发生了可见性问题。</p>
+<p>发生可见性问题的原因有两种：JIT编译器对代码优化产生的副作用导致和计算机存储结构的原因。前者是编译器在运行时为了提高代码效率将变量编译为常量导致，后者则是由于存储结构设计导致，位于寄存器中的写缓冲器刷新不及时以及无效化队列未及时更新。</p>
+<p>这两种原因都可以使用volatile关键字修饰变量进行解决。</p>
+<p>单处理器也会发生可见性问题，这是因为单处理器系统是通过时间片分配来实现多线程的，时间片分配时会将寄存器中的内容保存在线程上下文中，一个线程无法访问其他线程的上下文，这就导致了可见性问题。</p>
+<p>根据java语言规范，父线程在启动子线程之前对共享变量的更新对子线程是可见的。同时也保证一个线程终止后该线程对共享变量的更新对于调用该线程join方法的线程而言是可见的。</p>
+<p>但是在当前处理器的设计中，可见性问题出现的概率非常低，但是仍不能存在侥幸心理。</p>
+<blockquote>
+<p><strong>相对新值和最新值</strong></p>
+<p>对于同一个共享变里而言，一个线程更新了该变量的值之后，其他线程能够读取到这个更新后的值，那么这个值就被称为该变里的相对新值 。如果读取这个共享变量的线程在读取并使用该变量的时候其他线程无法更新该变量的值，那么该线程读取到的相对新值就被称为该变量的最新值。</p>
+</blockquote>
+<h3 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h3><p>有序性是指一个线程看另一个线程的指令运行顺序，可能由于编译器或者存储子系统的原因导致实际顺序并不是按照源代码指定的顺序运行的。</p>
+<p>使程序运行顺序发生改变的原因是由于重排序产生的，当然这在单线程程序中并不会有什么影响，因为重排序都是编译器或处理器为了提高性能按照一定规则进行的，但是在多线程程序中就会产生问题。</p>
+<p>一个程序的运行顺序有以下几个：</p>
+<ul>
+<li>源代码顺序：源代码中指定的指令操作顺序</li>
+<li>程序顺序：源代码经过javac编译器、JIT编译器编译后生成的指令的顺序</li>
+<li>执行顺序：处理器上实际执行的顺序</li>
+<li>感知顺序：其他处理器所看到的该处理器的指令执行顺序，表现在内存访问操作的顺序</li>
+</ul>
+<p>在此基础上，将重排序分为指令重排序和存储子系统重排序：</p>
+<p><img src="https://xbxblog2.bj.bcebos.com/java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%9F%BA%E7%A1%80%2Fimage-20200229174625154.png" alt="image-20200229174625154"></p>
+<p><strong>指令重排序</strong></p>
+<p>根据上面表格可以知道，指令重排序变现为两种。</p>
+<p>第一种主要发生在JIT编译器中，通常javac编译器不会对指令进行重排序。代表性的例子是new对象过程的重排序。如下图，创建一个新对象会被分解为三个指令，JIT有时会为了执行效率将指令3重排序到指令2之前，此时如果在存在多个线程操作该新建对象，那么就可能导致其操作的对象是一个并未初始化的对象。</p>
+<p><img src="https://xbxblog2.bj.bcebos.com/java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%9F%BA%E7%A1%80%2Fimage-20200229175148675.png" alt="image-20200229175148675"></p>
+<p>第二中情况发生在处理器重排序中，有时处理器并不会按照指令的顺序执行，他会根据指令的准备状态进行”猜测执行”。常见例子是if语句，有时处理器并不会先判断if语句的结果，而是先处理if语句块中的指令，然后将结果保存到重排序缓冲器中，然后再去计算if语句的结果，若为true则将重排序缓冲器中的内容保存到内存中，若为false则丢弃结果。这么做在单线程中没有问题，多线程情况下就会产生问题了。</p>
+<p><strong>存储子系统重排序</strong></p>
+<p>存储子系统是指写缓冲器和高速缓存。存储子系统重排序并不是像只能怪重排序那样，实实在在的将执行顺序改变了。存储子系统重排序是另一个线程看一个线程对内存的操作顺序发生了改变，这种改变是由于存储子系统的原因导致没有将数据按照指令顺序进行存取。该类型的重排序包括以下几种：</p>
+<p><img src="https://xbxblog2.bj.bcebos.com/java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%9F%BA%E7%A1%80%2Fimage-20200229181037160.png" alt="image-20200229181037160"></p>
+<p>每种cpu对这些重排序的支持程度是不同的。</p>
+<p>StoreStore重排序举例：一个线程先后更新了a、b两个变量的值，这两个变量的值被保存在写缓冲器中。但是写缓冲器并没有遵顼FIFO先入先出原则，导致b变量的更新值早于a变量的更新值被写入高速缓存或内存中。此时就发生了重排序，在多线程环境下这可能就要出问题。</p>
+<h2 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h2><p>在单核处理器上实现多线程是通过时间片轮转实现的，当一个线程因为时间片用尽或者由于自身原因(sleep、wait等)导致导致线程需要切换，此时会将该线程的上下文打包进内存中以待下次继续运行，上下文主要包括寄存器和程序计数器中的内容。</p>
+<p>从java角度来看，一个线程在RUNNABLE与非RUNNABLE之间的转换就发生了上下文切换。</p>
+<p>并不是只有单核处理器才会产生上下文切换，由于线程/进程远远比处理器核数多，所以多核处理器同样也存在上下文切换问题。</p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://xiabaoxin.cn">XIA</a>
+            <p>原文链接：<a href="http://xiabaoxin.cn/2020/02/28/Java多线程-基础/">http://xiabaoxin.cn/2020/02/28/Java多线程-基础/</a>
+            <p>发表日期：<a href="http://xiabaoxin.cn/2020/02/28/Java多线程-基础/">February 28th 2020, 5:56:01 pm</a>
+            <p>更新日期：<a href="http://xiabaoxin.cn/2020/02/28/Java多线程-基础/">March 2nd 2020, 9:11:51 pm</a>
+            <p>后&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记：系统地学习，是入门的第一步。</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2020/02/29/Java多线程-同步机制/" title= "Java多线程-同步机制">
+                    <div class="nextTitle">Java多线程-同步机制</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2020/02/18/SpringBoot之SpringApplication/" title= "SpringBoot之SpringApplication">
+                    <div class="prevTitle">SpringBoot之SpringApplication</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:189651903@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/SmallBear1996" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/img/wc.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#认识线程"><span class="toc-number">1.</span> <span class="toc-text">认识线程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#进程、线程、任务"><span class="toc-number">1.1.</span> <span class="toc-text">进程、线程、任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程的创建、启动与运行"><span class="toc-number">1.2.</span> <span class="toc-text">线程的创建、启动与运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程属性"><span class="toc-number">1.3.</span> <span class="toc-text">线程属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Thread类常用方法"><span class="toc-number">1.4.</span> <span class="toc-text">Thread类常用方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程的层次关系"><span class="toc-number">1.5.</span> <span class="toc-text">线程的层次关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程的生命周期"><span class="toc-number">1.6.</span> <span class="toc-text">线程的生命周期</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多线程编程目标与挑战"><span class="toc-number">2.</span> <span class="toc-text">多线程编程目标与挑战</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#串行、并发与并行"><span class="toc-number">2.1.</span> <span class="toc-text">串行、并发与并行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#竞态"><span class="toc-number">2.2.</span> <span class="toc-text">竞态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程安全性"><span class="toc-number">2.3.</span> <span class="toc-text">线程安全性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原子性"><span class="toc-number">2.3.1.</span> <span class="toc-text">原子性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可见性"><span class="toc-number">2.3.2.</span> <span class="toc-text">可见性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有序性"><span class="toc-number">2.3.3.</span> <span class="toc-text">有序性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#上下文切换"><span class="toc-number">2.4.</span> <span class="toc-text">上下文切换</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 24
+        </div>
+        <!-- search  -->
+        
+            <div class="site-search popup-trigger">
+                <span class="iconfont-archer search-icon">&#xe627;</span>
+            </div>
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/29</span><a class="archive-post-title" href= "/2020/02/29/Java多线程-同步机制/" >Java多线程-同步机制</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2020/02/28/Java多线程-基础/" >Java多线程-基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2020/02/18/SpringBoot之SpringApplication/" >SpringBoot之SpringApplication</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/15</span><a class="archive-post-title" href= "/2020/02/15/Spring-Boot自动装配/" >Spring-Boot自动装配</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/09</span><a class="archive-post-title" href= "/2020/02/09/Spring Web自动装配/" >Spring Web自动装配</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/02</span><a class="archive-post-title" href= "/2020/02/02/Spring-IOC之ApplicationContext/" >Spring-IOC之ApplicationContext</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/02</span><a class="archive-post-title" href= "/2020/02/02/Spring-IOC之注解驱动原理/" >Spring-IOC之注解驱动原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/01</span><a class="archive-post-title" href= "/2020/02/01/Spring-IOC之Bean的实例化/" >Spring-IOC之Bean的实例化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/31</span><a class="archive-post-title" href= "/2020/01/31/Spring-IOC之Environment/" >Spring-IOC之Environment</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/31</span><a class="archive-post-title" href= "/2020/01/31/Spring-IOC之XML解析/" >Spring-IOC之XML解析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/19</span><a class="archive-post-title" href= "/2020/01/19/Spring MVC/" >Spring-MVC</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href= "/2020/01/01/Spring事务/" >Spring事务</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/25</span><a class="archive-post-title" href= "/2019/12/25/Spring-JDBC/" >Spring-JDBC</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/13</span><a class="archive-post-title" href= "/2019/12/13/spring-aop/" >spring-aop</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2019/11/03/类加载机制/" >类加载机制</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/30</span><a class="archive-post-title" href= "/2019/10/30/class文件结构/" >class文件结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href= "/2019/10/23/JVM/" >JVM</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/02</span><a class="archive-post-title" href= "/2019/08/02/泛型/" >泛型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/29</span><a class="archive-post-title" href= "/2019/07/29/正则表达式/" >正则表达式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/27</span><a class="archive-post-title" href= "/2019/07/27/动态代理/" >动态代理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/07</span><a class="archive-post-title" href= "/2019/06/07/Linux笔记/" >Linux笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/31</span><a class="archive-post-title" href= "/2019/05/31/Spring事物控制/" >Spring事物控制</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/30</span><a class="archive-post-title" href= "/2019/05/30/JQuery-笔记/" >JQuery 笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/2019/05/29/js笔记/" >js笔记</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
+    
+        <span class="sidebar-tag-name" data-tags="js&JQuery"><span class="iconfont-archer">&#xe606;</span>js&JQuery</span>
+    
+        <span class="sidebar-tag-name" data-tags="所有人都想拯救世界，却没人帮妈妈洗碗"><span class="iconfont-archer">&#xe606;</span>所有人都想拯救世界，却没人帮妈妈洗碗</span>
+    
+        <span class="sidebar-tag-name" data-tags="Spring"><span class="iconfont-archer">&#xe606;</span>Spring</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="设计模式"><span class="iconfont-archer">&#xe606;</span>设计模式</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+    
+        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
+    
+        <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
+    
+        <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
+    
+        <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
+    
+        <span class="sidebar-category-name" data-categories="设计模式"><span class="iconfont-archer">&#xe60a;</span>设计模式</span>
+    
+        <span class="sidebar-category-name" data-categories="java基础"><span class="iconfont-archer">&#xe60a;</span>java基础</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "XIA"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+        <div class="site-search">
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="iconfont-archer">&#xe609;</i>
+    </span>
+  </div>
+</div>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.8.0/dist/instantsearch.min.js" defer></script>
+        <script src="/scripts/search.js" defer></script>
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

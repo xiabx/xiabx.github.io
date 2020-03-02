@@ -287,7 +287,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">3.4k</span>阅读时长: <span class="post-count reading-time">11 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">3.5k</span>阅读时长: <span class="post-count reading-time">12 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -421,17 +421,15 @@ height:50vh;
 <p><strong>程序计数器：</strong>线程私有。可以看作当前线程所执行的字节码的行号指示器，因为java中的多线程是通过线程轮流切换并分配处理器执行时间来实现的，因此处理器为了在每次切换线程后能够回到正确执行的位置，所以每个线程都要有一个独立的程序计数器。如果当前执行的是一个java方法那么这个值是正在执行的字节码指令的地址，如果是Native方法则这个值为空。</p>
 <p><strong>虚拟机栈：</strong>线程私有。每个方法执行时会创建一个栈帧用来保存局部变量表、操作数栈、动态链接、方法出口等信息。每个方法从调用到执行完成的过程就对应着一个栈帧的入栈到出栈的过程。局部变量表存放着编译期可知的各种基本数据类型（boolean、byte、char、short、int、float、long、double）和对象引用reference、returnAddress类型。此区域可以抛出StackOverflowError异常和OutOfMemoryError异常。</p>
 <p>可以通过-Xss参数设置栈容量，当一个线程中的虚拟机栈被填满后就会抛出StackOverflowError异常，无论是方法调用栈的深度太大还是栈中的本地变量太多。</p>
-<p>当在多线程中就有可能发生OutOfMemoryError异常，当循环创建线程，每个循环中进行死递归，虚拟机的内存将被这些线程的虚拟机栈耗尽最终发生OutOfMemoryError异常。这种情况下可以通过减少最大堆或者减少栈容量来换取更多线程。</p>
+<p>由于虚拟机栈是线程私有的，那么如果线程数量过多则会导致虚拟机内存被这些线程的虚拟机栈耗尽，此时就会发生OutOfMemoryError。出现OutOfMemoryError的方式：当循环创建线程，每个循环中进行死递归，虚拟机的内存将被这些线程的虚拟机栈耗尽最终发生OutOfMemoryError异常。这种情况下可以通过减少最大堆或者减少栈容量来换取更多线程。</p>
 <p><em>操作数栈</em>是个初始状态为空的桶式结构栈。在方法执行过程中， 会有各种指令往栈中写入和提取信息。JVM 的执行引擎是基于栈的执行引擎， 其中的栈指的就是操作栈。字节码指令集的定义都是基于栈类型的，栈的深度在方法元信息的 stack 属性中。</p>
 <p>关于操作数栈可以参考简单的i++与++i执行的底层汇编指令区别，来理解操作数栈。</p>
 <p>i++与++i：<a href="https://www.cnblogs.com/czwbig/p/11127124.html" target="_blank" rel="noopener">https://www.cnblogs.com/czwbig/p/11127124.html</a></p>
-<p><em>returnAddress类型</em>可看参考1于参考2。</p>
+<p><em>returnAddress类型</em>看参考1与参考2。</p>
 <blockquote>
 <p>returnAddress 类型的值是指向字节码的指针，不管是物理机还是虚拟机，运行时内存中的数据总归可分为两类：代码，数据。对于冯诺依曼结构的计算机，指令数据和数值数据都存储在内存中，而哈弗结构的计算机，将程序指令与数据分开存储。</p>
 <p>对于 JVM 来说，程序就是存储在方法区的字节码指令，而 returnAddress 类型的值就是指向特定指令内存地址的指针。</p>
 <p>JVM支持多线程，每个线程有自己的程序计数器（pc register），而 pc 中的值就是当前指令所在的内存地址，即 returnAddress 类型的数据，当线程执行 native 方法时，pc 中的值为 undefined。</p>
-</blockquote>
-<blockquote>
 <p>方法执行时有两种退出情况：</p>
 <ol>
 <li>正常退出，即正常执行到任何方法的返回字节码指令，如 RETURN、IRETURN、ARETURN 等；</li>
@@ -443,6 +441,9 @@ height:50vh;
 <li>异常信息抛给能够处理的栈帧。</li>
 <li>PC计数器指向方法调用后的下一条指令。</li>
 </ol>
+</blockquote>
+<blockquote>
+<p>动态链接：每个栈帧中包含一个在常量池中对当前方法的引用， 目的是支持方法调用过程的动态连接</p>
 </blockquote>
 <p><strong>本地方法栈：</strong>线程私有。作用与虚拟机栈类似，不同的是本地方法栈是为虚拟机使用到的Native方法服务。</p>
 <p><strong>堆：</strong>线程共享。该区域的目的是存放对象实例，所有的对象实例和数组都要在堆上分配内存。堆也是垃圾收集器管理的主要区域，因此也叫做GC堆。堆可以处于物理上不连续的内存空间，只要逻辑上连续即可。可以通过-Xmx和-Xms控制该区域的大小。该区域可以抛出OutOfMemoryError异常。</p>
@@ -516,7 +517,7 @@ height:50vh;
             <p>原文作者：<a href="http://xiabaoxin.cn">XIA</a>
             <p>原文链接：<a href="http://xiabaoxin.cn/2019/10/23/JVM/">http://xiabaoxin.cn/2019/10/23/JVM/</a>
             <p>发表日期：<a href="http://xiabaoxin.cn/2019/10/23/JVM/">October 23rd 2019, 9:55:28 pm</a>
-            <p>更新日期：<a href="http://xiabaoxin.cn/2019/10/23/JVM/">December 9th 2019, 9:50:54 am</a>
+            <p>更新日期：<a href="http://xiabaoxin.cn/2019/10/23/JVM/">February 28th 2020, 6:52:07 pm</a>
             <p>后&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记：系统地学习，是入门的第一步。</p>
         </div>
     
@@ -911,9 +912,52 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 21
+        Total : 24
         </div>
         <!-- search  -->
         
@@ -933,12 +977,27 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/09</span><a class="archive-post-title" href= "/2020/02/09/Spring Web自动装配/" >Spring Web自动装配</a>
+            <span class="archive-post-date">02/29</span><a class="archive-post-title" href= "/2020/02/29/Java多线程-同步机制/" >Java多线程-同步机制</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/04</span><a class="archive-post-title" href= "/2020/02/04/SpringBoot自动装配/" >SpringBoot自动装配</a>
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2020/02/28/Java多线程-基础/" >Java多线程-基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2020/02/18/SpringBoot之SpringApplication/" >SpringBoot之SpringApplication</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/15</span><a class="archive-post-title" href= "/2020/02/15/Spring-Boot自动装配/" >Spring-Boot自动装配</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/09</span><a class="archive-post-title" href= "/2020/02/09/Spring Web自动装配/" >Spring Web自动装配</a>
         </li>
     
     
@@ -968,7 +1027,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/19</span><a class="archive-post-title" href= "/2020/01/19/Spring-MVC/" >Spring-MVC</a>
+            <span class="archive-post-date">01/19</span><a class="archive-post-title" href= "/2020/01/19/Spring MVC/" >Spring-MVC</a>
         </li>
     
     
@@ -1050,9 +1109,9 @@ top:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="js&JQuery"><span class="iconfont-archer">&#xe606;</span>js&JQuery</span>
-    
         <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
+    
+        <span class="sidebar-tag-name" data-tags="js&JQuery"><span class="iconfont-archer">&#xe606;</span>js&JQuery</span>
     
         <span class="sidebar-tag-name" data-tags="所有人都想拯救世界，却没人帮妈妈洗碗"><span class="iconfont-archer">&#xe606;</span>所有人都想拯救世界，却没人帮妈妈洗碗</span>
     
@@ -1097,9 +1156,13 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
+        <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+    
+        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
+    
         <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
-        <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+        <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     

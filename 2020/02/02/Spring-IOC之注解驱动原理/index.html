@@ -281,7 +281,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">6.3k</span>阅读时长: <span class="post-count reading-time">31 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">6.9k</span>阅读时长: <span class="post-count reading-time">33 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -410,7 +410,31 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h1 id="lt-context-component-scan-base-package-”com-”-gt"><a href="#lt-context-component-scan-base-package-”com-”-gt" class="headerlink" title="&lt;context:component-scan base-package=”com.*”&gt;`"></a>&lt;context:component-scan base-package=”com.*”&gt;`</h1><p>让我们回到spring解析xml的流程，在<code>DefaultBeanDefinitionDocumentReader.parseBeanDefinitions</code>方法中，会根据名字空间将解析分为默认名字空间的解析和自定义标签的解析，显然这里要走的是自定义标签的解析。所以我们找到了这个这个标签解析的入口，下面让本鸟一步步跟进去看看到底注解驱动的原理是什么？</p>
+        <h1 id="注解驱动发展史"><a href="#注解驱动发展史" class="headerlink" title="注解驱动发展史"></a>注解驱动发展史</h1><ul>
+<li>Spring Framework 1.x：由于java5的发布使spring也开始支持注解驱动，这时支持@Transaction等注解，但XML仍是配置方式的唯一选择。</li>
+<li>Spring Framework 2.x：在此版本中，spring开始支持@Autowired  @Qualifier等注解。但是并没有完全替代xml配置驱动，因为这些注解的入口还得需要在xml中配置<code>&lt;context:component-scan&gt;</code>等元素。</li>
+<li>Spring Framework 3.x：在此版本中spring使用@ImportResource和@Import注解结合AnnotationApplicationContext引导类来摆脱xml配置驱动。引入@ComponentScan。引入<code>@Enable 模块驱动</code>。</li>
+<li>Spring Framework 4.x：继续完善注解，引入@Conditional，@EventListener等注解。@AliasFor注解。</li>
+<li>Spring Framework 5.x：相对4.x改变较小，引入@Indexed。</li>
+</ul>
+<h1 id="Spring注解编程模型"><a href="#Spring注解编程模型" class="headerlink" title="Spring注解编程模型"></a>Spring注解编程模型</h1><p>Spring注解分类：</p>
+<ul>
+<li>元注解（Meta-Annotaions）</li>
+<li>Spring模式注解（Stereotype Annotations）</li>
+<li>Spring组合注解（Composed Annotaions）</li>
+<li>Spring注解属性别名和覆盖（Attribute Aliases And Overrides）</li>
+</ul>
+<h2 id="元注解（Meta-Annotaions）"><a href="#元注解（Meta-Annotaions）" class="headerlink" title="元注解（Meta-Annotaions）"></a>元注解（Meta-Annotaions）</h2><p>元注解是声明在别的注解上的，像@Document注解。</p>
+<p>如果一个注解标注在其他注解上，那么他就是元注解。</p>
+<p>在Spring中@Component就是标注元注解，但是在spring中@Component被归类于模式注解。</p>
+<h2 id="Spring模式注解（Stereotype-Annotations）"><a href="#Spring模式注解（Stereotype-Annotations）" class="headerlink" title="Spring模式注解（Stereotype Annotations）"></a>Spring模式注解（Stereotype Annotations）</h2><p>模式注解是指用来声明在应用中作为组件的注解，包括@Component以及以@Component为元注解的@Service、@Repository等。</p>
+<p>由于java注解并不允许继承，所以没有派生子类的能力。所以spring使用元注解的方式实现注解之间的”派生”。</p>
+<p>模式注解用来标注一个类是否需要装配为bean。</p>
+<h2 id="Spring组合注解（Composed-Annotaions）"><a href="#Spring组合注解（Composed-Annotaions）" class="headerlink" title="Spring组合注解（Composed Annotaions）"></a>Spring组合注解（Composed Annotaions）</h2><p>组合注解是指某个注解元注解中有一个或多个其他注解，而该注解的作用则是将这些元注解组合成单个自定义注解。比如：@TransactionService是由@Transaction和@Service组成，其作用也是组合这两个元注解的作用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(&#123;ElementType.TYPE&#125;)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="meta">@Service</span>(value = <span class="string">"transactionalService"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> TransactionalService</span><br></pre></td></tr></table></figure>
+<p>组合注解的原理是通过AnnotationMetadata那一类API实现的。</p>
+<h2 id="Spring注解属性别名和覆盖（Attribute-Aliases-And-Overrides）"><a href="#Spring注解属性别名和覆盖（Attribute-Aliases-And-Overrides）" class="headerlink" title="Spring注解属性别名和覆盖（Attribute Aliases And Overrides）"></a>Spring注解属性别名和覆盖（Attribute Aliases And Overrides）</h2><p>待补充</p>
+<h1 id="lt-context-component-scan-base-package-”com-”-gt"><a href="#lt-context-component-scan-base-package-”com-”-gt" class="headerlink" title="&lt;context:component-scan base-package=”com.*”&gt;`"></a>&lt;context:component-scan base-package=”com.*”&gt;`</h1><p>让我们回到spring解析xml的流程，在<code>DefaultBeanDefinitionDocumentReader.parseBeanDefinitions</code>方法中，会根据名字空间将解析分为默认名字空间的解析和自定义标签的解析，显然这里要走的是自定义标签的解析。所以我们找到了这个这个标签解析的入口，下面让本鸟一步步跟进去看看到底注解驱动的原理是什么？</p>
 <p>关于自定义标签的解析流程在上面已经进行了总结，简单说就是根据自定义标签的名字空间uri查询spring.handlers文件找到解析方法并执行其中定义的init方法，init方法中一般都是对localName（localName是个什么东西呢，比如对于context:annotation-config标签就是annotation-config）的解析器注册。接下来根据localName获取对应解析器执行解析方法parse。</p>
 <p><img src="https://xbxblog.bj.bcebos.com/%E5%A4%96%E9%83%A8%E8%A7%A3%E6%9E%90.png" alt="1570979542838"></p>
 <p><strong>注册各种localName的解析器</strong></p>
@@ -508,6 +532,8 @@ height:50vh;
 <p>自spring3.0以后开始引入了@Enable注解模式，例如@EnableWebMVC等。其实现原理就是通过@Import注解。</p>
 <p>在ConfigurationClassPostProcessor执行过程中当解析到@Import注解，会递归的进行解析以达到通过委托类来完成某一领域相关Bean的集中注册功能。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Target</span>(ElementType.TYPE)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Import</span>(DelegatingWebMvcConfiguration<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> @<span class="title">interface</span> <span class="title">EnableWebMvc</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>@Import的导入类除了使用@Configuration注解，还有两个编程类型的接口：ImportSelector和ImportBeanDefinitionRegistrar。</p>
+<p>这两个接口的使用场景在@EnableAutoConfiguration中都有。调用入口和解析原理在解析类中很容易找到。</p>
 
     </article>
     <!-- license  -->
@@ -516,7 +542,7 @@ height:50vh;
             <p>原文作者：<a href="http://xiabaoxin.cn">XIA</a>
             <p>原文链接：<a href="http://xiabaoxin.cn/2020/02/02/Spring-IOC之注解驱动原理/">http://xiabaoxin.cn/2020/02/02/Spring-IOC之注解驱动原理/</a>
             <p>发表日期：<a href="http://xiabaoxin.cn/2020/02/02/Spring-IOC之注解驱动原理/">February 2nd 2020, 7:58:17 pm</a>
-            <p>更新日期：<a href="http://xiabaoxin.cn/2020/02/02/Spring-IOC之注解驱动原理/">February 6th 2020, 4:40:25 pm</a>
+            <p>更新日期：<a href="http://xiabaoxin.cn/2020/02/02/Spring-IOC之注解驱动原理/">February 20th 2020, 8:34:18 pm</a>
             <p>后&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记：系统地学习，是入门的第一步。</p>
         </div>
     
@@ -525,8 +551,8 @@ height:50vh;
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href= "/2020/02/04/SpringBoot自动装配/" title= "SpringBoot自动装配">
-                    <div class="nextTitle">SpringBoot自动装配</div>
+                <a href= "/2020/02/09/Spring Web自动装配/" title= "Spring Web自动装配">
+                    <div class="nextTitle">Spring Web自动装配</div>
                 </a>
             
         </li>
@@ -653,7 +679,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#lt-context-component-scan-base-package-”com-”-gt"><span class="toc-number">1.</span> <span class="toc-text">&lt;context:component-scan base-package=”com.*”&gt;`</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化扫描器"><span class="toc-number">1.1.</span> <span class="toc-text">初始化扫描器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#执行扫描"><span class="toc-number">1.2.</span> <span class="toc-text">执行扫描</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#扫描basePackage"><span class="toc-number">1.2.1.</span> <span class="toc-text">扫描basePackage</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#主要涉及类"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">主要涉及类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生成beanName"><span class="toc-number">1.2.2.</span> <span class="toc-text">生成beanName</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他注解解析"><span class="toc-number">1.2.3.</span> <span class="toc-text">其他注解解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#registerComponents"><span class="toc-number">1.2.4.</span> <span class="toc-text">registerComponents</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#lt-context-annotation-config-gt"><span class="toc-number">2.</span> <span class="toc-text">&lt;context:annotation-config&gt;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#parse"><span class="toc-number">2.1.</span> <span class="toc-text">parse</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AutowiredAnnotationBeanPostProcessor"><span class="toc-number">2.1.1.</span> <span class="toc-text">AutowiredAnnotationBeanPostProcessor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConfigurationClassPostProcessor"><span class="toc-number">2.1.2.</span> <span class="toc-text">ConfigurationClassPostProcessor</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#注解驱动发展史"><span class="toc-number">1.</span> <span class="toc-text">注解驱动发展史</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Spring注解编程模型"><span class="toc-number">2.</span> <span class="toc-text">Spring注解编程模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#元注解（Meta-Annotaions）"><span class="toc-number">2.1.</span> <span class="toc-text">元注解（Meta-Annotaions）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring模式注解（Stereotype-Annotations）"><span class="toc-number">2.2.</span> <span class="toc-text">Spring模式注解（Stereotype Annotations）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring组合注解（Composed-Annotaions）"><span class="toc-number">2.3.</span> <span class="toc-text">Spring组合注解（Composed Annotaions）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring注解属性别名和覆盖（Attribute-Aliases-And-Overrides）"><span class="toc-number">2.4.</span> <span class="toc-text">Spring注解属性别名和覆盖（Attribute Aliases And Overrides）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#lt-context-component-scan-base-package-”com-”-gt"><span class="toc-number">3.</span> <span class="toc-text">&lt;context:component-scan base-package=”com.*”&gt;`</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化扫描器"><span class="toc-number">3.1.</span> <span class="toc-text">初始化扫描器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#执行扫描"><span class="toc-number">3.2.</span> <span class="toc-text">执行扫描</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#扫描basePackage"><span class="toc-number">3.2.1.</span> <span class="toc-text">扫描basePackage</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#主要涉及类"><span class="toc-number">3.2.1.1.</span> <span class="toc-text">主要涉及类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生成beanName"><span class="toc-number">3.2.2.</span> <span class="toc-text">生成beanName</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他注解解析"><span class="toc-number">3.2.3.</span> <span class="toc-text">其他注解解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#registerComponents"><span class="toc-number">3.2.4.</span> <span class="toc-text">registerComponents</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#lt-context-annotation-config-gt"><span class="toc-number">4.</span> <span class="toc-text">&lt;context:annotation-config&gt;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#parse"><span class="toc-number">4.1.</span> <span class="toc-text">parse</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AutowiredAnnotationBeanPostProcessor"><span class="toc-number">4.1.1.</span> <span class="toc-text">AutowiredAnnotationBeanPostProcessor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConfigurationClassPostProcessor"><span class="toc-number">4.1.2.</span> <span class="toc-text">ConfigurationClassPostProcessor</span></a></li></ol></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -911,9 +937,52 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 21
+        Total : 24
         </div>
         <!-- search  -->
         
@@ -933,12 +1002,27 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/09</span><a class="archive-post-title" href= "/2020/02/09/Spring Web自动装配/" >Spring Web自动装配</a>
+            <span class="archive-post-date">02/29</span><a class="archive-post-title" href= "/2020/02/29/Java多线程-同步机制/" >Java多线程-同步机制</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/04</span><a class="archive-post-title" href= "/2020/02/04/SpringBoot自动装配/" >SpringBoot自动装配</a>
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2020/02/28/Java多线程-基础/" >Java多线程-基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2020/02/18/SpringBoot之SpringApplication/" >SpringBoot之SpringApplication</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/15</span><a class="archive-post-title" href= "/2020/02/15/Spring-Boot自动装配/" >Spring-Boot自动装配</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/09</span><a class="archive-post-title" href= "/2020/02/09/Spring Web自动装配/" >Spring Web自动装配</a>
         </li>
     
     
@@ -968,7 +1052,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/19</span><a class="archive-post-title" href= "/2020/01/19/Spring-MVC/" >Spring-MVC</a>
+            <span class="archive-post-date">01/19</span><a class="archive-post-title" href= "/2020/01/19/Spring MVC/" >Spring-MVC</a>
         </li>
     
     
@@ -1050,9 +1134,9 @@ top:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="js&JQuery"><span class="iconfont-archer">&#xe606;</span>js&JQuery</span>
-    
         <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
+    
+        <span class="sidebar-tag-name" data-tags="js&JQuery"><span class="iconfont-archer">&#xe606;</span>js&JQuery</span>
     
         <span class="sidebar-tag-name" data-tags="所有人都想拯救世界，却没人帮妈妈洗碗"><span class="iconfont-archer">&#xe606;</span>所有人都想拯救世界，却没人帮妈妈洗碗</span>
     
@@ -1097,9 +1181,13 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
+        <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+    
+        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
+    
         <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
-        <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+        <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     
