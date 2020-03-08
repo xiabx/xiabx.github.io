@@ -361,6 +361,57 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/03/07/java多线程-线程持有对象/" >
+            
+                <span>java多线程-线程持有对象</span>
+        </a>
+        <div class="abstract-content">
+            线程持有对象如果多个线程需要共享同一个非线程安全对象，那么我们往往需要借助锁来保障线程安全。事实上，我们也可以选择不共享非线程安全的对象，对于非线程安全的对象，每个线程都创建一个该对象的实例，各个线程仅访问各自的实例，且一个线程不能访问另一个线程创建的实例。这种各个线程创建各自的实例，一个实例只能被一个线程访问的对象就被称为线程持有对象。
+ThreadLocal&lt;T&gt;相当于线程访问其线程特有对象的代理，即各个线程通过这个对象可以创建并访问各自线程持有对象。一个线程可以使用不同的ThreadLocal实例来创建并访问其不同的线程持有对象，多个线程使用同一个ThreadLocal...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/03/07</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/03/03/java多线程-线程间协作/" >
+            
+                <span>java多线程-线程间协作</span>
+        </a>
+        <div class="abstract-content">
+            等待和通知在单线程程序中，当要执行的操作需要满足一定条件才可以执行时，我们可以将该操作放在一个if语句中。而在多线程程序中我们可以将操作方法体放在while循环体中，然后将该线程暂停，当其他线程所作操作满足该线程执行条件后，再使用其他线程唤醒该线程，然后检测执行条件后继续执行。
+这涉及两个操作：等待和通知。他们使用Object.wait()和Object.notify()方法实现。由于任何类都继承自Object类，所以所有对象都会包含这两个方法。
+调用wait和notify方法的对象需要是对这两个方法进行同步的锁对象。调用wait方法的模板代码：
+
+这里当wait方法被调用后不会立即被返...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/03/03</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/02/29/Java多线程-同步机制/" >
             
                 <span>Java多线程-同步机制</span>
@@ -556,62 +607,6 @@ Spring Framework 3.x：在此版本中spring使用@ImportResource和@Import注�
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/01</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/01/31/Spring-IOC之Environment/" >
-            
-                <span>Spring-IOC之Environment</span>
-        </a>
-        <div class="abstract-content">
-            概览Environmen接口代表了当前应用所处的环境。其主要和profile、Property相关。
-StandardEnvironment为Environment接口的核心实现类。
-StandardEnvironment结构
-在非web应用中常用StandardEnvironment实现类，在web应用中常用StandardServletEnvironment实现类。其区别为StandardServletEnvironment多了些web相关的propertySource。
-
-PropertyResolver：用于properties的操作，他提供了Environment关于prope...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/31</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/01/31/Spring-IOC之XML解析/" >
-            
-                <span>Spring-IOC之XML解析</span>
-        </a>
-        <div class="abstract-content">
-            XML配置&lt;beans&gt;xml配置文件中的最顶层元素，它下面包含0或1个以及多个、、元素。
-&lt;beans&gt;支持的属性：
-
-default-lazy-init。其值可以指定为true或者false，默认值为false。用来标志是否对所有的进行延迟初始化。
-default-autowire。可以取值为no、byName、byType、constructor以及autodetect。默认值为no，如果使用自动绑定的话，用来标志全体bean使用哪一种默认绑定方式。
-default-dependency-check。可以取值none、objects、simple以及all，...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/31</span>
             </div>
             <!-- tags  -->
             
@@ -1001,9 +996,47 @@ default-dependency-check。可以取值none、objects、simple以及all，...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 24
+        Total : 26
         </div>
         <!-- search  -->
         
@@ -1020,6 +1053,16 @@ default-dependency-check。可以取值none、objects、simple以及all，...
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/07</span><a class="archive-post-title" href= "/2020/03/07/java多线程-线程持有对象/" >java多线程-线程持有对象</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2020/03/03/java多线程-线程间协作/" >java多线程-线程间协作</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1202,19 +1245,19 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
+        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
+    
         <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
         <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
-    
-        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
     
         <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     
-        <span class="sidebar-category-name" data-categories="设计模式"><span class="iconfont-archer">&#xe60a;</span>设计模式</span>
-    
         <span class="sidebar-category-name" data-categories="java基础"><span class="iconfont-archer">&#xe60a;</span>java基础</span>
+    
+        <span class="sidebar-category-name" data-categories="设计模式"><span class="iconfont-archer">&#xe60a;</span>设计模式</span>
     
         <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
     

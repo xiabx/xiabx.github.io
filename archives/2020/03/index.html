@@ -78,6 +78,8 @@
     <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
     
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
     <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
 /* This file is meant as a standalone workflow for
 - testing support for link[rel=preload]
@@ -216,10 +218,8 @@
 </head>
 
     
-        <body class="home-body">
     
-    
-<header class="header index-header">
+<header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
@@ -235,34 +235,21 @@
 
 
 
-
-height:50vh;
 ">
     
     <!-- 主页  -->
-    
-    
-    <!-- 文章页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/intro/index2.png)"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            xia's Blog.
-            <!-- 文章页  -->
-            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
-            
-            
-                it's better to burn out than to fade away
-            
-            <!-- 文章页  -->
             
         </p>
         <!-- 文章页meta -->
@@ -419,322 +406,10 @@ ThreadLocal&lt;T&gt;相当于线程访问其线程特有对象的代理，即各
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/02/29/Java多线程-同步机制/" >
-            
-                <span>Java多线程-同步机制</span>
-        </a>
-        <div class="abstract-content">
-            同步机制简介前面说了线程安全的主要表现为：原子性、可见性、有序性。靠什么来保证他们呢，就是线程同步机制了，包括锁、volatile、final、static以及一些相关api等。
-锁 线程安全问题的产生前提是多个线程并发访问共享数据造成的，如果将对共享数据的访问由并发改为串行那么就不会存在线程安全问题了。这就是锁的思路。
-通过使用一个对象，将这个对象作为锁，这个锁会锁住一组数据的操作，当一个线程需要访问操作对这组数据的操作时，需要获得这个锁才可以。
-一个线程在访问共享数据前需要申请锁，在共享数据访问完成后会释放锁，在锁获取和释放之间的这段代码被称作临界区。锁具有排他性，同一时刻只可以由一...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/29</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/02/28/Java多线程-基础/" >
-            
-                <span>Java多线程-基础</span>
-        </a>
-        <div class="abstract-content">
-            认识线程进程、线程、任务三者的关系：进程是程序运行的实例，一个进程可以包含多个线程，每个线程索要完成的工作就是任务。
-程序与进程的关系就好比播放器中播放的视频与相应的视频为你教案的关系，程序从静态角度刻画事物，进程从动态角度刻画事物。
-进程和线程的关系可以比作饭店和员工，一个饭店对外提供餐饮服务，而服务最终由员工完成。而员工们则共享饭店的资源。
-任务则代表线程要完成的工作，可以是一次网络下载、一次文件解压等。
-线程的创建、启动与运行Java中创建一个线程就是创建一个Thread类的实例，线程的任务逻辑位于Thread类的run方法中。启动一个线程则是调用start方法。创建的每个线程都有...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/28</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/02/18/SpringBoot之SpringApplication/" >
-            
-                <span>SpringBoot之SpringApplication</span>
-        </a>
-        <div class="abstract-content">
-            SpringBoot应用的整个生命周期可以分为以下四部分：
-
-SpringApplication 初始化阶段
-SpringApplication 运行阶段
-SpringApplication 结束阶段
-Spring Boot应用退出
-
-SpringApplication 初始化阶段初始化阶段可以分为两个阶段：构造阶段和配置阶段。构造阶段负责SpringApplication对象的创建，配置阶段则负责SpringApplication对象的属性设置。
-构造阶段使用SpringBoot时往往都是通过SpringApplication.run;方法启动。跟进该方法后发现其背后是通过new一个S...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/18</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/02/15/Spring-Boot自动装配/" >
-            
-                <span>Spring-Boot自动装配</span>
-        </a>
-        <div class="abstract-content">
-            @SpringBootApplication结构12345678@SpringBootConfiguration@EnableAutoConfiguration@ComponentScan(excludeFilters = &#123;		@Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) &#125;)public @interface...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/15</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/02/09/Spring Web自动装配/" >
-            
-                <span>Spring Web自动装配</span>
-        </a>
-        <div class="abstract-content">
-            什么是web自动装配Servlet 3.0之前我们搭建Spring MVC项目需要在web.xml中手动配置ContextLoaderListener和DispatchServlet，这么直接写死的方式着实缺乏灵活性。自Servlet 3.0后spring通过相应API实现了在项目运行时自动将项目框架需要的Servlet、Filter注入。这就是web自动注入。
-示例：
-通过在项目中任意位置添加一个AbstractAnnotationConfigDispatcherServletInitializer实现类，就可以实现将ContextLoaderListener和DispatchServ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/09</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/02/02/Spring-IOC之注解驱动原理/" >
-            
-                <span>Spring-IOC之注解驱动原理</span>
-        </a>
-        <div class="abstract-content">
-            注解驱动发展史
-Spring Framework 1.x：由于java5的发布使spring也开始支持注解驱动，这时支持@Transaction等注解，但XML仍是配置方式的唯一选择。
-Spring Framework 2.x：在此版本中，spring开始支持@Autowired  @Qualifier等注解。但是并没有完全替代xml配置驱动，因为这些注解的入口还得需要在xml中配置&lt;context:component-scan&gt;等元素。
-Spring Framework 3.x：在此版本中spring使用@ImportResource和@Import注解结合Annotati...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/02</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/02/02/Spring-IOC之ApplicationContext/" >
-            
-                <span>Spring-IOC之ApplicationContext</span>
-        </a>
-        <div class="abstract-content">
-            ClassPathXmlApplicationContext1234567891011public ClassPathXmlApplicationContext(      String[] configLocations, boolean refresh, @Nullable ApplicationContext parent)      throws BeansException &#123;   //设置父容器   super(parent);    //设置配置文件   setConfigLocations(configLocations);   if (refresh) &#1...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/02</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/02/01/Spring-IOC之Bean的实例化/" >
-            
-                <span>Spring-IOC之Bean的实例化</span>
-        </a>
-        <div class="abstract-content">
-            Spring IOC 执行流程Spring IOC启动流程总的可以分为两大步骤，容器启动阶段和容器实例化阶段。
-
-在传统的xml配置中，容器的加载阶段主要是加载配置的xml文件到内存中，对xml文件的结构与定义信息进行分析，将xml中定义的信息注册到一个BeanDefinition对象中。
-上图中的其他后处理主要指的是BeanFactoryPostProcessor接口的功能，它在bean实例化之前执行，可以用来进行修改已经定义BeanDefinition信息等操作。BeanFactory需要手动注册并执行BeanFactoryPostProcessor接口，ApplicationCon...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/01</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
-    
-    <nav class="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">NEXT &#62;</a>
-    </nav>
     
 </main>
             <!-- profile -->
-            
-            <div class="profile">
-    <img class="profile-avatar" alt="avatar" src= /intro/icon.jpg >
-    <div class="profile-name">XIA</div>
-    
-    <div class="profile-signature">
-        明天醒来我会在哪只鞋子里。
-    </div>
-    
-    
-    <div class="profile-social">
-        
-    
-        
-            
-                <a href="mailto:189651903@qq.com" class="iconfont-archer email" title=email ></a>
-            
-        
-    
-        
-            
-                <a href="//github.com/SmallBear1996" class="iconfont-archer github" target="_blank" title=github></a>
-            
-        
-    
-        
-            
-                <span class="iconfont-archer wechat" title=wechat>
-                  
-                  <img class="profile-qr" src="/img/wc.png" />
-                </span>
-            
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-
-    </div>
-    
-    
-        <div class="friends">
-            <div>FRIENDS</div>
-            
-                
-                    <span>
-                        <a href= //www.baidu.com target="_black">百度</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href= //www.google.com target="_black">谷歌</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href= //www.bilibili.com target="_black">B站</a>
-                    </span>
-                
-            
-        </div>
-    
-    
-        <div class="about-me">
-            <a href = "/about" >ABOUT ME</a>
-        </div>
-    
-</div>
             
         </div>
         <footer class="footer footer-unloaded">

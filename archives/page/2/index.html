@@ -361,6 +361,62 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/01/31/Spring-IOC之Environment/" >
+            
+                <span>Spring-IOC之Environment</span>
+        </a>
+        <div class="abstract-content">
+            概览Environmen接口代表了当前应用所处的环境。其主要和profile、Property相关。
+StandardEnvironment为Environment接口的核心实现类。
+StandardEnvironment结构
+在非web应用中常用StandardEnvironment实现类，在web应用中常用StandardServletEnvironment实现类。其区别为StandardServletEnvironment多了些web相关的propertySource。
+
+PropertyResolver：用于properties的操作，他提供了Environment关于prope...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/31</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/01/31/Spring-IOC之XML解析/" >
+            
+                <span>Spring-IOC之XML解析</span>
+        </a>
+        <div class="abstract-content">
+            XML配置&lt;beans&gt;xml配置文件中的最顶层元素，它下面包含0或1个以及多个、、元素。
+&lt;beans&gt;支持的属性：
+
+default-lazy-init。其值可以指定为true或者false，默认值为false。用来标志是否对所有的进行延迟初始化。
+default-autowire。可以取值为no、byName、byType、constructor以及autodetect。默认值为no，如果使用自动绑定的话，用来标志全体bean使用哪一种默认绑定方式。
+default-dependency-check。可以取值none、objects、simple以及all，...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/31</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/01/19/Spring MVC/" >
             
                 <span>Spring-MVC</span>
@@ -585,110 +641,6 @@ class文件只有两种数据结构：无符号数和表。
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "java">java</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/29/正则表达式/" >
-            
-                <span>正则表达式</span>
-        </a>
-        <div class="abstract-content">
-            正则基础元字符元字符可以看为正则表达式为其预留某些含义的字符，他们有的表示一个单词（在正则表达式中一个\w代表的字符，表示一个单词），有的表示数字，而有的则表示位置信息。常用的元字符如下：
-
-
-
-代码
-说明
-
-
-
-
-.
-匹配除换行符以外的任意字符
-
-
-\w
-匹配字母或数字或下划线
-
-
-\s
-匹配任意的空白符
-
-
-\d
-匹配数字
-
-
-\b
-匹配单词的开始或结束
-
-
-^
-匹配字符串的开始
-
-
-$
-匹配字符串的结束
-
-
-
-这里需要特别说明几点：
-
-\w的范围：在支持ASCII码的语言中，如JavaScript，“\w”等价于[a-zA-Z0-9_] ；在支持Unicode的语言中，如.NET，...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/29</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/27/动态代理/" >
-            
-                <span>动态代理</span>
-        </a>
-        <div class="abstract-content">
-            代理模式与装饰模式区别：
-
-代理模式主要是控制对象的访问，而装饰模式主要是增强对象。
-这两者在代码形式上基本相同，主要区别在于使用意图上。
-
-代理模式代理模式分为静态代理和动态代理。
-静态代理静态代理在使用前需要有一个接口，被代理类和代理类都实现此接口。
-Demo如下：
-定义一个接口
-1234public interface Interface &#123;    void doSomething();    void somethingElse(String args);&#125;
-被代理类
-12345678910public class RealObject implements ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/27</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "设计模式">设计模式</a>
     
 </div>
             
@@ -1078,9 +1030,47 @@ Demo如下：
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 24
+        Total : 26
         </div>
         <!-- search  -->
         
@@ -1097,6 +1087,16 @@ Demo如下：
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/07</span><a class="archive-post-title" href= "/2020/03/07/java多线程-线程持有对象/" >java多线程-线程持有对象</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2020/03/03/java多线程-线程间协作/" >java多线程-线程间协作</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1279,19 +1279,19 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
+        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
+    
         <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
         <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
-    
-        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
     
         <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     
-        <span class="sidebar-category-name" data-categories="设计模式"><span class="iconfont-archer">&#xe60a;</span>设计模式</span>
-    
         <span class="sidebar-category-name" data-categories="java基础"><span class="iconfont-archer">&#xe60a;</span>java基础</span>
+    
+        <span class="sidebar-category-name" data-categories="设计模式"><span class="iconfont-archer">&#xe60a;</span>设计模式</span>
     
         <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
     

@@ -438,7 +438,6 @@ height:50vh;
 <p>内部锁不会导致锁泄漏，因为java编译器对内部锁做了相应的处理。</p>
 <p>java虚拟机会为每个内部锁分配一个入口集，用来记录等待获取相应内部锁的线程。当有线程申请锁失败时就会添加到这个入口集中，当另一个线程释放锁后，jvm会使用非公平的机制唤醒一条在入口集中的线程，然后这个被唤醒的线程再去重新竞争锁。</p>
 <h2 id="显式锁"><a href="#显式锁" class="headerlink" title="显式锁"></a>显式锁</h2><p>显式锁是<code>java.util.concurrent.locks.Lock</code>接口的实例，该类的默认实现为ReentrantLock，代表一个可重入的显式锁。</p>
-<p><a href="https://xbxblog2.bj.bcebos.com/java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%2Fimage-20200301161900462.png" target="_blank" rel="noopener">https://xbxblog2.bj.bcebos.com/java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%2Fimage-20200301161900462.png</a></p>
 <p><img src="https://xbxblog2.bj.bcebos.com/java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%2Fimage-20200301161900462.png" alt="image-20200301161900462"></p>
 <p>使用显示锁首先创建Lock接口的实例，然后通过Lock.lock()方法申请显式锁，然后再临界区内访问共享数据，然后通过Lock.unlock()释放锁。</p>
 <p><img src="https://xbxblog2.bj.bcebos.com/java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%2Fimage-20200301162245818.png" alt="image-20200301162245818"></p>
@@ -482,13 +481,18 @@ height:50vh;
             <p>原文作者：<a href="https://smallbear1996.github.io">XIA</a>
             <p>原文链接：<a href="https://smallbear1996.github.io/2020/02/29/Java多线程-同步机制/">https://smallbear1996.github.io/2020/02/29/Java多线程-同步机制/</a>
             <p>发表日期：<a href="https://smallbear1996.github.io/2020/02/29/Java多线程-同步机制/">February 29th 2020, 9:29:36 pm</a>
-            <p>更新日期：<a href="https://smallbear1996.github.io/2020/02/29/Java多线程-同步机制/">March 2nd 2020, 9:10:26 pm</a>
+            <p>更新日期：<a href="https://smallbear1996.github.io/2020/02/29/Java多线程-同步机制/">March 2nd 2020, 9:27:28 pm</a>
             <p>后&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记：系统地学习，是入门的第一步。</p>
         </div>
     
     <!-- paginator  -->
     <ul class="post-paginator">
         <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2020/03/03/java多线程-线程间协作/" title= "java多线程-线程间协作">
+                    <div class="nextTitle">java多线程-线程间协作</div>
+                </a>
             
         </li>
         <li class="previous">
@@ -909,9 +913,47 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 24
+        Total : 26
         </div>
         <!-- search  -->
         
@@ -928,6 +970,16 @@ top:50vh;
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/07</span><a class="archive-post-title" href= "/2020/03/07/java多线程-线程持有对象/" >java多线程-线程持有对象</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2020/03/03/java多线程-线程间协作/" >java多线程-线程间协作</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1110,19 +1162,19 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
+        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
+    
         <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
         <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
-    
-        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
     
         <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     
-        <span class="sidebar-category-name" data-categories="设计模式"><span class="iconfont-archer">&#xe60a;</span>设计模式</span>
-    
         <span class="sidebar-category-name" data-categories="java基础"><span class="iconfont-archer">&#xe60a;</span>java基础</span>
+    
+        <span class="sidebar-category-name" data-categories="设计模式"><span class="iconfont-archer">&#xe60a;</span>设计模式</span>
     
         <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
     
