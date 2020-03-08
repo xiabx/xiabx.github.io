@@ -73,8 +73,6 @@ java虚拟机会为每个内部锁分配一个入口集，用来记录等待获�
 
 显式锁是`java.util.concurrent.locks.Lock`接口的实例，该类的默认实现为ReentrantLock，代表一个可重入的显式锁。
 
-https://xbxblog2.bj.bcebos.com/java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%2Fimage-20200301161900462.png
-
 ![image-20200301161900462](https://xbxblog2.bj.bcebos.com/java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%2Fimage-20200301161900462.png)
 
 
