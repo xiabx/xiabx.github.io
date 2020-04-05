@@ -190,8 +190,3 @@ JdbcTemplate针对数据查询提供了多个重载方法，我们可以根据�
 # JdbcDaoSupport
 
 当我们使用JdbcTemplate实现DAO层时，通常需要JdbcTemplate和DataSource对象。DAO层可以直接继承JdbcDaoSupport抽象类来避免每次都声明这两个对象。
-
-
-
-
-

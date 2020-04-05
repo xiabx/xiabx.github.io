@@ -167,9 +167,7 @@ public class XmlBeanFactory extends DefaultListableBeanFactory {
 }
 ````
 
-
-
-![image-20200131145137111](C:\Users\xiabx\AppData\Roaming\Typora\typora-user-images\image-20200131145137111.png)
+![image-20200131145137111](https://xbxblog2.bj.bcebos.com/spring-ioc%E4%B9%8Bxml%E8%A7%A3%E6%9E%90%2Fimage-20200131145137111.png)
 
 **主要类与字段：**
 
