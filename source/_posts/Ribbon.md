@@ -16,7 +16,7 @@ date: 2020-03-22 13:44:18
 
 ![image-20200322140236824](https://xbxblog2.bj.bcebos.com/Ribbon%2Fimage-20200322140236824.png)
 
-客户端负载均衡与服务端负载均衡的不同点在于服务端清单所在位置不同。客户端负载均衡，所有客户端节点都维护着自己要访问的服务端清单，而服务端清单来自于注册中心。同服务端负载均衡类似，客户端负载均衡也需要维护心跳去保证服务端清单中服务的健康性，这个需要注册中心的协助。Ribbon就属于客户端负载均衡。
+客户端负载均衡与服务端负载均衡的不同点在于服务端清单所在位置不同。客户端负载均衡，所有客户端节点都维护着自己要访问的服务端清单，而服务端清单来自于注册中心，当然也可以自己手动配置。同服务端负载均衡类似，客户端负载均衡也需要维护心跳去保证服务端清单中服务的健康性，这个可以通过注册中心的协助，也可以自己进行实现。Ribbon属于客户端负载均衡。
 
 使用Rebbion只需要两步即可：
 
@@ -166,7 +166,7 @@ public ClientHttpResponse execute(HttpRequest request, byte[] body) throws IOExc
 
 ## LoadBalancerInterceptor
 
-这个就是Rebbion使用的拦截器，里面应该有我们想知道的关于负载均衡的很多东西。不过在了解他之前还要了解一个接口：LoadBalancerClient
+LoadBalancerInterceptor这个就是Rebbion为实现负载均衡而使用的拦截器，里面应该有我们想知道的关于负载均衡的很多东西。不过在了解他之前还要了解一个接口：LoadBalancerClient
 
 LoadBalancerClient表示负载均衡的客户端的接口。
 
@@ -216,6 +216,10 @@ public <T> T execute(String serviceId, LoadBalancerRequest<T> request, Object hi
 ```
 
 > ILoadBalancer这个接口是netflix中的，他的实现类才是各种负载均衡的实现，其中负载均衡实现中会包含负载均衡策略，还牵扯到与Eureka集成。所以。。。以后再看吧。这个接口与LoadBalancerClient接口可以看作构建了springCloud与Ribbon集成的桥梁。
+>
+> 除了ILoadBalancer接口，Ribbon还有两个接口可对其进行配置。IRule：抽象服务选择的接口。IPing：对服务列表中的服务存活状态进行判断的接口，他的两个主要实现，一个使用Eureka提供的服务列表，另一个自己通过指定URL进行判断。
+>
+> 在ILoadBalancer实现中，维护两个ServerList，保存全部服务的List与可用状态的服务List。
 
 **RibbonLoadBalancerClient#execute**
 
