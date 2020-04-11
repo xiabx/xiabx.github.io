@@ -238,24 +238,3 @@ spring官方提供的处理基于注解的Controller的HandlerMapping是DefaultA
 + 基于注解的Controller中如何对HttpSession进行管理
 
 spring为我们提供的实现类为：AnnotaionMethodHandlerAdaptor
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
