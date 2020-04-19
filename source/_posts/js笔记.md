@@ -14,11 +14,7 @@ js实现至少应该包括三部分：
 ECMAScript是一种规范，规定了实现该规范的语言的语法，类型，语句，关键字等的规范。js只是
 ECMAScript规范的一种实现。
 
-
-
 # js基本概念
-
-
 
 ## 数据类型
 
@@ -35,16 +31,12 @@ js中有5种数据类型：
   - toString():返回对象的字符串表示
   - valueOf():返回对象的字符串，数值，布尔值得表示。通常和toString()的返回结果相同
 
-
-
 ## typeof 操作符
 
 出现原因：由于js是松散类型的语言，所以就出现了一种可以检测变量类型的操作符，typeof。
 typeof的返回结果：undefined，boolean，string,number,object,function
 typeof null --->object 因为：null是一个空对象
 函数在js中也是对象，但是他具有一些特殊属性，因此typeof区分object和function是有必要的
-
-
 
 ## 相等 不相等 全等 不全等
 
@@ -57,28 +49,18 @@ typeof null --->object 因为：null是一个空对象
 不全等 !==
 只有当比较的双方，数值和数据类型都相同时才会返回true。
 
-
-
 ## 语句
 
 for-in语句：循环对象的属性
 
-
-
 ## 函数
-
-
 
 ### js函数的参数
 
 js函数不介意传递参数的个数，比如：定义时两个，调用时可以传递三个，两个。。。js函数中有一个arguments属性，类似于数组包含方法调用时传递的所有参数。
 **所以js中没有方法的重载，但是可以根据arguments的属性和类型模拟重载。**
 
-
-
 # 变量及作用域 
-
-
 
 ## 基本类型和引用类型
 
@@ -111,11 +93,7 @@ console.log(p instanceof Array);//false
 
 每个函数执行都需要一个执行环境，这个执行环境是一个链式的结构。即作用域链。作用域链的最前端是一个arguments对象和该函数所包含的变量，下一个环境对象来自下一个包含环境，一直到全局执行环境。在浏览器中是window对象。
 
-
-
 ## 引用类型
-
-
 
 ### Object
 
@@ -211,19 +189,13 @@ arr.forEach(function (item,index,arr) {
 ```
 **数组的归并方法**
 
-
-
 ### Date
 
 p98
 
-
-
 ### RegExp
 
 正则表达式 p103
-
-
 
 ### Function
 
@@ -259,8 +231,6 @@ outer();//[Function: outer]
 - apply()和call()方法：在特定作用域调用该函数,区别：apply()第二个参数为数组或arguments对象，call()第二个参数为列出的所传的参数。
 - bind()方法：创建一个函数实例，其this值回绑定到传递的参数
 
-
-
 ### global对象
 
 兜底对象，所有全局作用域中定义的对象和函数，都是它的属性。
@@ -269,17 +239,11 @@ outer();//[Function: outer]
   - decodeURI(),decodeURIComponent()：同上，后一个解码更彻底。
 - eval()：执行参数的js语句
 
-
-
 ### window对象
 
 在web浏览器中，window对象可以作为全局对象。
 
-
-
 # 面向对象
-
-
 
 ## 理解对象与属性类型
 
@@ -324,8 +288,6 @@ console.log(book.year);
 - 工厂模式
 - 构造函数模式
 - 原型模式
-
-
 
 ### 工厂模式和构造函数模式
 
@@ -460,11 +422,7 @@ js在创建每个函数对象时都会创建一个该函数的原型对象，每
 - 寄生构造函数模式。当new一个构造函数包含一个返回值时，则获得的对象是那个返回值
 - 稳妥构造函数模式。不使用this和new关键字
 
-
-
 ## 继承
-
-
 
 ### 原型链实现继承
 
@@ -562,8 +520,6 @@ console.log(person2.age);//19
 
 # 函数表达式
 
-
-
 ## 定义函数的两种方式
 
 - 使用函数声明：存在函数声明提升的特征
@@ -604,11 +560,7 @@ compare(1,2);
 
 在作用域链中，头是活动对象，然后依次是外层函数的活动对象。。。直到window对象
 
-
-
 ## 闭包
-
-
 
 ### 闭包概念
 
@@ -635,19 +587,13 @@ createFunction()();
 
 内部函数在搜寻this时，只会在活动对象中寻找。
 
-
-
 ## 模仿块级作用域
 
 块级作用域：例如for循环的i。
 
 原理：函数声明后不可以直接跟括号，立即执行。但是函数表达式可以。用括号将函数声明包裹起来，就会使函数声明变成函数表达式，再紧跟括号立即执行。利用函数的作用域模仿块级作用域。
 
-
-
 # BOM
-
-
 
 ## window对象
 
@@ -700,26 +646,20 @@ location对象提供了当前窗口的导航信息。是window对象的一个属
 
 - location对象中保存的一些属性：P207
 
-![location属性](/img/location.png "location属性")
+![location属性](https://xbxblog2.bj.bcebos.com/JS%E7%AC%94%E8%AE%B0%2Flocation.png)
 
 - 位置操作:
   - 改变浏览器的位置：通过location的assign()方法传入一个url即可实现页面的跳转。该方法等同于window.location和location.href。直接修改location的属性也可以实现跳转。
   - 替换当前页面：使用location的replace()方法可以替换当前页面。替换后的页面不可以后退。
   - 重载当前页面：location的reload()方法可以重载当前页面。
 
-
-
 ## navigator对象
 
 该对象为window对象的一个属性。包含浏览器的一些信息，如：浏览器的语言，是否联网，浏览器中安装插件的数组，所在操作系统等信息。
 
-
-
 ## screen对象
 
 该对象是window对象的一个属性。包含了浏览器所在屏幕的一些信息，如：屏幕的像素，高度等信息
-
-
 
 ## history对象
 
@@ -728,11 +668,7 @@ location对象提供了当前窗口的导航信息。是window对象的一个属
 - history的back()和forward()方法一样可以实现前进和后退
 - history的length属性表示当前窗口打开的历史记录数量
 
-
-
 # DOM
-
-
 
 ## DOM的节点层次理解
 
@@ -742,8 +678,6 @@ Node是一个基类，DOM中的Element，Text和Comment都继承于它。
 所以我们平时使用的html上的元素，即Element是类型为ELEMENT_NODE的Node。
 
 Document类型是所有DOM树的根节点
-
-
 
 ## Node类型
 
@@ -762,8 +696,6 @@ Document类型是所有DOM树的根节点
   - 父节点调用replaceChild()方法该方法接受两个参数，要插入的节点和要替换的节点
   - 父节点调用removeChild()方法，该方法接受一个要删除的节点的参数，移除该子节点。
 
-
-
 ## Document类型
 
 - document对象是window的一个属性
@@ -776,8 +708,6 @@ Document类型是所有DOM树的根节点
   - document.getElementByTagName() 获取指定表签名的所有元素，如：div,img等。获得元素保存在HTMLCollection中，这是一个类似于NodeList的结构，有length属性，可以通过中括号加索引取到相应的值，也可以通过中括号加标签的name属性取值
   - document.getElementByName() 通过标签的name属性进行取值，返回的也是一个HTMLCollection集合
 - document可以通过write(),writln(),open(),close(),方法向页面中写数据
-
-
 
 ## Element类型
 
@@ -793,8 +723,6 @@ Document类型是所有DOM树的根节点
   - removeAttribute()删除指定的属性，不仅会清楚属性值，还会清除属性
  - 创建Element类型元素：通过document.createElement()方法可以生成一个Element类型的元素。然后将其添加到指定位置。该方法接受两种参数，一种是标签名，一种是元素全部的字符串描述。
 
-
-
 ## Text类型
 
 - 一个Element开合标签之间的文本内容就是Text类型的节点，如：`<div>hello</div>`在div之间的内容就是Text类型
@@ -802,23 +730,15 @@ Document类型是所有DOM树的根节点
 - 通过文本节点的nodeValue属性为该文本节点设置值
 - 创建Text类型的节点：document.createTextNode()创建新的文本节点。然后通过插入的方式将其添加到文档树之中
 
-
-
 ## Comment类型
 
 注释类型，引用注释元素
-
-
 
 ## Attr类型
 
 Element元素中的属性也是一种元素，也是DOM树的一部分，但是开发人员不这么认为，他们通常使用getArrtibute()等方法进行获取，设置，删除属性的操作
 
-
-
 # DOM扩展
-
-
 
 ## 选择符API的扩展
 
@@ -826,8 +746,6 @@ Element元素中的属性也是一种元素，也是DOM树的一部分，但是�
 - querySelector()方法，根据css的选择符，返回与该模式匹配的第一个元素
 - querySelectorAll()方法，同样是根据css选择符，返回与该模式匹配的元素，但是返回的是一个NodeList对象。
 - 能调用querySelector()方法和querySelectorAll()方法的类型包括Document和Element
-
-
 
 ## HTML5有关的扩展
 
@@ -838,15 +756,11 @@ Element元素中的属性也是一种元素，也是DOM树的一部分，但是�
   - remove(value)删除指定的的类名
   - toggle(value)如果classList中包含此类名就删除，不包含就添加
 
-
-
 ## 自定义数据属性
 
 h5规定元素可以添加自定义属性，但是要以data-开头。
 
 元素的dataset属性访问定义的自定义属性，dataset包含的是一个键值对map类型的对象。
-
-
 
 ## 插入标记
 
@@ -868,13 +782,9 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
   - 读模式：与innerText属性的返回结果相同
   - 写模式：会用新的文本节点替换调用元素和他的子节点
 
-
-
 # DOM2和DOM3
 
 啥是dom2和dom3，不晓得，管他呢
-
-
 
 ## 访问元素的样式
 
@@ -884,11 +794,7 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
   - length：给定元素的css属性的数量
   - removeProperty（）：从样式中删除给定的属性
 
-
-
 # 事件
-
-
 
 ## 事件流（冒泡和捕获）
 
@@ -908,9 +814,7 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
 - 事件的三个阶段：捕获阶段，处于目标阶段，事件冒泡阶段。如下图，1.2.3是捕获阶段，4是处于目标阶段(看作是冒泡的一个阶段)，5.6.7是冒泡阶段
   
 
-![事件流](/img/event.png)
-
-
+![事件流](https://xbxblog2.bj.bcebos.com/JS%E7%AC%94%E8%AE%B0%2Fevent.png)
 
 ## 事件处理程序
 
@@ -936,27 +840,19 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
         btn.removeEventListener("click", handler, false); 
     ```
 
-
-
 ## 事件对象
 
 事件处理程序在触发时会被传入一个event对象，给对象包含与事件有关的信息。
-![event对象1](/img/event1.png)
-![event对象2](/img/event2.png)
-
-
+![event对象1](https://xbxblog2.bj.bcebos.com/JS%E7%AC%94%E8%AE%B0%2Fevent1.png)
+![event对象2](https://xbxblog2.bj.bcebos.com/JS%E7%AC%94%E8%AE%B0%2Fevent2.png)
 
 ## 事件类型
-
-
 
 ### UI事件
 
 - load:当页面加载完成后触发的事件，也可以用在img元素上，表示一个图片加载完成。
 - unload:当页面完全卸载后在window上面触发
 - 其他一些事件。。。
-
-
 
 ### 焦点事件
 
@@ -965,15 +861,11 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
 - focusin:focus的冒泡版本
 - focusout：blur的冒泡版本
 
-
-
 ### 鼠标事件
 
 - click：单击鼠标或按下回车键触发
 - dbclick：双击鼠标触发
 - 其他事件。。。。
-
-
 
 ### 键盘事件
 
@@ -984,14 +876,10 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
 - 当用户按下一个字符键时，事件的触发顺序为：keydown，keypress,keyup
 - 当发生keydown和keyup事件时，event对象的keyCode属性会包含一个代码，表示按下的哪个键
 
-
-
 ### H5事件
 
 - beforeunload：在页面卸载之前触发的事件，可以用来询问用户是否要离开等功能。
 - haschange：当URL的参数列表以及URL中“#”后面的字符串发生变化时触发该事件，该事件必须添加给window对象，事件对象中包含oldURL和newURL属性，表示新旧URL
-
-
 
 ## 模拟事件
 
@@ -1000,11 +888,7 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
 - 返回的event对象有一个init方法，不同类型的事件该方法名称不同。通过调用该方法可以设置event的属性。
 - 所有支持dom事件的节点都有dispatchEvent（）方法，该方法传入一个event对象。然后就成功模拟触发了该事件
 
-
-
 # 表单脚本
-
-
 
 ## form的属性和方法
 
@@ -1022,8 +906,6 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
   - reset()：将所有表单域重置为默认值。
   - submit()：提交表单。
   - target：用于发送请求和接收响应的窗口名称；等价于 HTML 的 target 特性。
-
-
 
 ## 表单字段
 
@@ -1045,8 +927,6 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
   - change:对于`<input>`和`<textarea>`元素，在他们失去焦点且value值改变时才触发。对于`<select>`元素，在其选项改变时触发
   - focus:当前字段获得焦点时触发
 
-
-
 ## 选择框脚本
 
 通过`<select>`和`<option>`元素创建。
@@ -1067,27 +947,19 @@ h5规定元素可以添加自定义属性，但是要以data-开头。
   - 如果有一个选中项，但该项的 value 特性在 HTML 中未指定，则选择框的 value 属性等于该项的文本。
   - 如果有多个选中项，则选择框的 value 属性将依据前两条规则取得第一个选中项的值。
 
-
-
 ## 表单序列化
 
 定义了一个函数，遍历form中的字段进行序列化
 
-
-
 # JSON
 
 json串与js的自面量的不同：js字面量定义对象时属性名可以加双引号也可以忽略，json中属性名必须添加双引号，单引号都不行。
-
-
 
 ## JSON的解析和序列化
 
 - es5定义了全局JSON对象
 - 将js对象转换为json串，JSON.stringify(),该方法生成的json串不包含对象的函数和原型成员而且忽略值为undefined的属性
 - 将js串转化为js对象，JSON.parse(),当传入的json串不合法时会报错
-
-
 
 ## 序列化选项
 
@@ -1113,8 +985,6 @@ json串与js的自面量的不同：js字面量定义对象时属性名可以加
   ```
 - 字符串缩进：第三个参数设置结果的缩进，没啥用
 
-
-
 ## 解析选项
 
 - JSON.parse()方法可以接受第二个参数，是一个函数，相当于js对象序列化中过滤结果的相反过程。
@@ -1134,13 +1004,9 @@ json串与js的自面量的不同：js字面量定义对象时属性名可以加
         })
   ```
 
-
-
 # AJAX
 
   Ajax = Asynchronous JavaScript And XML
-
-
 
 ## XMLHttpRequest 对象
 
@@ -1190,7 +1056,7 @@ json串与js的自面量的不同：js字面量定义对象时属性名可以加
 ## 设置HTTP头部信息和获取响应头
 
 xhr在发送请求的时候也会发送相应的头部信息：
-![](/img/requestHead.png)
+![](https://xbxblog2.bj.bcebos.com/JS%E7%AC%94%E8%AE%B0%2FrequestHead.png)
 
 - 设置xhr的请求头：调用xhr的open（）方法后可以调用setRequestHead（）方法可以设置相应的头部信息。
 - 获取响应头：xhr的getReponseHeader()方法传入头部字段名称可以获得相应的响应头信息。xhr的getAllReponseHeaders()方法可以所有的响应头信息的文本格式。
@@ -1215,8 +1081,6 @@ xhr在发送请求的时候也会发送相应的头部信息：
 
 在url后面直接添加参数，但是url后的参数需要用encodeURIComponent()方法进行编码
 
-
-
 ## post请求
 
 使用post请求发送数据需要在send方法中传入要发送的数据。
@@ -1226,8 +1090,6 @@ xhr在发送请求的时候也会发送相应的头部信息：
 application/x-www-form-urlencoded对应的提交数据格式为：key1=val1&key2=val2
 
 application/json对应的提交数据格式为json串
-
-
 
 ## FormData
 
@@ -1311,8 +1173,6 @@ xhr.send(null);
 
 # 数据存储
 
-
-
 ## cookie
 
 - cookie是一种浏览器的存储机制。
@@ -1329,17 +1189,11 @@ xhr.send(null);
 - document.cookie可以获取该页面可以使用的cookie。获取到的值是一个字符串：`name1=value1;name2=value2;name3=value3`
 - 当用js设置cookie时可直接为document.cookie赋值，所存的名值应该时URL编码的。格式为：`document.cookie = encodeURIComponent("name") + "=" +encodeURIComponent("Nicholas") + "; domain=.wrox.com; path=/"; `
 
-
-
 ## 其他
 
 除了cookie的存储方式，还有Storage，sessionStroage，localStratge，indexedDB。暂时用不到，走马观花看了一下。
 
-
-
 # 新兴的API
-
-
 
 ## File API
 
