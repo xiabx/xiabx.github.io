@@ -374,6 +374,240 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/03/03/java多线程-线程间协作/" >
+            
+                <span>java多线程-线程间协作</span>
+        </a>
+        <div class="abstract-content">
+            等待和通知在单线程程序中，当要执行的操作需要满足一定条件才可以执行时，我们可以将该操作放在一个if语句中。而在多线程程序中我们可以将操作方法体放在while循环体中，然后将该线程暂停，当其他线程所作操作满足该线程执行条件后，再使用其他线程唤醒该线程，然后检测执行条件后继续执行。
+这涉及两个操作：等待和通知。他们使用Object.wait()和Object.notify()方法实现。由于任何类都继承自Object类，所以所有对象都会包含这两个方法。
+调用wait和notify方法的对象需要是对这两个方法进行同步的锁对象。调用wait方法的模板代码：
+
+这里当wait方法被调用后不会立即被返...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/03/03</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/29/Java多线程-同步机制/" >
+            
+                <span>Java多线程-同步机制</span>
+        </a>
+        <div class="abstract-content">
+            同步机制简介前面说了线程安全的主要表现为：原子性、可见性、有序性。靠什么来保证他们呢，就是线程同步机制了，包括锁、volatile、final、static以及一些相关api等。
+锁 线程安全问题的产生前提是多个线程并发访问共享数据造成的，如果将对共享数据的访问由并发改为串行那么就不会存在线程安全问题了。这就是锁的思路。
+通过使用一个对象，将这个对象作为锁，这个锁会锁住一组数据的操作，当一个线程需要访问操作对这组数据的操作时，需要获得这个锁才可以。
+一个线程在访问共享数据前需要申请锁，在共享数据访问完成后会释放锁，在锁获取和释放之间的这段代码被称作临界区。锁具有排他性，同一时刻只可以由一...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/29</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/28/Java多线程-基础/" >
+            
+                <span>Java多线程-基础</span>
+        </a>
+        <div class="abstract-content">
+            认识线程进程、线程、任务三者的关系：进程是程序运行的实例，一个进程可以包含多个线程，每个线程索要完成的工作就是任务。
+程序与进程的关系就好比播放器中播放的视频与相应的视频为你教案的关系，程序从静态角度刻画事物，进程从动态角度刻画事物。
+进程和线程的关系可以比作饭店和员工，一个饭店对外提供餐饮服务，而服务最终由员工完成。而员工们则共享饭店的资源。
+任务则代表线程要完成的工作，可以是一次网络下载、一次文件解压等。
+线程的创建、启动与运行Java中创建一个线程就是创建一个Thread类的实例，线程的任务逻辑位于Thread类的run方法中。启动一个线程则是调用start方法。创建的每个线程都有...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/28</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/18/SpringBoot之SpringApplication/" >
+            
+                <span>SpringBoot之SpringApplication</span>
+        </a>
+        <div class="abstract-content">
+            SpringBoot应用的整个生命周期可以分为以下四部分：
+
+SpringApplication 初始化阶段
+SpringApplication 运行阶段
+SpringApplication 结束阶段
+Spring Boot应用退出
+
+SpringApplication 初始化阶段初始化阶段可以分为两个阶段：构造阶段和配置阶段。构造阶段负责SpringApplication对象的创建，配置阶段则负责SpringApplication对象的属性设置。
+构造阶段使用SpringBoot时往往都是通过SpringApplication.run;方法启动。跟进该方法后发现其背后是通过new一个S...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/18</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/15/Spring-Boot自动装配/" >
+            
+                <span>Spring-Boot自动装配</span>
+        </a>
+        <div class="abstract-content">
+            @SpringBootApplication结构12345678@SpringBootConfiguration@EnableAutoConfiguration@ComponentScan(excludeFilters = &#123;		@Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) &#125;)public @interface...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/15</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/09/Spring Web自动装配/" >
+            
+                <span>Spring Web自动装配</span>
+        </a>
+        <div class="abstract-content">
+            什么是web自动装配Servlet 3.0之前我们搭建Spring MVC项目需要在web.xml中手动配置ContextLoaderListener和DispatchServlet，这么直接写死的方式着实缺乏灵活性。自Servlet 3.0后spring通过相应API实现了在项目运行时自动将项目框架需要的Servlet、Filter注入。这就是web自动注入。
+示例：
+通过在项目中任意位置添加一个AbstractAnnotationConfigDispatcherServletInitializer实现类，就可以实现将ContextLoaderListener和DispatchServ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/09</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/02/Spring-IOC之注解驱动原理/" >
+            
+                <span>Spring-IOC之注解驱动原理</span>
+        </a>
+        <div class="abstract-content">
+            注解驱动发展史
+Spring Framework 1.x：由于java5的发布使spring也开始支持注解驱动，这时支持@Transaction等注解，但XML仍是配置方式的唯一选择。
+Spring Framework 2.x：在此版本中，spring开始支持@Autowired  @Qualifier等注解。但是并没有完全替代xml配置驱动，因为这些注解的入口还得需要在xml中配置&lt;context:component-scan&gt;等元素。
+Spring Framework 3.x：在此版本中spring使用@ImportResource和@Import注解结合Annotati...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/02</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/02/Spring-IOC之ApplicationContext/" >
+            
+                <span>Spring-IOC之ApplicationContext</span>
+        </a>
+        <div class="abstract-content">
+            ClassPathXmlApplicationContext1234567891011public ClassPathXmlApplicationContext(      String[] configLocations, boolean refresh, @Nullable ApplicationContext parent)      throws BeansException &#123;   //设置父容器   super(parent);    //设置配置文件   setConfigLocations(configLocations);   if (refresh) &#1...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/02</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/01/Spring-IOC之Bean的实例化/" >
+            
+                <span>Spring-IOC之Bean的实例化</span>
+        </a>
+        <div class="abstract-content">
+            Spring IOC 执行流程Spring IOC启动流程总的可以分为两大步骤，容器启动阶段和容器实例化阶段。
+
+在传统的xml配置中，容器的加载阶段主要是加载配置的xml文件到内存中，对xml文件的结构与定义信息进行分析，将xml中定义的信息注册到一个BeanDefinition对象中。
+上图中的其他后处理主要指的是BeanFactoryPostProcessor接口的功能，它在bean实例化之前执行，可以用来进行修改已经定义BeanDefinition信息等操作。BeanFactory需要手动注册并执行BeanFactoryPostProcessor接口，ApplicationCon...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/01</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/01/31/Spring-IOC之Environment/" >
             
                 <span>Spring-IOC之Environment</span>
@@ -396,274 +630,10 @@ PropertyResolver：用于properties的操作，他提供了Environment关于prop
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/01/31/Spring-IOC之XML解析/" >
-            
-                <span>Spring-IOC之XML解析</span>
-        </a>
-        <div class="abstract-content">
-            XML配置&lt;beans&gt;xml配置文件中的最顶层元素，它下面包含0或1个以及多个、、元素。
-&lt;beans&gt;支持的属性：
-
-default-lazy-init。其值可以指定为true或者false，默认值为false。用来标志是否对所有的进行延迟初始化。
-default-autowire。可以取值为no、byName、byType、constructor以及autodetect。默认值为no，如果使用自动绑定的话，用来标志全体bean使用哪一种默认绑定方式。
-default-dependency-check。可以取值none、objects、simple以及all，...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/31</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/01/19/Spring MVC/" >
-            
-                <span>Spring-MVC</span>
-        </a>
-        <div class="abstract-content">
-            总览Spring MVC使用两层Controller设计，DispatcherServlet作为对外开放的Front Controller来接受请求，并根据配置规则转发给对应的实际处理请求的Controller。
-当请求到达DispatchServlet后根据HandlerMapping配置的映射规则映射到实际处理请求的Controller实现类。当Controller处理完成后会返回一个ModelAndView实例，ModelAndView包含两部分信息：视图的逻辑名称（DispatchServlet将根据该名称决定用户显示哪个视图），模型数据（视图渲染过程中需要将这些模型数据并入视图...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/19</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "所有人都想拯救世界，却没人帮妈妈洗碗">所有人都想拯救世界，却没人帮妈妈洗碗</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/01/01/Spring事务/" >
-            
-                <span>Spring事务</span>
-        </a>
-        <div class="abstract-content">
-            Spring事务管理概述JDBC的事务控制是由同一个Connection完成的，所以在两个DAO方法中要保证使用同一个Connection对象，spring将这个要使用的connection对象保存到ThreadLocal中。
-让我们回忆下在JdbcTemplate中获取Connection是通过DataSourceUtils这个工具类获取的。该工具类会在ThreadLocal中获取与当前线程绑定的Connection对象，这样就保证了在使用JdbcTemplate时执行的每个方法使用的connection对象都是同一个。
-
-PlateformTranscationManager为事务控...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/01</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/12/25/Spring-JDBC/" >
-            
-                <span>Spring-JDBC</span>
-        </a>
-        <div class="abstract-content">
-            统一的数据异常处理体系首先我们从DAO模式开始讲起，DAO=Data Access Object。使用DAO模式可以将完全分离数据的访问和存储，屏蔽数据访问方式的差异性。
-但是DAO模式在对数据的访问和存储进行分离的时候存在一些问题，由于DAO层可能会使用各种不同的技术，每种技术可能会产生不同的异常信息，这些异常往往是checked exception类型。那么这些异常是直接抛出去还是在内部自己处理掉呢？
-如果直接抛出去会有两种麻烦，第一由于DAO层使用的技术选择性很多，可能面临更换技术的情况，比如由JDBC改为了使用内存型数据库的情况，那么原先抛出去的JDBC类型的异常的处理已经耦合到...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/12/25</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/12/13/spring-aop/" >
-            
-                <span>spring-aop</span>
-        </a>
-        <div class="abstract-content">
-            AOP基础回顾为什么需要aop软件开发一直在寻找更加高效、更易于维护的方式。
-面向对象编程（OOP）可以对业务需求等普通关注点进行很好的抽象和封装，并使之模块化。但是oop也存在一些缺点，比如我们需要对一个系统中加入日志功能或者对业务方法添加权限限制等。如果系统较小或业务方法少时我们可以手动添加，但是当系统规模较大业务方法增多，那这些方法的书写也会造成很大的负担。
-oop可以对业务中的关注点进行很好的分解并使之模块化，但是无法更好的处理系统中散落的问题。AOP就是为解决和弥补oop模式造成的不足而出现的。在系统中，日志记录、安全检查、事务管理等系统需求就像一把刀横切在我们组织的各个业务功...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/12/13</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/11/03/类加载机制/" >
-            
-                <span>类加载机制</span>
-        </a>
-        <div class="abstract-content">
-            概述类的加载机制就是将描述类的数据加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的java类型。
-类从加载到虚拟机虚拟机开始，到卸载出内存为止。它的整个过程包括：加载、验证、准备、解析、初始化、使用、卸载。其中验证、准备、解析这三个阶段称为连接。
-
-java虚拟机规范规定了有且只有五种情况会触发类的加载过程：
-
-遇到new、getstatic、putstatic、invokestatic这四条字节码指令时，如果类没有进行过初始化，则需要先触发其初始化行为。这四条指令常见的场景为:使用new关键字进行对象实例化、读取或设置一个静态字段、调用一个类的静态方法。
-...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/11/03</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "jvm">jvm</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/30/class文件结构/" >
-            
-                <span>class文件结构</span>
-        </a>
-        <div class="abstract-content">
-            概述java文件通过编译命令javac编译为class文件，class文件直接在虚拟机上运行。正是因为jvm直接运行class文件，其他语言经过相应的编译器编译后都可以获取到相应的class文件，然后运行在jvm上，像kotlin、groovy等。所以class文件是jvm语言无关性的基石。
-class文件是一组以8位字节位基础单位的二进制流，各个数据项目之间严格按照顺序排列，中间没有分隔符。
-class文件只有两种数据结构：无符号数和表。
-无符号数属于基本数据类型，以u1、u2、u4、u8分别表示1个字节、2个字节、4个字节、8个字节的无符号数。表是由多个无符号数构成的符合数据结构，通...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/30</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "jvm">jvm</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/23/JVM/" >
-            
-                <span>JVM</span>
-        </a>
-        <div class="abstract-content">
-            运行时数据区域jdk8之后运行时数据区域采用如下的类型：
-
-程序计数器：线程私有。可以看作当前线程所执行的字节码的行号指示器，因为java中的多线程是通过线程轮流切换并分配处理器执行时间来实现的，因此处理器为了在每次切换线程后能够回到正确执行的位置，所以每个线程都要有一个独立的程序计数器。如果当前执行的是一个java方法那么这个值是正在执行的字节码指令的地址，如果是Native方法则这个值为空。
-虚拟机栈：线程私有。每个方法执行时会创建一个栈帧用来保存局部变量表、操作数栈、动态链接、方法出口等信息。每个方法从调用到执行完成的过程就对应着一个栈帧的入栈到出栈的过程。局部变量表存放着编译期可...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/23</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "java">java</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/08/02/泛型/" >
-            
-                <span>泛型</span>
-        </a>
-        <div class="abstract-content">
-            前言在java5以后java加入了泛型这一语言特性。通过最近对他的学习使我重新对它有了认识，之前一直以为泛型是个很强大的语法特性，现在看来它的存在似乎就是一种妥协，向java迫切需要这一特性和java必须向下兼容而妥协。它仅仅在编译期提供语法检查，而在运行期间java的泛型将被全部“擦除”。
-什么是泛型想象一个场景，当我们需要向一个容器中添加对象，但是我们不知道所要添加的对象是什么类型，如果没有泛型我们会这样定义这个类：
-123456789101112public class ObjectContainer &#123;    private Object obj;    public ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/08/02</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "java">java</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/">&#60; PREV</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">NEXT &#62;</a>
+        <a class="extend prev" rel="prev" href="/">&#60; PREV</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -689,7 +659,7 @@ class文件只有两种数据结构：无符号数和表。
     
         
             
-                <a href="//github.com/SmallBear1996" class="iconfont-archer github" target="_blank" title=github></a>
+                <a href="//github.com/xiabx" class="iconfont-archer github" target="_blank" title=github></a>
             
         
     
@@ -785,7 +755,7 @@ class文件只有两种数据结构：无符号数和表。
     
         
             
-                <a href="//github.com/SmallBear1996" class="iconfont-archer github" target="_blank" title=github></a>
+                <a href="//github.com/xiabx" class="iconfont-archer github" target="_blank" title=github></a>
             
         
     
@@ -1182,9 +1152,140 @@ class文件只有两种数据结构：无符号数和表。
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 26
+        Total : 35
         </div>
         <!-- search  -->
         
@@ -1201,6 +1302,51 @@ class文件只有两种数据结构：无符号数和表。
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/Zuul/" >Zuul</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2020/04/10/Feign/" >Feign</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2020/04/06/hystrix/" >Hystrix</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2020/03/22/RestTemplate/" >RestTemplate</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2020/03/22/Ribbon/" >Ribbon</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href= "/2020/03/20/Eureka/" >Eureka</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href= "/2020/03/11/java多线程-硬件基础与内存模型/" >java多线程-硬件基础与内存模型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2020/03/09/java多线程-线程管理/" >java多线程-线程管理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href= "/2020/03/08/java多线程-活性故障/" >java多线程-活性故障</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1356,6 +1502,8 @@ class文件只有两种数据结构：无符号数和表。
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
+        <span class="sidebar-tag-name" data-tags="不要犹豫！！！"><span class="iconfont-archer">&#xe606;</span>不要犹豫！！！</span>
+    
         <span class="sidebar-tag-name" data-tags="设计模式"><span class="iconfont-archer">&#xe606;</span>设计模式</span>
     
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
@@ -1393,19 +1541,19 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
-    
         <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
         <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+    
+        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
     
         <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     
-        <span class="sidebar-category-name" data-categories="java基础"><span class="iconfont-archer">&#xe60a;</span>java基础</span>
-    
         <span class="sidebar-category-name" data-categories="设计模式"><span class="iconfont-archer">&#xe60a;</span>设计模式</span>
+    
+        <span class="sidebar-category-name" data-categories="java基础"><span class="iconfont-archer">&#xe60a;</span>java基础</span>
     
         <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
     

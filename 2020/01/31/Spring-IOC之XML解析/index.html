@@ -493,7 +493,7 @@ height:50vh;
 <p>从以上类结构来看，spring将每个类的职责进行了分割，最后通过一个类来进行综合这些功能并对外提供接口供使用。</p>
 <h2 id="XmlBeanDefinitionReader结构"><a href="#XmlBeanDefinitionReader结构" class="headerlink" title="XmlBeanDefinitionReader结构"></a>XmlBeanDefinitionReader结构</h2><p>XmlBeanFactory将xml文件解析为BeanDefinition的工作委托给XmlBeanDefinitionReader处理。所以接下来的很多工作都是在XmlBeanDefinitionReader中。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XmlBeanFactory</span> <span class="keyword">extends</span> <span class="title">DefaultListableBeanFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> XmlBeanDefinitionReader reader = <span class="keyword">new</span> XmlBeanDefinitionReader(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">XmlBeanFactory</span><span class="params">(Resource resource, BeanFactory parentBeanFactory)</span> <span class="keyword">throws</span> BeansException </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(parentBeanFactory);</span><br><span class="line">        <span class="comment">//解析与注册BeanDefinition</span></span><br><span class="line">		<span class="keyword">this</span>.reader.loadBeanDefinitions(resource);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="C:\Users\xiabx\AppData\Roaming\Typora\typora-user-images\image-20200131145137111.png" alt="image-20200131145137111"></p>
+<p><img src="https://xbxblog2.bj.bcebos.com/spring-ioc%E4%B9%8Bxml%E8%A7%A3%E6%9E%90%2Fimage-20200131145137111.png" alt="image-20200131145137111"></p>
 <p><strong>主要类与字段：</strong></p>
 <ul>
 <li><p>EnvironmentCapable：表示包含并公开 Environment 引用的组件的接口。</p>
@@ -583,10 +583,10 @@ height:50vh;
     <!-- license  -->
     
         <div class="license-wrapper">
-            <p>原文作者：<a href="https://smallbear1996.github.io">XIA</a>
-            <p>原文链接：<a href="https://smallbear1996.github.io/2020/01/31/Spring-IOC之XML解析/">https://smallbear1996.github.io/2020/01/31/Spring-IOC之XML解析/</a>
-            <p>发表日期：<a href="https://smallbear1996.github.io/2020/01/31/Spring-IOC之XML解析/">January 31st 2020, 1:21:02 pm</a>
-            <p>更新日期：<a href="https://smallbear1996.github.io/2020/01/31/Spring-IOC之XML解析/">February 1st 2020, 10:17:48 pm</a>
+            <p>原文作者：<a href="https://xiabx.github.io">XIA</a>
+            <p>原文链接：<a href="https://xiabx.github.io/2020/01/31/Spring-IOC之XML解析/">https://xiabx.github.io/2020/01/31/Spring-IOC之XML解析/</a>
+            <p>发表日期：<a href="https://xiabx.github.io/2020/01/31/Spring-IOC之XML解析/">January 31st 2020, 1:21:02 pm</a>
+            <p>更新日期：<a href="https://xiabx.github.io/2020/01/31/Spring-IOC之XML解析/">March 31st 2020, 7:22:27 pm</a>
             <p>后&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记：系统地学习，是入门的第一步。</p>
         </div>
     
@@ -641,7 +641,7 @@ height:50vh;
     
         
             
-                <a href="//github.com/SmallBear1996" class="iconfont-archer github" target="_blank" title=github></a>
+                <a href="//github.com/xiabx" class="iconfont-archer github" target="_blank" title=github></a>
             
         
     
@@ -1056,9 +1056,140 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 26
+        Total : 35
         </div>
         <!-- search  -->
         
@@ -1075,6 +1206,51 @@ top:50vh;
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/Zuul/" >Zuul</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2020/04/10/Feign/" >Feign</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2020/04/06/hystrix/" >Hystrix</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2020/03/22/RestTemplate/" >RestTemplate</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2020/03/22/Ribbon/" >Ribbon</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href= "/2020/03/20/Eureka/" >Eureka</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href= "/2020/03/11/java多线程-硬件基础与内存模型/" >java多线程-硬件基础与内存模型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2020/03/09/java多线程-线程管理/" >java多线程-线程管理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href= "/2020/03/08/java多线程-活性故障/" >java多线程-活性故障</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1230,6 +1406,8 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
+        <span class="sidebar-tag-name" data-tags="不要犹豫！！！"><span class="iconfont-archer">&#xe606;</span>不要犹豫！！！</span>
+    
         <span class="sidebar-tag-name" data-tags="设计模式"><span class="iconfont-archer">&#xe606;</span>设计模式</span>
     
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
@@ -1267,19 +1445,19 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
-    
         <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
         <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+    
+        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
     
         <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     
-        <span class="sidebar-category-name" data-categories="java基础"><span class="iconfont-archer">&#xe60a;</span>java基础</span>
-    
         <span class="sidebar-category-name" data-categories="设计模式"><span class="iconfont-archer">&#xe60a;</span>设计模式</span>
+    
+        <span class="sidebar-category-name" data-categories="java基础"><span class="iconfont-archer">&#xe60a;</span>java基础</span>
     
         <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
     

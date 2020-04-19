@@ -361,6 +361,167 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/03/22/RestTemplate/" >
+            
+                <span>RestTemplate</span>
+        </a>
+        <div class="abstract-content">
+            学习Ribbon时候看到了RestTemplate，对其拦截机制不了解，所以看到哪里算哪里吧。
+RestTemplate组件RestTemplate大致包含五个组件，其中一个组件ClientHttpRequestFactory在其父类中，另外四个在RestTemplate属性。
+12345678//消息转换器private final List&lt;HttpMessageConverter&lt;?&gt;&gt; messageConverters = new ArrayList&lt;&gt;();//错误处理器private ResponseErrorHandler errorH...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/03/22</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/03/22/Ribbon/" >
+            
+                <span>Ribbon</span>
+        </a>
+        <div class="abstract-content">
+            负载均衡负载均衡通常可以分为两类：服务端负载均衡和客户端负载均衡。
+服务端负载均衡通常都会维护一个可用的服务端清单，通过心跳检测清单下的服务是否可以正常访问，当请求来到时，负载均衡设备会按照某种算法转发到服务清单中的一台设备上。
+
+客户端负载均衡与服务端负载均衡的不同点在于服务端清单所在位置不同。客户端负载均衡，所有客户端节点都维护着自己要访问的服务端清单，而服务端清单来自于注册中心，当然也可以自己手动配置。同服务端负载均衡类似，客户端负载均衡也需要维护心跳去保证服务端清单中服务的健康性，这个可以通过注册中心的协助，也可以自己进行实现。Ribbon属于客户端负载均衡。
+使用Rebbion...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/03/22</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/03/20/Eureka/" >
+            
+                <span>Eureka</span>
+        </a>
+        <div class="abstract-content">
+            服务治理服务治理是微服务系统架构中最核心和基础的模块，它主要用来实现各个微服务实例的自动化注册与发现。
+服务注册
+在服务治理框架中往往都会构建一个注册中心，每个服务单元向注册中心登记自己提供的服务，将主机与端口号、版本号等信息告知注册中心。注册中心会按照服务名分类组织服务清单。
+服务发现
+由于在服务治理框架下运行，服务间的调用不再通过指定具体的实例地址来实现，而是通过向服务名发起请求调用实现。所以服务调用方在调用服务提供方提供接口的时候，并不知道具体的服务实例位置。因此调用方需要向服务注册中心咨询服务，并获取所有服务的实例清单，以实现对具体服务实例的访问。
+Eureka简介Spring ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/03/20</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/03/11/java多线程-硬件基础与内存模型/" >
+            
+                <span>java多线程-硬件基础与内存模型</span>
+        </a>
+        <div class="abstract-content">
+            硬件基础一部分硬件的引入是为了解决一部分问题，然而这部分硬件又会引入新的问题。为了解决这些新问题，硬件设计者又会引入新的其他硬件。
+高速缓存为了弥补处理器与内存之间的速度差异，在主内存与处理器之间引入了高速缓存。每个处理器都具有高速缓存，现代处理器一般具有多个缓存层次通常被称为一级缓存、二级缓存、三级缓存等。一般一级缓存是最靠近处理器的，其容量相对较小访问速率高。而靠近内存的高速缓存则相对容量较大，访问速率较慢。
+高速缓存中保存的数据可以看作内存的副本，在处理器要访问某内存地址中的数据时，会先试图访问高速缓存，当未命中后才会访问内存。
+高速缓存中的数据结构类似于散列表，key是一个内存地...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/03/11</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/03/09/java多线程-线程管理/" >
+            
+                <span>java多线程-线程管理</span>
+        </a>
+        <div class="abstract-content">
+            线程组线程组可以用来表示一组相似的线程。一个线程组可以包含多个线程以及其他线程组。一个线程组包含其他线程组的时候，我们撑这个线程组为其他线程组父线程组。
+当创建一个线程时没有指定线程组，那么默认属于父线程所属线程组。在jvm创建main线程时会为其指定一个线程组，因此java中任何一个线程都有与之关联的线程组。
+由于线程组当初是处于安全的考虑，设计用来隔离不同Applet的，但是并没有达到目的。现在线程组的使用很少了，基本上可以忽略它的存在。
+线程的未捕获异常与监控如果线程在运行期间抛出了未捕获异常（Uncaught Exception），那么随着run方法的退出，相应的线程也会终止。但...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/03/09</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/03/08/java多线程-活性故障/" >
+            
+                <span>java多线程-活性故障</span>
+        </a>
+        <div class="abstract-content">
+            死锁如果两个或更多的线程相互等待对方而永远暂停，那么就称这些线程发生了死锁。其典型场景为线程T1持有锁L1申请锁L2，线程T2持有锁L2申请锁L1，T1只有获取了L2后才会释放L1，T2只有获取了L1才会释放L2，这样这两个线程都会一直等待对方释放锁，两个线程都被暂停了。这样就发生了死锁。
+
+死锁产生的条件线程产生死锁，那么这些线程及相关资源将满足以下全部条件。
+
+资源互斥：每一个资源之只能被一个线程使用。
+资源的不可抢夺：涉及的资源只能被持有者主动释放，而无法被资源的持有者和申请者之外的第三方线程所抢夺。
+占用并等待资源：涉及的线程当前至少持有一个资源并申请其他资源，而这些资源恰好被其...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/03/08</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/03/07/java多线程-线程持有对象/" >
             
                 <span>java多线程-线程持有对象</span>
@@ -426,7 +587,7 @@ ThreadLocal&lt;T&gt;相当于线程访问其线程特有对象的代理，即各
     
         
             
-                <a href="//github.com/SmallBear1996" class="iconfont-archer github" target="_blank" title=github></a>
+                <a href="//github.com/xiabx" class="iconfont-archer github" target="_blank" title=github></a>
             
         
     
@@ -823,9 +984,140 @@ ThreadLocal&lt;T&gt;相当于线程访问其线程特有对象的代理，即各
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 26
+        Total : 35
         </div>
         <!-- search  -->
         
@@ -842,6 +1134,51 @@ ThreadLocal&lt;T&gt;相当于线程访问其线程特有对象的代理，即各
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/Zuul/" >Zuul</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2020/04/10/Feign/" >Feign</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2020/04/06/hystrix/" >Hystrix</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2020/03/22/RestTemplate/" >RestTemplate</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2020/03/22/Ribbon/" >Ribbon</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href= "/2020/03/20/Eureka/" >Eureka</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href= "/2020/03/11/java多线程-硬件基础与内存模型/" >java多线程-硬件基础与内存模型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2020/03/09/java多线程-线程管理/" >java多线程-线程管理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href= "/2020/03/08/java多线程-活性故障/" >java多线程-活性故障</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -997,6 +1334,8 @@ ThreadLocal&lt;T&gt;相当于线程访问其线程特有对象的代理，即各
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
+        <span class="sidebar-tag-name" data-tags="不要犹豫！！！"><span class="iconfont-archer">&#xe606;</span>不要犹豫！！！</span>
+    
         <span class="sidebar-tag-name" data-tags="设计模式"><span class="iconfont-archer">&#xe606;</span>设计模式</span>
     
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
@@ -1034,19 +1373,19 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
-    
         <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
         <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+    
+        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
     
         <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     
-        <span class="sidebar-category-name" data-categories="java基础"><span class="iconfont-archer">&#xe60a;</span>java基础</span>
-    
         <span class="sidebar-category-name" data-categories="设计模式"><span class="iconfont-archer">&#xe60a;</span>设计模式</span>
+    
+        <span class="sidebar-category-name" data-categories="java基础"><span class="iconfont-archer">&#xe60a;</span>java基础</span>
     
         <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
     

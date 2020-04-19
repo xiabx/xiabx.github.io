@@ -361,6 +361,270 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/01/31/Spring-IOC之XML解析/" >
+            
+                <span>Spring-IOC之XML解析</span>
+        </a>
+        <div class="abstract-content">
+            XML配置&lt;beans&gt;xml配置文件中的最顶层元素，它下面包含0或1个以及多个、、元素。
+&lt;beans&gt;支持的属性：
+
+default-lazy-init。其值可以指定为true或者false，默认值为false。用来标志是否对所有的进行延迟初始化。
+default-autowire。可以取值为no、byName、byType、constructor以及autodetect。默认值为no，如果使用自动绑定的话，用来标志全体bean使用哪一种默认绑定方式。
+default-dependency-check。可以取值none、objects、simple以及all，...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/31</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/01/19/Spring MVC/" >
+            
+                <span>Spring-MVC</span>
+        </a>
+        <div class="abstract-content">
+            总览Spring MVC使用两层Controller设计，DispatcherServlet作为对外开放的Front Controller来接受请求，并根据配置规则转发给对应的实际处理请求的Controller。
+当请求到达DispatchServlet后根据HandlerMapping配置的映射规则映射到实际处理请求的Controller实现类。当Controller处理完成后会返回一个ModelAndView实例，ModelAndView包含两部分信息：视图的逻辑名称（DispatchServlet将根据该名称决定用户显示哪个视图），模型数据（视图渲染过程中需要将这些模型数据并入视图...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/19</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "所有人都想拯救世界，却没人帮妈妈洗碗">所有人都想拯救世界，却没人帮妈妈洗碗</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/01/01/Spring事务/" >
+            
+                <span>Spring事务</span>
+        </a>
+        <div class="abstract-content">
+            Spring事务管理概述JDBC的事务控制是由同一个Connection完成的，所以在两个DAO方法中要保证使用同一个Connection对象，spring将这个要使用的connection对象保存到ThreadLocal中。
+让我们回忆下在JdbcTemplate中获取Connection是通过DataSourceUtils这个工具类获取的。该工具类会在ThreadLocal中获取与当前线程绑定的Connection对象，这样就保证了在使用JdbcTemplate时执行的每个方法使用的connection对象都是同一个。
+
+PlateformTranscationManager为事务控...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/01</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/12/25/Spring-JDBC/" >
+            
+                <span>Spring-JDBC</span>
+        </a>
+        <div class="abstract-content">
+            统一的数据异常处理体系首先我们从DAO模式开始讲起，DAO=Data Access Object。使用DAO模式可以将完全分离数据的访问和存储，屏蔽数据访问方式的差异性。
+但是DAO模式在对数据的访问和存储进行分离的时候存在一些问题，由于DAO层可能会使用各种不同的技术，每种技术可能会产生不同的异常信息，这些异常往往是checked exception类型。那么这些异常是直接抛出去还是在内部自己处理掉呢？
+如果直接抛出去会有两种麻烦，第一由于DAO层使用的技术选择性很多，可能面临更换技术的情况，比如由JDBC改为了使用内存型数据库的情况，那么原先抛出去的JDBC类型的异常的处理已经耦合到...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/12/25</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/12/13/spring-aop/" >
+            
+                <span>spring-aop</span>
+        </a>
+        <div class="abstract-content">
+            AOP基础回顾为什么需要aop软件开发一直在寻找更加高效、更易于维护的方式。
+面向对象编程（OOP）可以对业务需求等普通关注点进行很好的抽象和封装，并使之模块化。但是oop也存在一些缺点，比如我们需要对一个系统中加入日志功能或者对业务方法添加权限限制等。如果系统较小或业务方法少时我们可以手动添加，但是当系统规模较大业务方法增多，那这些方法的书写也会造成很大的负担。
+oop可以对业务中的关注点进行很好的分解并使之模块化，但是无法更好的处理系统中散落的问题。AOP就是为解决和弥补oop模式造成的不足而出现的。在系统中，日志记录、安全检查、事务管理等系统需求就像一把刀横切在我们组织的各个业务功...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/12/13</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/11/03/类加载机制/" >
+            
+                <span>类加载机制</span>
+        </a>
+        <div class="abstract-content">
+            概述类的加载机制就是将描述类的数据加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的java类型。
+类从加载到虚拟机虚拟机开始，到卸载出内存为止。它的整个过程包括：加载、验证、准备、解析、初始化、使用、卸载。其中验证、准备、解析这三个阶段称为连接。
+
+java虚拟机规范规定了有且只有五种情况会触发类的加载过程：
+
+遇到new、getstatic、putstatic、invokestatic这四条字节码指令时，如果类没有进行过初始化，则需要先触发其初始化行为。这四条指令常见的场景为:使用new关键字进行对象实例化、读取或设置一个静态字段、调用一个类的静态方法。
+...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/11/03</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "jvm">jvm</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/30/class文件结构/" >
+            
+                <span>class文件结构</span>
+        </a>
+        <div class="abstract-content">
+            概述java文件通过编译命令javac编译为class文件，class文件直接在虚拟机上运行。正是因为jvm直接运行class文件，其他语言经过相应的编译器编译后都可以获取到相应的class文件，然后运行在jvm上，像kotlin、groovy等。所以class文件是jvm语言无关性的基石。
+class文件是一组以8位字节位基础单位的二进制流，各个数据项目之间严格按照顺序排列，中间没有分隔符。
+class文件只有两种数据结构：无符号数和表。
+无符号数属于基本数据类型，以u1、u2、u4、u8分别表示1个字节、2个字节、4个字节、8个字节的无符号数。表是由多个无符号数构成的符合数据结构，通...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/30</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "jvm">jvm</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/23/JVM/" >
+            
+                <span>JVM</span>
+        </a>
+        <div class="abstract-content">
+            运行时数据区域jdk8之后运行时数据区域采用如下的类型：
+
+程序计数器：线程私有。可以看作当前线程所执行的字节码的行号指示器，因为java中的多线程是通过线程轮流切换并分配处理器执行时间来实现的，因此处理器为了在每次切换线程后能够回到正确执行的位置，所以每个线程都要有一个独立的程序计数器。如果当前执行的是一个java方法那么这个值是正在执行的字节码指令的地址，如果是Native方法则这个值为空。
+虚拟机栈：线程私有。每个方法执行时会创建一个栈帧用来保存局部变量表、操作数栈、动态链接、方法出口等信息。每个方法从调用到执行完成的过程就对应着一个栈帧的入栈到出栈的过程。局部变量表存放着编译期可...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/23</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "java">java</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/08/02/泛型/" >
+            
+                <span>泛型</span>
+        </a>
+        <div class="abstract-content">
+            前言在java5以后java加入了泛型这一语言特性。通过最近对他的学习使我重新对它有了认识，之前一直以为泛型是个很强大的语法特性，现在看来它的存在似乎就是一种妥协，向java迫切需要这一特性和java必须向下兼容而妥协。它仅仅在编译期提供语法检查，而在运行期间java的泛型将被全部“擦除”。
+什么是泛型想象一个场景，当我们需要向一个容器中添加对象，但是我们不知道所要添加的对象是什么类型，如果没有泛型我们会这样定义这个类：
+123456789101112public class ObjectContainer &#123;    private Object obj;    public ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/08/02</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "java">java</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/07/29/正则表达式/" >
             
                 <span>正则表达式</span>
@@ -419,193 +683,10 @@ $
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/27/动态代理/" >
-            
-                <span>动态代理</span>
-        </a>
-        <div class="abstract-content">
-            代理模式与装饰模式区别：
-
-代理模式主要是控制对象的访问，而装饰模式主要是增强对象。
-这两者在代码形式上基本相同，主要区别在于使用意图上。
-
-代理模式代理模式分为静态代理和动态代理。
-静态代理静态代理在使用前需要有一个接口，被代理类和代理类都实现此接口。
-Demo如下：
-定义一个接口
-1234public interface Interface &#123;    void doSomething();    void somethingElse(String args);&#125;
-被代理类
-12345678910public class RealObject implements ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/27</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "设计模式">设计模式</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/06/07/Linux笔记/" >
-            
-                <span>Linux笔记</span>
-        </a>
-        <div class="abstract-content">
-            计算机概论
-在网络传输时，使用的是bit为单位 ，常见的传输单位Mbit/s。1Byte=8bit。所以当听到网速为8M/1M时，转换为文件容量常用单位Byte时，为1MB/s或128KB/s
-计算机主板分为南桥和北桥。intel的芯片架构为：北桥负责连接速度较快的CPU、内存、显卡等部件。南桥则负责连接速度较慢的周边接口，包括硬盘、USB、网卡等。
-CPU的频率指的是CPU每秒可以进行的工作次数。如3.0GHz的频率，表示每秒可以进行3.0乘十的九次方次工作，每次工作进行少数指令的运行。不同CPU之间不能通过单纯比较频率来判断性能，因为每个CPU的微指令集不同，架构不同，每次频率处理的...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/06/07</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/05/31/Spring事物控制/" >
-            
-                <span>Spring事物控制</span>
-        </a>
-        <div class="abstract-content">
-            事务的基本知识隔离级别脏读（读到了未提交的数据），不重复读（一个事务前后两次读的数据不一样，即在两次读的中间有另一个事务进行的update操作），幻读（例如，一个事务读取整个表有多少条数据，读完第一次数据后另一个事务在这个表中insert插入了一条数据，第一个事务再次读取有多少条数据时两次的结过不一样）
-Read uncommitted（读未提交）：会出现脏读，不可重复读，幻读。Read committed（都已提交）：解决脏读（出现不可重复读，幻读）Repeatable read（重复读）：解决不可重复读（会出现幻读）Serializable （序列化）：解决幻读`大多数数据库默认的事...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/05/31</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Spring">Spring</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/05/30/JQuery-笔记/" >
-            
-                <span>JQuery 笔记</span>
-        </a>
-        <div class="abstract-content">
-            $()方法
-该方法接收一个css的选择符，通过该选择符获取对象。css选择符
-获取到的对象如果不是一个单对象，可以自动遍历里面的结果。
-通过$()方法获取到的对象是JQuery对象。可以通过[index]或.get(index)获取对应的DOM对象。
-将DOM对象转化为Jquery对象：使用$()方法，参数传递一个DOM对象就可以将其包装为JQuery对象。
-JQuery对象和Dom对象的方法无法相互访问。
-filter()方法:过滤选择器的元素
-next(),nextAll(),prev(),prevAll()：选择对象的下一个或上一个。或者是下面所有或者是上面所有的同级元素。
-sib...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/05/30</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "js&JQuery">js&JQuery</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/05/29/js笔记/" >
-            
-                <span>js笔记</span>
-        </a>
-        <div class="abstract-content">
-            js实现js实现至少应该包括三部分：
-
-核心（ECMAScript）
-文档对象模型（DOM）
-浏览器对象模型（BOM）ECMAScript是一种规范，规定了实现该规范的语言的语法，类型，语句，关键字等的规范。js只是ECMAScript规范的一种实现。
-
-js基本概念数据类型js中有5种数据类型：
-
-Undefined：变量未声明或未初始化
-Null
-Boolean
-Number
-String
-Object：object是所有对象的基础，object的每个实例都包含以下属性：
-constructor:创建对象时的构造函数
-hasOwnProperty(propertyName)：检查给定...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/05/29</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "js&JQuery">js&JQuery</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/archives/page/2/">&#60; PREV</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span>
+        <a class="extend prev" rel="prev" href="/archives/page/2/">&#60; PREV</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/page/4/">4</a><a class="extend next" rel="next" href="/archives/page/4/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -626,7 +707,7 @@ hasOwnProperty(propertyName)：检查给定...
     
         
             
-                <a href="//github.com/SmallBear1996" class="iconfont-archer github" target="_blank" title=github></a>
+                <a href="//github.com/xiabx" class="iconfont-archer github" target="_blank" title=github></a>
             
         
     
@@ -1023,9 +1104,140 @@ hasOwnProperty(propertyName)：检查给定...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 26
+        Total : 35
         </div>
         <!-- search  -->
         
@@ -1042,6 +1254,51 @@ hasOwnProperty(propertyName)：检查给定...
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/Zuul/" >Zuul</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2020/04/10/Feign/" >Feign</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2020/04/06/hystrix/" >Hystrix</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2020/03/22/RestTemplate/" >RestTemplate</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2020/03/22/Ribbon/" >Ribbon</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href= "/2020/03/20/Eureka/" >Eureka</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href= "/2020/03/11/java多线程-硬件基础与内存模型/" >java多线程-硬件基础与内存模型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2020/03/09/java多线程-线程管理/" >java多线程-线程管理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href= "/2020/03/08/java多线程-活性故障/" >java多线程-活性故障</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1197,6 +1454,8 @@ hasOwnProperty(propertyName)：检查给定...
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
+        <span class="sidebar-tag-name" data-tags="不要犹豫！！！"><span class="iconfont-archer">&#xe606;</span>不要犹豫！！！</span>
+    
         <span class="sidebar-tag-name" data-tags="设计模式"><span class="iconfont-archer">&#xe606;</span>设计模式</span>
     
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
@@ -1234,19 +1493,19 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
-    
         <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
         <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+    
+        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
     
         <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     
-        <span class="sidebar-category-name" data-categories="java基础"><span class="iconfont-archer">&#xe60a;</span>java基础</span>
-    
         <span class="sidebar-category-name" data-categories="设计模式"><span class="iconfont-archer">&#xe60a;</span>设计模式</span>
+    
+        <span class="sidebar-category-name" data-categories="java基础"><span class="iconfont-archer">&#xe60a;</span>java基础</span>
     
         <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
     

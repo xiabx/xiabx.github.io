@@ -443,7 +443,7 @@ height:50vh;
 <p>read-modify-write使竞态发生的原因在于执行<code>ticketNum--</code>过程中，实际上<code>ticketNum--</code>分解为三条指令，<code>分别为读取ticketNum值到寄存器--将寄存器中的ticketNum减1--将计算后的ticketNum赋值到内存中的ticketNum</code>。这三步若是中间被暂停使另一个线程运行更新了ticketNum值，则会导致丢失更新的问题。</p>
 <p>check-then-act发生在if判断后，若判断ticketNum &gt; 0为true后，该线程被暂停，另一个线程随后将ticketNum 更新，那么上一个线程就产生了读到过期数据的脏读。</p>
 <p>若要避免竞态可以在sell方法使用synchronized关键字。</p>
-<h2 id="线程安全性"><a href="#线程安全性" class="headerlink" title="线程安全性"></a>线程安全性</h2><p>如果一个类在多线程环境下在其使用发不必为其做任何改变的情况下也能正常运行，那么这个类就是线程的。</p>
+<h2 id="线程安全性"><a href="#线程安全性" class="headerlink" title="线程安全性"></a>线程安全性</h2><p>如果一个类在多线程环境下在其使用发不必为其做任何改变的情况下也能正常运行，那么这个类就是线程安全的。</p>
 <p>一个类如果不是线程安全的，那么在多线程环境下使用就会存在线程安全问题。线程安全问题表现在三个方面：原子性、可见性、有序性。</p>
 <h3 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h3><p>原子性的含义为不可分割，那么什么是不可分割？假设有两个线程，当一个线程对一组共享变量操作时，从另一个线程看来这个操作要么还没进行要么已经结束。另一个线程时不可以获取到正在操作共享变量所产生的中间结果的。</p>
 <p>以一个设置ip与端口的例子。当一个线程在执行updateHostInfo方法，一个线程执行connnect方法。那么如果没有保证更新ip与port属性的原子性，那么就可能存在一个线程更新了ip属性但是还未更新port属性，另一个线程则读取了新设置的ip与原始port。</p>
@@ -490,10 +490,10 @@ height:50vh;
     <!-- license  -->
     
         <div class="license-wrapper">
-            <p>原文作者：<a href="https://smallbear1996.github.io">XIA</a>
-            <p>原文链接：<a href="https://smallbear1996.github.io/2020/02/28/Java多线程-基础/">https://smallbear1996.github.io/2020/02/28/Java多线程-基础/</a>
-            <p>发表日期：<a href="https://smallbear1996.github.io/2020/02/28/Java多线程-基础/">February 28th 2020, 5:56:01 pm</a>
-            <p>更新日期：<a href="https://smallbear1996.github.io/2020/02/28/Java多线程-基础/">March 2nd 2020, 9:11:51 pm</a>
+            <p>原文作者：<a href="https://xiabx.github.io">XIA</a>
+            <p>原文链接：<a href="https://xiabx.github.io/2020/02/28/Java多线程-基础/">https://xiabx.github.io/2020/02/28/Java多线程-基础/</a>
+            <p>发表日期：<a href="https://xiabx.github.io/2020/02/28/Java多线程-基础/">February 28th 2020, 5:56:01 pm</a>
+            <p>更新日期：<a href="https://xiabx.github.io/2020/02/28/Java多线程-基础/">March 12th 2020, 8:56:59 pm</a>
             <p>后&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记：系统地学习，是入门的第一步。</p>
         </div>
     
@@ -548,7 +548,7 @@ height:50vh;
     
         
             
-                <a href="//github.com/SmallBear1996" class="iconfont-archer github" target="_blank" title=github></a>
+                <a href="//github.com/xiabx" class="iconfont-archer github" target="_blank" title=github></a>
             
         
     
@@ -963,9 +963,140 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 26
+        Total : 35
         </div>
         <!-- search  -->
         
@@ -982,6 +1113,51 @@ top:50vh;
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/Zuul/" >Zuul</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2020/04/10/Feign/" >Feign</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2020/04/06/hystrix/" >Hystrix</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2020/03/22/RestTemplate/" >RestTemplate</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2020/03/22/Ribbon/" >Ribbon</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href= "/2020/03/20/Eureka/" >Eureka</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href= "/2020/03/11/java多线程-硬件基础与内存模型/" >java多线程-硬件基础与内存模型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2020/03/09/java多线程-线程管理/" >java多线程-线程管理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href= "/2020/03/08/java多线程-活性故障/" >java多线程-活性故障</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1137,6 +1313,8 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
+        <span class="sidebar-tag-name" data-tags="不要犹豫！！！"><span class="iconfont-archer">&#xe606;</span>不要犹豫！！！</span>
+    
         <span class="sidebar-tag-name" data-tags="设计模式"><span class="iconfont-archer">&#xe606;</span>设计模式</span>
     
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
@@ -1174,19 +1352,19 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
-    
         <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
         <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
+    
+        <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
     
         <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     
-        <span class="sidebar-category-name" data-categories="java基础"><span class="iconfont-archer">&#xe60a;</span>java基础</span>
-    
         <span class="sidebar-category-name" data-categories="设计模式"><span class="iconfont-archer">&#xe60a;</span>设计模式</span>
+    
+        <span class="sidebar-category-name" data-categories="java基础"><span class="iconfont-archer">&#xe60a;</span>java基础</span>
     
         <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
     
