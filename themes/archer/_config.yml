@@ -8,7 +8,7 @@ signature: 明天醒来我会在哪只鞋子里。
 # SNS (you can custom the order)
 social:
   email: 189651903@qq.com
-  github: //github.com/SmallBear1996
+  github: //github.com/xiabx
   # wechat and qq should be a path of qr-code image
   wechat: /img/wc.png
   qq: 

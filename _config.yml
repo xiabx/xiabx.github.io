@@ -37,7 +37,7 @@ jsonContent:
     tags: true
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://xiabaoxin.cn
+url: https://xiabx.github.io/
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -103,5 +103,5 @@ theme: archer
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/SmallBear1996/SmallBear1996.github.io.git
+  repo: https://github.com/xiabx/xiabx.github.io.git
   branch: master
