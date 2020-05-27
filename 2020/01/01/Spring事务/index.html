@@ -281,7 +281,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">2.8k</span>阅读时长: <span class="post-count reading-time">10 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">2.8k</span>阅读时长: <span class="post-count reading-time">9 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -411,12 +411,12 @@ height:50vh;
             <main class="main post-page">
     <article class="article-entry">
         <h1 id="Spring事务管理概述"><a href="#Spring事务管理概述" class="headerlink" title="Spring事务管理概述"></a>Spring事务管理概述</h1><p>JDBC的事务控制是由同一个Connection完成的，所以在两个DAO方法中要保证使用同一个Connection对象，spring将这个要使用的connection对象保存到ThreadLocal中。</p>
-<p>让我们回忆下在JdbcTemplate中获取Connection是通过DataSourceUtils这个工具类获取的。该工具类会在ThreadLocal中获取与当前线程绑定的Connection对象，这样就保证了在使用JdbcTemplate时执行的每个方法使用的connection对象都是同一个。</p>
+<p>比如在JdbcTemplate中获取Connection是通过DataSourceUtils这个工具类获取的。该工具类会在ThreadLocal中获取与当前线程绑定的Connection对象，这样就保证了在使用JdbcTemplate时执行的每个方法使用的connection对象都是同一个。</p>
 <p><img src="https://xbxblog2.bj.bcebos.com/springTransaction%2Fimage-20200101203737781.png" alt="image-20200101203737781"></p>
 <p>PlateformTranscationManager为事务控制的中心，负责界定事务边界。TransactionDefinition负责定义事务相关属性，包括隔离级别、传播行为等。事务开启后TranscationStatus负责事务的状态，我们可以通过TranscationStatus对事务进行有限的控制。</p>
 <h1 id="TransactionDefinition"><a href="#TransactionDefinition" class="headerlink" title="TransactionDefinition"></a>TransactionDefinition</h1><p>该类主要定义事务的属性，包括隔离级别、传播行为、超时时间、是否只读。</p>
 <h2 id="属性介绍"><a href="#属性介绍" class="headerlink" title="属性介绍"></a>属性介绍</h2><h4 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h4><p>脏读（读到了未提交的数据），不重复读（一个事务前后两次读的数据不一样，即在两次读的中间有另一个事务进行的update操作），幻读（例如，一个事务读取整个表有多少条数据，读完第一次数据后另一个事务在这个表中insert插入了一条数据，第一个事务再次读取有多少条数据时两次的结过不一样）</p>
-<p>Read uncommitted（读未提交）：会出现脏读，不可重复读，幻读。<br>Read committed（都已提交）：解决脏读（出现不可重复读，幻读）<br>Repeatable read（重复读）：解决不可重复读（会出现幻读）<br>Serializable （序列化）：解决幻读`<br>大多数数据库默认的事务隔离级别是Read committed，比如Sql Server , Oracle。Mysql的默认隔离级别是Repeatable read</p>
+<p>Read uncommitted（读未提交）：会出现脏读，不可重复读，幻读。<br>Read committed（读已提交）：解决脏读（出现不可重复读，幻读）<br>Repeatable read（重复读）：解决不可重复读（会出现幻读）<br>Serializable （序列化）：解决幻读`<br>大多数数据库默认的事务隔离级别是Read committed，比如Sql Server , Oracle。Mysql的默认隔离级别是Repeatable read</p>
 <h4 id="事务的传播"><a href="#事务的传播" class="headerlink" title="事务的传播"></a>事务的传播</h4><p>事务的传播主要用在一个service层的方法调用另一个service层的方法时，两个方法的事务之间的关系。例如当methodA存在事务而methodB没有事务时methodB该以哪种方式运行的这类问题。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ServiceA &#123;   </span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">methodA</span><span class="params">()</span> </span>&#123;   </span><br><span class="line">         ServiceB.methodB();   </span><br><span class="line">    &#125;   </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">ServiceB &#123;   </span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">methodB</span><span class="params">()</span> </span>&#123;   </span><br><span class="line">     &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>属性及含义：</p>
@@ -511,7 +511,7 @@ height:50vh;
             <p>原文作者：<a href="https://xiabx.github.io">XIA</a>
             <p>原文链接：<a href="https://xiabx.github.io/2020/01/01/Spring事务/">https://xiabx.github.io/2020/01/01/Spring事务/</a>
             <p>发表日期：<a href="https://xiabx.github.io/2020/01/01/Spring事务/">January 1st 2020, 6:12:18 pm</a>
-            <p>更新日期：<a href="https://xiabx.github.io/2020/01/01/Spring事务/">January 3rd 2020, 11:02:22 am</a>
+            <p>更新日期：<a href="https://xiabx.github.io/2020/01/01/Spring事务/">April 21st 2020, 9:08:21 pm</a>
             <p>后&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记：系统地学习，是入门的第一步。</p>
         </div>
     
@@ -1112,9 +1112,37 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 35
+        Total : 37
         </div>
         <!-- search  -->
         
@@ -1131,6 +1159,21 @@ top:50vh;
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/13</span><a class="archive-post-title" href= "/2020/05/13/Netty-服务端创建/" >Netty-服务端创建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href= "/2020/05/08/netty入门/" >netty入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/26</span><a class="archive-post-title" href= "/2020/04/26/IO系统/" >IO系统</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1303,11 +1346,6 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/31</span><a class="archive-post-title" href= "/2019/05/31/Spring事物控制/" >Spring事物控制</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">05/30</span><a class="archive-post-title" href= "/2019/05/30/JQuery-笔记/" >JQuery 笔记</a>
         </li>
     
@@ -1326,8 +1364,6 @@ top:50vh;
         <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
     
         <span class="sidebar-tag-name" data-tags="所有人都想拯救世界，却没人帮妈妈洗碗"><span class="iconfont-archer">&#xe606;</span>所有人都想拯救世界，却没人帮妈妈洗碗</span>
-    
-        <span class="sidebar-tag-name" data-tags="Spring"><span class="iconfont-archer">&#xe606;</span>Spring</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
@@ -1372,11 +1408,11 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
+        <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
+    
         <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
     
         <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
-    
-        <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     

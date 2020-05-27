@@ -579,7 +579,7 @@ height:50vh;
 <ul>
 <li>location对象中保存的一些属性：P207</li>
 </ul>
-<p><img src="/img/location.png" alt="location属性" title="location属性"></p>
+<p><img src="https://xbxblog2.bj.bcebos.com/JS%E7%AC%94%E8%AE%B0%2Flocation.png" alt="location属性"></p>
 <ul>
 <li>位置操作:<ul>
 <li>改变浏览器的位置：通过location的assign()方法传入一个url即可实现页面的跳转。该方法等同于window.location和location.href。直接修改location的属性也可以实现跳转。</li>
@@ -721,7 +721,7 @@ height:50vh;
 <li>事件的捕获阶段：从外向里触发，先触发html然后是body然后是div元素</li>
 <li>事件的三个阶段：捕获阶段，处于目标阶段，事件冒泡阶段。如下图，1.2.3是捕获阶段，4是处于目标阶段(看作是冒泡的一个阶段)，5.6.7是冒泡阶段</li>
 </ul>
-<p><img src="/img/event.png" alt="事件流"></p>
+<p><img src="https://xbxblog2.bj.bcebos.com/JS%E7%AC%94%E8%AE%B0%2Fevent.png" alt="事件流"></p>
 <h2 id="事件处理程序"><a href="#事件处理程序" class="headerlink" title="事件处理程序"></a>事件处理程序</h2><ul>
 <li>在事件处理函数内部，this的值等于事件的目标元素</li>
 <li><p>为元素添加事件的方式</p>
@@ -736,7 +736,7 @@ height:50vh;
 </ul>
 </li>
 </ul>
-<h2 id="事件对象"><a href="#事件对象" class="headerlink" title="事件对象"></a>事件对象</h2><p>事件处理程序在触发时会被传入一个event对象，给对象包含与事件有关的信息。<br><img src="/img/event1.png" alt="event对象1"><br><img src="/img/event2.png" alt="event对象2"></p>
+<h2 id="事件对象"><a href="#事件对象" class="headerlink" title="事件对象"></a>事件对象</h2><p>事件处理程序在触发时会被传入一个event对象，给对象包含与事件有关的信息。<br><img src="https://xbxblog2.bj.bcebos.com/JS%E7%AC%94%E8%AE%B0%2Fevent1.png" alt="event对象1"><br><img src="https://xbxblog2.bj.bcebos.com/JS%E7%AC%94%E8%AE%B0%2Fevent2.png" alt="event对象2"></p>
 <h2 id="事件类型"><a href="#事件类型" class="headerlink" title="事件类型"></a>事件类型</h2><h3 id="UI事件"><a href="#UI事件" class="headerlink" title="UI事件"></a>UI事件</h3><ul>
 <li>load:当页面加载完成后触发的事件，也可以用在img元素上，表示一个图片加载完成。</li>
 <li>unload:当页面完全卸载后在window上面触发</li>
@@ -876,7 +876,7 @@ height:50vh;
 </ul>
 </li>
 </ul>
-<h2 id="设置HTTP头部信息和获取响应头"><a href="#设置HTTP头部信息和获取响应头" class="headerlink" title="设置HTTP头部信息和获取响应头"></a>设置HTTP头部信息和获取响应头</h2><p>xhr在发送请求的时候也会发送相应的头部信息：<br><img src="/img/requestHead.png" alt></p>
+<h2 id="设置HTTP头部信息和获取响应头"><a href="#设置HTTP头部信息和获取响应头" class="headerlink" title="设置HTTP头部信息和获取响应头"></a>设置HTTP头部信息和获取响应头</h2><p>xhr在发送请求的时候也会发送相应的头部信息：<br><img src="https://xbxblog2.bj.bcebos.com/JS%E7%AC%94%E8%AE%B0%2FrequestHead.png" alt></p>
 <ul>
 <li>设置xhr的请求头：调用xhr的open（）方法后可以调用setRequestHead（）方法可以设置相应的头部信息。</li>
 <li>获取响应头：xhr的getReponseHeader()方法传入头部字段名称可以获得相应的响应头信息。xhr的getAllReponseHeaders()方法可以所有的响应头信息的文本格式。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//实现一个同步的xhr请求</span></span><br><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">xhr.open(<span class="string">"get"</span>,<span class="string">"./test2.html"</span>,<span class="literal">false</span>);</span><br><span class="line"><span class="comment">//设置请求头</span></span><br><span class="line">xhr.setRequestHeader(<span class="string">"MyHead"</span>,<span class="string">"hello"</span>);</span><br><span class="line">xhr.send(<span class="literal">null</span>);</span><br><span class="line"><span class="keyword">if</span> (xhr.status == <span class="number">200</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(xhr.responseText);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//获取指定的响应头属性</span></span><br><span class="line"><span class="keyword">var</span> MyHead = xhr.getResponseHeader(<span class="string">"MyHead"</span>);</span><br><span class="line"><span class="comment">//获取所有的响应头内容</span></span><br><span class="line"><span class="keyword">var</span> allHeads = xhr.getAllResponseHeaders();</span><br></pre></td></tr></table></figure>
@@ -936,7 +936,7 @@ height:50vh;
             <p>原文作者：<a href="https://xiabx.github.io">XIA</a>
             <p>原文链接：<a href="https://xiabx.github.io/2019/05/29/js笔记/">https://xiabx.github.io/2019/05/29/js笔记/</a>
             <p>发表日期：<a href="https://xiabx.github.io/2019/05/29/js笔记/">May 29th 2019, 4:09:46 pm</a>
-            <p>更新日期：<a href="https://xiabx.github.io/2019/05/29/js笔记/">December 9th 2019, 9:50:54 am</a>
+            <p>更新日期：<a href="https://xiabx.github.io/2019/05/29/js笔记/">April 19th 2020, 9:05:15 pm</a>
             <p>后&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记：系统地学习，是入门的第一步。</p>
         </div>
     
@@ -1532,9 +1532,37 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 35
+        Total : 37
         </div>
         <!-- search  -->
         
@@ -1551,6 +1579,21 @@ top:50vh;
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/13</span><a class="archive-post-title" href= "/2020/05/13/Netty-服务端创建/" >Netty-服务端创建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href= "/2020/05/08/netty入门/" >netty入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/26</span><a class="archive-post-title" href= "/2020/04/26/IO系统/" >IO系统</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1723,11 +1766,6 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/31</span><a class="archive-post-title" href= "/2019/05/31/Spring事物控制/" >Spring事物控制</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">05/30</span><a class="archive-post-title" href= "/2019/05/30/JQuery-笔记/" >JQuery 笔记</a>
         </li>
     
@@ -1746,8 +1784,6 @@ top:50vh;
         <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
     
         <span class="sidebar-tag-name" data-tags="所有人都想拯救世界，却没人帮妈妈洗碗"><span class="iconfont-archer">&#xe606;</span>所有人都想拯救世界，却没人帮妈妈洗碗</span>
-    
-        <span class="sidebar-tag-name" data-tags="Spring"><span class="iconfont-archer">&#xe606;</span>Spring</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
@@ -1792,11 +1828,11 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
+        <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
+    
         <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
     
         <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
-    
-        <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     

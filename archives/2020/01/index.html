@@ -453,9 +453,9 @@ default-dependency-check。可以取值none、objects、simple以及all，...
         </a>
         <div class="abstract-content">
             Spring事务管理概述JDBC的事务控制是由同一个Connection完成的，所以在两个DAO方法中要保证使用同一个Connection对象，spring将这个要使用的connection对象保存到ThreadLocal中。
-让我们回忆下在JdbcTemplate中获取Connection是通过DataSourceUtils这个工具类获取的。该工具类会在ThreadLocal中获取与当前线程绑定的Connection对象，这样就保证了在使用JdbcTemplate时执行的每个方法使用的connection对象都是同一个。
+比如在JdbcTemplate中获取Connection是通过DataSourceUtils这个工具类获取的。该工具类会在ThreadLocal中获取与当前线程绑定的Connection对象，这样就保证了在使用JdbcTemplate时执行的每个方法使用的connection对象都是同一个。
 
-PlateformTranscationManager为事务控...
+PlateformTranscationManager为事务控制的中心...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -1015,9 +1015,37 @@ PlateformTranscationManager为事务控...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 35
+        Total : 37
         </div>
         <!-- search  -->
         
@@ -1034,6 +1062,21 @@ PlateformTranscationManager为事务控...
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/13</span><a class="archive-post-title" href= "/2020/05/13/Netty-服务端创建/" >Netty-服务端创建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href= "/2020/05/08/netty入门/" >netty入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/26</span><a class="archive-post-title" href= "/2020/04/26/IO系统/" >IO系统</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1206,11 +1249,6 @@ PlateformTranscationManager为事务控...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/31</span><a class="archive-post-title" href= "/2019/05/31/Spring事物控制/" >Spring事物控制</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">05/30</span><a class="archive-post-title" href= "/2019/05/30/JQuery-笔记/" >JQuery 笔记</a>
         </li>
     
@@ -1229,8 +1267,6 @@ PlateformTranscationManager为事务控...
         <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
     
         <span class="sidebar-tag-name" data-tags="所有人都想拯救世界，却没人帮妈妈洗碗"><span class="iconfont-archer">&#xe606;</span>所有人都想拯救世界，却没人帮妈妈洗碗</span>
-    
-        <span class="sidebar-tag-name" data-tags="Spring"><span class="iconfont-archer">&#xe606;</span>Spring</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
@@ -1275,11 +1311,11 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
+        <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
+    
         <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
     
         <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
-    
-        <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     

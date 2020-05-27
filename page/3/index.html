@@ -374,6 +374,83 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/02/Spring-IOC之ApplicationContext/" >
+            
+                <span>Spring-IOC之ApplicationContext</span>
+        </a>
+        <div class="abstract-content">
+            ClassPathXmlApplicationContext1234567891011public ClassPathXmlApplicationContext(      String[] configLocations, boolean refresh, @Nullable ApplicationContext parent)      throws BeansException &#123;   //设置父容器   super(parent);    //设置配置文件   setConfigLocations(configLocations);   if (refresh) &#1...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/02</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/01/Spring-IOC之Bean的实例化/" >
+            
+                <span>Spring-IOC之Bean的实例化</span>
+        </a>
+        <div class="abstract-content">
+            Spring IOC 执行流程Spring IOC启动流程总的可以分为两大步骤，容器启动阶段和容器实例化阶段。
+
+在传统的xml配置中，容器的加载阶段主要是加载配置的xml文件到内存中，对xml文件的结构与定义信息进行分析，将xml中定义的信息注册到一个BeanDefinition对象中。
+上图中的其他后处理主要指的是BeanFactoryPostProcessor接口的功能，它在bean实例化之前执行，可以用来进行修改已经定义BeanDefinition信息等操作。BeanFactory需要手动注册并执行BeanFactoryPostProcessor接口，ApplicationCon...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/01</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/01/31/Spring-IOC之Environment/" >
+            
+                <span>Spring-IOC之Environment</span>
+        </a>
+        <div class="abstract-content">
+            概览Environmen接口代表了当前应用所处的环境。其主要和profile、Property相关。
+StandardEnvironment为Environment接口的核心实现类。
+StandardEnvironment结构
+在非web应用中常用StandardEnvironment实现类，在web应用中常用StandardServletEnvironment实现类。其区别为StandardServletEnvironment多了些web相关的propertySource。
+
+PropertyResolver：用于properties的操作，他提供了Environment关于prope...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/31</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/01/31/Spring-IOC之XML解析/" >
             
                 <span>Spring-IOC之XML解析</span>
@@ -438,9 +515,9 @@ default-dependency-check。可以取值none、objects、simple以及all，...
         </a>
         <div class="abstract-content">
             Spring事务管理概述JDBC的事务控制是由同一个Connection完成的，所以在两个DAO方法中要保证使用同一个Connection对象，spring将这个要使用的connection对象保存到ThreadLocal中。
-让我们回忆下在JdbcTemplate中获取Connection是通过DataSourceUtils这个工具类获取的。该工具类会在ThreadLocal中获取与当前线程绑定的Connection对象，这样就保证了在使用JdbcTemplate时执行的每个方法使用的connection对象都是同一个。
+比如在JdbcTemplate中获取Connection是通过DataSourceUtils这个工具类获取的。该工具类会在ThreadLocal中获取与当前线程绑定的Connection对象，这样就保证了在使用JdbcTemplate时执行的每个方法使用的connection对象都是同一个。
 
-PlateformTranscationManager为事务控...
+PlateformTranscationManager为事务控制的中心...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -565,133 +642,6 @@ class文件只有两种数据结构：无符号数和表。
         <a class="post-tag" href="javascript:void(0);" data-tags = "jvm">jvm</a>
     
 </div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/23/JVM/" >
-            
-                <span>JVM</span>
-        </a>
-        <div class="abstract-content">
-            运行时数据区域jdk8之后运行时数据区域采用如下的类型：
-
-程序计数器：线程私有。可以看作当前线程所执行的字节码的行号指示器，因为java中的多线程是通过线程轮流切换并分配处理器执行时间来实现的，因此处理器为了在每次切换线程后能够回到正确执行的位置，所以每个线程都要有一个独立的程序计数器。如果当前执行的是一个java方法那么这个值是正在执行的字节码指令的地址，如果是Native方法则这个值为空。
-虚拟机栈：线程私有。每个方法执行时会创建一个栈帧用来保存局部变量表、操作数栈、动态链接、方法出口等信息。每个方法从调用到执行完成的过程就对应着一个栈帧的入栈到出栈的过程。局部变量表存放着编译期可...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/23</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "java">java</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/08/02/泛型/" >
-            
-                <span>泛型</span>
-        </a>
-        <div class="abstract-content">
-            前言在java5以后java加入了泛型这一语言特性。通过最近对他的学习使我重新对它有了认识，之前一直以为泛型是个很强大的语法特性，现在看来它的存在似乎就是一种妥协，向java迫切需要这一特性和java必须向下兼容而妥协。它仅仅在编译期提供语法检查，而在运行期间java的泛型将被全部“擦除”。
-什么是泛型想象一个场景，当我们需要向一个容器中添加对象，但是我们不知道所要添加的对象是什么类型，如果没有泛型我们会这样定义这个类：
-123456789101112public class ObjectContainer &#123;    private Object obj;    public ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/08/02</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "java">java</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/29/正则表达式/" >
-            
-                <span>正则表达式</span>
-        </a>
-        <div class="abstract-content">
-            正则基础元字符元字符可以看为正则表达式为其预留某些含义的字符，他们有的表示一个单词（在正则表达式中一个\w代表的字符，表示一个单词），有的表示数字，而有的则表示位置信息。常用的元字符如下：
-
-
-
-代码
-说明
-
-
-
-
-.
-匹配除换行符以外的任意字符
-
-
-\w
-匹配字母或数字或下划线
-
-
-\s
-匹配任意的空白符
-
-
-\d
-匹配数字
-
-
-\b
-匹配单词的开始或结束
-
-
-^
-匹配字符串的开始
-
-
-$
-匹配字符串的结束
-
-
-
-这里需要特别说明几点：
-
-\w的范围：在支持ASCII码的语言中，如JavaScript，“\w”等价于[a-zA-Z0-9_] ；在支持Unicode的语言中，如.NET，...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/29</span>
-            </div>
-            <!-- tags  -->
             
         </div>
     </article>
@@ -1349,9 +1299,37 @@ $
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 35
+        Total : 37
         </div>
         <!-- search  -->
         
@@ -1368,6 +1346,21 @@ $
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/13</span><a class="archive-post-title" href= "/2020/05/13/Netty-服务端创建/" >Netty-服务端创建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href= "/2020/05/08/netty入门/" >netty入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/26</span><a class="archive-post-title" href= "/2020/04/26/IO系统/" >IO系统</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1540,11 +1533,6 @@ $
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/31</span><a class="archive-post-title" href= "/2019/05/31/Spring事物控制/" >Spring事物控制</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">05/30</span><a class="archive-post-title" href= "/2019/05/30/JQuery-笔记/" >JQuery 笔记</a>
         </li>
     
@@ -1563,8 +1551,6 @@ $
         <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
     
         <span class="sidebar-tag-name" data-tags="所有人都想拯救世界，却没人帮妈妈洗碗"><span class="iconfont-archer">&#xe606;</span>所有人都想拯救世界，却没人帮妈妈洗碗</span>
-    
-        <span class="sidebar-tag-name" data-tags="Spring"><span class="iconfont-archer">&#xe606;</span>Spring</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
@@ -1609,11 +1595,11 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
+        <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
+    
         <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
     
         <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
-    
-        <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     

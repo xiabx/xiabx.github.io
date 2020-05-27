@@ -361,6 +361,85 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/03/09/java多线程-线程管理/" >
+            
+                <span>java多线程-线程管理</span>
+        </a>
+        <div class="abstract-content">
+            线程组线程组可以用来表示一组相似的线程。一个线程组可以包含多个线程以及其他线程组。一个线程组包含其他线程组的时候，我们撑这个线程组为其他线程组父线程组。
+当创建一个线程时没有指定线程组，那么默认属于父线程所属线程组。在jvm创建main线程时会为其指定一个线程组，因此java中任何一个线程都有与之关联的线程组。
+由于线程组当初是处于安全的考虑，设计用来隔离不同Applet的，但是并没有达到目的。现在线程组的使用很少了，基本上可以忽略它的存在。
+线程的未捕获异常与监控如果线程在运行期间抛出了未捕获异常（Uncaught Exception），那么随着run方法的退出，相应的线程也会终止。但...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/03/09</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/03/08/java多线程-活性故障/" >
+            
+                <span>java多线程-活性故障</span>
+        </a>
+        <div class="abstract-content">
+            死锁如果两个或更多的线程相互等待对方而永远暂停，那么就称这些线程发生了死锁。其典型场景为线程T1持有锁L1申请锁L2，线程T2持有锁L2申请锁L1，T1只有获取了L2后才会释放L1，T2只有获取了L1才会释放L2，这样这两个线程都会一直等待对方释放锁，两个线程都被暂停了。这样就发生了死锁。
+
+死锁产生的条件线程产生死锁，那么这些线程及相关资源将满足以下全部条件。
+
+资源互斥：每一个资源之只能被一个线程使用。
+资源的不可抢夺：涉及的资源只能被持有者主动释放，而无法被资源的持有者和申请者之外的第三方线程所抢夺。
+占用并等待资源：涉及的线程当前至少持有一个资源并申请其他资源，而这些资源恰好被其...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/03/08</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/03/07/java多线程-线程持有对象/" >
+            
+                <span>java多线程-线程持有对象</span>
+        </a>
+        <div class="abstract-content">
+            线程持有对象如果多个线程需要共享同一个非线程安全对象，那么我们往往需要借助锁来保障线程安全。事实上，我们也可以选择不共享非线程安全的对象，对于非线程安全的对象，每个线程都创建一个该对象的实例，各个线程仅访问各自的实例，且一个线程不能访问另一个线程创建的实例。这种各个线程创建各自的实例，一个实例只能被一个线程访问的对象就被称为线程持有对象。
+ThreadLocal&lt;T&gt;相当于线程访问其线程特有对象的代理，即各个线程通过这个对象可以创建并访问各自线程持有对象。一个线程可以使用不同的ThreadLocal实例来创建并访问其不同的线程持有对象，多个线程使用同一个ThreadLocal...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/03/07</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/03/03/java多线程-线程间协作/" >
             
                 <span>java多线程-线程间协作</span>
@@ -534,83 +613,6 @@ Spring Framework 3.x：在此版本中spring使用@ImportResource和@Import注�
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/02</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/02/02/Spring-IOC之ApplicationContext/" >
-            
-                <span>Spring-IOC之ApplicationContext</span>
-        </a>
-        <div class="abstract-content">
-            ClassPathXmlApplicationContext1234567891011public ClassPathXmlApplicationContext(      String[] configLocations, boolean refresh, @Nullable ApplicationContext parent)      throws BeansException &#123;   //设置父容器   super(parent);    //设置配置文件   setConfigLocations(configLocations);   if (refresh) &#1...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/02</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/02/01/Spring-IOC之Bean的实例化/" >
-            
-                <span>Spring-IOC之Bean的实例化</span>
-        </a>
-        <div class="abstract-content">
-            Spring IOC 执行流程Spring IOC启动流程总的可以分为两大步骤，容器启动阶段和容器实例化阶段。
-
-在传统的xml配置中，容器的加载阶段主要是加载配置的xml文件到内存中，对xml文件的结构与定义信息进行分析，将xml中定义的信息注册到一个BeanDefinition对象中。
-上图中的其他后处理主要指的是BeanFactoryPostProcessor接口的功能，它在bean实例化之前执行，可以用来进行修改已经定义BeanDefinition信息等操作。BeanFactory需要手动注册并执行BeanFactoryPostProcessor接口，ApplicationCon...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/01</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/01/31/Spring-IOC之Environment/" >
-            
-                <span>Spring-IOC之Environment</span>
-        </a>
-        <div class="abstract-content">
-            概览Environmen接口代表了当前应用所处的环境。其主要和profile、Property相关。
-StandardEnvironment为Environment接口的核心实现类。
-StandardEnvironment结构
-在非web应用中常用StandardEnvironment实现类，在web应用中常用StandardServletEnvironment实现类。其区别为StandardServletEnvironment多了些web相关的propertySource。
-
-PropertyResolver：用于properties的操作，他提供了Environment关于prope...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/31</span>
             </div>
             <!-- tags  -->
             
@@ -1169,9 +1171,37 @@ PropertyResolver：用于properties的操作，他提供了Environment关于prop
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 35
+        Total : 37
         </div>
         <!-- search  -->
         
@@ -1188,6 +1218,21 @@ PropertyResolver：用于properties的操作，他提供了Environment关于prop
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/13</span><a class="archive-post-title" href= "/2020/05/13/Netty-服务端创建/" >Netty-服务端创建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href= "/2020/05/08/netty入门/" >netty入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/26</span><a class="archive-post-title" href= "/2020/04/26/IO系统/" >IO系统</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1360,11 +1405,6 @@ PropertyResolver：用于properties的操作，他提供了Environment关于prop
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/31</span><a class="archive-post-title" href= "/2019/05/31/Spring事物控制/" >Spring事物控制</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">05/30</span><a class="archive-post-title" href= "/2019/05/30/JQuery-笔记/" >JQuery 笔记</a>
         </li>
     
@@ -1383,8 +1423,6 @@ PropertyResolver：用于properties的操作，他提供了Environment关于prop
         <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
     
         <span class="sidebar-tag-name" data-tags="所有人都想拯救世界，却没人帮妈妈洗碗"><span class="iconfont-archer">&#xe606;</span>所有人都想拯救世界，却没人帮妈妈洗碗</span>
-    
-        <span class="sidebar-tag-name" data-tags="Spring"><span class="iconfont-archer">&#xe606;</span>Spring</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
@@ -1429,11 +1467,11 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
+        <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
+    
         <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
     
         <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
-    
-        <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     

@@ -446,7 +446,7 @@ height:50vh;
 <p>为么这样就会有一个问题，在编译后泛型都被擦除了，那么当在泛型类中返回泛型类型的对象时，是怎么返回正确类型的呢？</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这是 ArrayList 内部的一个方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    .....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>当泛型擦除之后，方法 get 的返回值 E 会被擦除为 Object 类型，那么为什么我们看到的确实返回的 Integer 类型呢？</p>
-<p><img src="\img\泛型1.png" alt="泛型1"></p>
+<p><img src="https://xbxblog2.bj.bcebos.com/%E6%B3%9B%E5%9E%8B%2F%E6%B3%9B%E5%9E%8B1.png" alt="泛型1"></p>
 <p>这是上述三行代码的一个反编译结果，可以看到，实际上编译器会正常的将 ArrayList 编译并进行类型擦除，然后返回实例。但是除此之外的是，如果构建 ArrayList 实例时使用了泛型语法，那么编译器将标记该实例并关注该实例后续所有方法的调用，每次调用前都进行安全检查，非指定类型的方法都不能调用成功。</p>
 <p>其实还有一点可能大家都很少关注，大多数人只是知道编译器会类型擦除一个泛型类并对创建出来的实例进行一定的安全检查。但是实际上编译器不仅关注一个泛型方法的调用，它还会为某些返回值为限定的泛型类型的方法进行强制类型转换，由于类型擦除，返回值为泛型类型的方法都会擦除成 Object 类型，当这些方法被调用后，编译器会额外插入一行 checkcast 指令用于强制类型转换。</p>
 <p>其实这一个过程，我们管它叫做『泛型翻译』。不得不感叹一下，编译器为了蒙骗虚拟机对程序员提供泛型服务可是没少费心思啊。</p>
@@ -503,7 +503,7 @@ height:50vh;
             <p>原文作者：<a href="https://xiabx.github.io">XIA</a>
             <p>原文链接：<a href="https://xiabx.github.io/2019/08/02/泛型/">https://xiabx.github.io/2019/08/02/泛型/</a>
             <p>发表日期：<a href="https://xiabx.github.io/2019/08/02/泛型/">August 2nd 2019, 11:34:44 pm</a>
-            <p>更新日期：<a href="https://xiabx.github.io/2019/08/02/泛型/">December 9th 2019, 9:50:54 am</a>
+            <p>更新日期：<a href="https://xiabx.github.io/2019/08/02/泛型/">April 19th 2020, 8:54:08 pm</a>
             <p>后&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记：系统地学习，是入门的第一步。</p>
         </div>
     
@@ -1104,9 +1104,37 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 35
+        Total : 37
         </div>
         <!-- search  -->
         
@@ -1123,6 +1151,21 @@ top:50vh;
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/13</span><a class="archive-post-title" href= "/2020/05/13/Netty-服务端创建/" >Netty-服务端创建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href= "/2020/05/08/netty入门/" >netty入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/26</span><a class="archive-post-title" href= "/2020/04/26/IO系统/" >IO系统</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1295,11 +1338,6 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/31</span><a class="archive-post-title" href= "/2019/05/31/Spring事物控制/" >Spring事物控制</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">05/30</span><a class="archive-post-title" href= "/2019/05/30/JQuery-笔记/" >JQuery 笔记</a>
         </li>
     
@@ -1318,8 +1356,6 @@ top:50vh;
         <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
     
         <span class="sidebar-tag-name" data-tags="所有人都想拯救世界，却没人帮妈妈洗碗"><span class="iconfont-archer">&#xe606;</span>所有人都想拯救世界，却没人帮妈妈洗碗</span>
-    
-        <span class="sidebar-tag-name" data-tags="Spring"><span class="iconfont-archer">&#xe606;</span>Spring</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
@@ -1364,11 +1400,11 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="前端"><span class="iconfont-archer">&#xe60a;</span>前端</span>
     
+        <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
+    
         <span class="sidebar-category-name" data-categories="后端"><span class="iconfont-archer">&#xe60a;</span>后端</span>
     
         <span class="sidebar-category-name" data-categories="抬望眼，仰天长啸，壮怀激烈。"><span class="iconfont-archer">&#xe60a;</span>抬望眼，仰天长啸，壮怀激烈。</span>
-    
-        <span class="sidebar-category-name" data-categories="怒发冲冠，凭阑处，潇潇雨歇。"><span class="iconfont-archer">&#xe60a;</span>怒发冲冠，凭阑处，潇潇雨歇。</span>
     
         <span class="sidebar-category-name" data-categories="jvm"><span class="iconfont-archer">&#xe60a;</span>jvm</span>
     
