@@ -12,7 +12,7 @@ date: 2020-01-31 13:21:02
 
 ## `<beans>`
 
-xml配置文件中的最顶层元素，它下面包含0或1个<description>以及多个<bean>、<import>、<alias>元素。
+xml配置文件中的最顶层元素，它下面包含0或1个`<description>`以及多个`<bean>`、`<import>`、`<alias>`元素。
 
 `<beans>`支持的属性：
 
@@ -46,7 +46,7 @@ xml配置文件中的最顶层元素，它下面包含0或1个<description>以�
 - parent：有时候会存在两个bean间使用相同的属性，而且注入的属性值也相同的情况。为了减少代码书写量，可以使用parent来指定从一个bean中继承相同的属性的注入。
 - abstract：作为一个bean的模板，通常和parent属性共同属性，使用的abstract属性后可以不指定class属性。因为使用了abstract属性的bean不会被实例化。
 - scope：限定bean的作用域。
-- 工厂方法：如果一个bean是通过 工厂方法获得的，可以在bean定义时指定工厂方法的属性，工厂方法又分为静态工厂方法和非静态工厂方法之分。配置时要分开配置。
+- 工厂方法：如果一个bean是通过工厂方法获得的，可以在bean定义时指定工厂方法的属性，工厂方法又分为静态工厂方法和非静态工厂方法之分。配置时要分开配置。
   - 配置静态工厂方法时，指定bean的class属性为静态工厂方法所在的类名，factory-method为工厂方法的名称。如：`<bean id="stu" class="....StudentFactory" factory-method="getStudent"/>`
   - 配置非静态工厂方法时，需要使用工厂方法所在的bean的引用，然后再声明工厂方法。`<bean id="stu" factory-bean="stuFactory" factory-method="getStu">`
   - 当工厂方法存在需要参数的时候，可以使用`<constructor-arg>`来指定方法调用的参数。
@@ -117,17 +117,19 @@ public class XBFTest {
 }
 ```
 
-从上面这段代码来看，猜测spring所做的事情有三部分：1. 读取配置文件；2. 根据配置文件的的配置信息找到相应的类，然后实例化它；3. 获取实例化后的实例。
+从上面这段代码来看，spring所做的事情有三部分：1. 读取配置文件；2. 根据配置文件的的配置信息找到相应的类，然后实例化它；3. 获取实例化后的实例。
 
 ## XmlBeanFactory结构
 
 ![XmlBeanFactory](https://xbxblog.bj.bcebos.com/XmlBeanFactory.png)
 
-根据上图可以看到，XmlBeanFactory直接继承自DefaultListableBeanFactory。DefaultListableBeanFactory是BeanFactory接口的一个比较通用的实现类，DefaultListableBeanFactory除了间接实现了BeanFactory接口，还间接实现了BeanDefinitionRegistry接口。BeanFactory接口负责Bean容器的访问操作，BeanDefinitionRegistry接口负责容器内Bean的注册管理操作。
+根据上图可以看到，XmlBeanFactory直接继承自DefaultListableBeanFactory。DefaultListableBeanFactory是BeanFactory接口的一个比较通用的实现类，DefaultListableBeanFactory除了间接实现了BeanFactory接口，还间接实现了BeanDefinitionRegistry接口。BeanFactory接口负责Bean容器的访问操作，BeanDefinitionRegistry接口负责容器内Bean的注册管理操作。BeanDefinitionRegistry抽象出bean的注册逻辑，而BeanFactory则抽象出了bean的管理逻辑
 
 XmlBeanFactory中的关于bean的操作都是直接继承自DefaultListableBeanFactory类，区别在XmlBeanFactory增加了一个XmlBeanDefinitionReader类型的reader属性，用于对资源文件进行读取和注册。
 
-如果将BeanFactory比作一座图书馆，BeanDefinitionRegistry就是一个书架，而书架上的书就是BeanDefinition。在spring中BeanDefinition负责保存一个Bean的必要信息，如class类型、是否是抽象类、构造方法参数等信息。它有两个主要实现类RootBeanDefinition和ChildBeanDefinition。
+如果将BeanFactory比作一座图书馆，BeanDefinitionRegistry就是一个书架，而书架上的书就是BeanDefinition。在spring中BeanDefinition负责保存一个Bean的必要信息，如class类型、是否是抽象类、构造方法参数等信息。它的主要实现类RootBeanDefinition、ChildBeanDefinition、GenericBeanDefinition。
+
+> 各种BeanDefinition关系详解：https://blog.csdn.net/f641385712/article/details/88683596
 
 **一些类的主要作用：**
 

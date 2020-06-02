@@ -4,7 +4,7 @@ author: XIA
 categories:
   - null
 tags:
-  - 不要犹豫！！！
+  - null
 date: 2020-04-06 21:02:24
 ---
 
@@ -15,8 +15,6 @@ Hystrix就是解决这个问题的框架，它实现了断路器、线程隔离�
 # 执行流程
 
 官方执行流程图:
-
-https://xbxblog2.bj.bcebos.com/Hystrix%2F20180626195147874.png
 
 ![20180626195147874](https://xbxblog2.bj.bcebos.com/Hystrix%2F20180626195147874.png)
 

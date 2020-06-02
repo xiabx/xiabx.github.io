@@ -12,7 +12,7 @@ date: 2020-01-01 18:12:18
 
 JDBC的事务控制是由同一个Connection完成的，所以在两个DAO方法中要保证使用同一个Connection对象，spring将这个要使用的connection对象保存到ThreadLocal中。
 
-让我们回忆下在JdbcTemplate中获取Connection是通过DataSourceUtils这个工具类获取的。该工具类会在ThreadLocal中获取与当前线程绑定的Connection对象，这样就保证了在使用JdbcTemplate时执行的每个方法使用的connection对象都是同一个。
+比如在JdbcTemplate中获取Connection是通过DataSourceUtils这个工具类获取的。该工具类会在ThreadLocal中获取与当前线程绑定的Connection对象，这样就保证了在使用JdbcTemplate时执行的每个方法使用的connection对象都是同一个。
 
 ![image-20200101203737781](https://xbxblog2.bj.bcebos.com/springTransaction%2Fimage-20200101203737781.png)
 
@@ -29,7 +29,7 @@ PlateformTranscationManager为事务控制的中心，负责界定事务边界�
 脏读（读到了未提交的数据），不重复读（一个事务前后两次读的数据不一样，即在两次读的中间有另一个事务进行的update操作），幻读（例如，一个事务读取整个表有多少条数据，读完第一次数据后另一个事务在这个表中insert插入了一条数据，第一个事务再次读取有多少条数据时两次的结过不一样）
 
 Read uncommitted（读未提交）：会出现脏读，不可重复读，幻读。
-Read committed（都已提交）：解决脏读（出现不可重复读，幻读）
+Read committed（读已提交）：解决脏读（出现不可重复读，幻读）
 Repeatable read（重复读）：解决不可重复读（会出现幻读）
 Serializable （序列化）：解决幻读`
 大多数数据库默认的事务隔离级别是Read committed，比如Sql Server , Oracle。Mysql的默认隔离级别是Repeatable read
@@ -53,7 +53,7 @@ ServiceB {
 
 属性及含义：
 
-1. PROPAGATIONREQUIRED:     ServiceB.methodB的事务级别定义为PROPAGATION_REQUIRED, 那么由于执行ServiceA.methodA的时候，ServiceA.methodA已经起了事务，这时调用ServiceB.methodB，ServiceB.methodB看到自己已经运行在ServiceA.methodA的事务内部，就不再起新的事务。而假如ServiceA.methodA运行的时候发现自己没有在事务中，他就会为自己分配一个事务。这样，在ServiceA.methodA或者在ServiceB.methodB内的任何地方出现异常，事务都会被回滚。即使ServiceB.methodB的事务已经被提交，但是ServiceA.methodA在接下来fail要回滚，ServiceB.methodB也要回滚
+1. PROPAGATION_REQUIRED:     ServiceB.methodB的事务级别定义为PROPAGATION_REQUIRED, 那么由于执行ServiceA.methodA的时候，ServiceA.methodA已经起了事务，这时调用ServiceB.methodB，ServiceB.methodB看到自己已经运行在ServiceA.methodA的事务内部，就不再起新的事务。而假如ServiceA.methodA运行的时候发现自己没有在事务中，他就会为自己分配一个事务。这样，在ServiceA.methodA或者在ServiceB.methodB内的任何地方出现异常，事务都会被回滚。即使ServiceB.methodB的事务已经被提交，但是ServiceA.methodA在接下来fail要回滚，ServiceB.methodB也要回滚
 
 2. PROPAGATION_SUPPORTS ： 如果当前在事务中，即以事务的形式运行，如果当前不再一个事务中，那么就以非事务的形式运行这就跟平常用的普通非事务的代码只有一点点区别了。
 
@@ -65,7 +65,7 @@ ServiceB {
 
 6. PROPAGATION_NEVER ： 不能在事务中运行。假设ServiceA.methodA的事务级别是PROPAGATION_REQUIRED， 而ServiceB.methodB的事务级别是PROPAGATION_NEVER ，那么ServiceB.methodB就要抛出异常了。
 
-7. PROPAGATION_NESTED ： 理解Nested的关键是savepoint。他与PROPAGATION_REQUIRES_NEW的区别是，PROPAGATION_REQUIRES_NEW另起一个事务，将会与他的父事务相互独立，而Nested的事务和他的父事务是相依的，他的提交是要等和他的父事务一块提交的。也就是说，如果父事务最后回滚，他也要回滚的。而Nested事务的好处是他有一个savepoint。
+7. PROPAGATION_NESTED ： 他与PROPAGATION_REQUIRES_NEW的区别是，PROPAGATION_REQUIRES_NEW另起一个事务，将会与他的父事务相互独立，而Nested的事务和他的父事务是相依的，他的提交是要等和他的父事务一块提交的。也就是说，如果父事务最后回滚，他也要回滚的。而Nested事务的好处是他有一个savepoint。
 
 ## 相关实现
 
@@ -89,9 +89,9 @@ RuleBasedTransactionAttribute根据传入的回滚规则来决定是否进行事
 
 # TransactionStatus
 
-TransactionStatus接口表示整个事务处理过程中的事务状态，更多时候我们在编程式事务中使用该接口。
+TransactionStatus接口表示整个事务处理过程中的事务状态，在编程式事务中较多地使用使用该接口。
 
-在事务处理过程中我们可以通过TransactionStatus进行如下工作。
+在事务处理过程中TransactionStatus进行如下工作。
 
 + 使用相应的方法查询事务状态
 + 通过设置RollbackOnly()方法标记当前事务以使其回滚
@@ -125,7 +125,7 @@ spring为各种数据访问技术提供了现成的PlatformTransactionManager实
 
 ## 分析DataSourceTransactionManager
 
-PlatformTransactionManager的各个实现类基本上遵循统一的结构和理念，所以我们从分析DataSourceTransactionManager入手，通过分析DataSourceTransactionManager就可以类推到其他PlatformTransactionManager实现类逻辑。
+PlatformTransactionManager的各个实现类基本上遵循统一的结构和理念，所以从分析DataSourceTransactionManager入手，通过分析DataSourceTransactionManager就可以类推到其他PlatformTransactionManager实现类逻辑。
 
 DataSourceTransactionManager层次结构图：
 

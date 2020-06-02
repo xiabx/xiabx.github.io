@@ -174,19 +174,19 @@ public void refresh() throws BeansException, IllegalStateException {
 
    1. 初始化前的准备工作，例如对系统属性或者环境变量进行准备及验证。
 
-      在某种情况下项目的使用需要读取某些系统变量,而这个变量的设置很可能会影响着系统的正确性，那么ClassPathXmlIApplicationContext 为我们提供的这个准备函数就显得非常必要，它可以在Spring启动的时候提前对必需的变量进行存在性验证。
+      在某种情况下项目的使用需要读取某些系统变量,而这个变量的设置很可能会影响着系统的正确性，那么这个准备函数就显得非常必要，它可以在Spring启动的时候提前对必需的变量进行存在性验证。
 
 2. 初始化BeanFactory,并进行XML文件读取。
 
-   之前有提到ClassPathXmlApplicationContext包含着BeanFactory所提供的一切特征，那么在这一步骤中将会复用BeanFactory 中的配置文件读取解析及其他功能，这-一步之后，ClassPathXmlApplicationContext实际上就已经包含了BeanFactory 所提供的功能，也就是可以进行bean的提取等基础操作了。
+   之前有提到ClassPathXmlApplicationContext包含着BeanFactory所提供的一切特征，那么在这一步骤中将会复用BeanFactory 中的配置文件读取解析及其他功能，这一步之后，ClassPathXmlApplicationContext实际上就已经包含了BeanFactory 所提供的功能，也就是可以进行bean的提取等基础操作了。
 
 3. 对BeanFactory进行各种功能填充。
 
-​      @Qualifer与@Autowired这两个非常熟悉的注解,正是在这一步骤中增加的支持。
+​      @Qualifer与@Autowired这两个注解,正是在这一步骤中增加的支持。
 
 4. 子类覆盖方法做额外的处理。
 
-   一个扩展点，提供了一个空的函数实现postProcessBeanFactory来方便程序员在业务上做进一步扩展。
+   一个扩展点，提供了一个空的函数实现postProcessBeanFactory来方便开发人员在业务上做进一步扩展。
 
 5. 激活各种BeanFactory处理器。
 
@@ -294,7 +294,6 @@ protected void customizeBeanFactory(DefaultListableBeanFactory beanFactory) {
       beanFactory.setAllowCircularReferences(this.allowCircularReferences);
    }
 }
-
 ```
 
 ### 加载BeanDefinition：loadBeanDefinitions(beanFactory)

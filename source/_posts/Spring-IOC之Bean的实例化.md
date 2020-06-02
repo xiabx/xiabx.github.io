@@ -36,7 +36,7 @@ BeanFactory使用BeanFactoryPostProcessor需要手动注册，而ApplicationCont
 
 通常我们不想将系统相关的信息同业务相关的配置信息混在到XML配置文件中，这样可能会出现更改xml文件时出现问题。我们可以把系统相关的信息如：数据库连接信息等。配置到一个单独的properties文件中，这样系统信息发生变动时只需要更改properties文件就行了。
 
-使用方法很简单，只需要再配置xml文件时将需要从properties文件中读取的数据项使用占位符`${placeHolder}`占位即可。然后将PropertyPlaceholderConfigurer注册到IOC容器中，就可以实现对XML配置文件中的占位符进行替换的功能。
+使用方法很简单，只需要在配置xml文件时将需要从properties文件中读取的数据项使用占位符`${placeHolder}`占位即可。然后将PropertyPlaceholderConfigurer注册到IOC容器中，就可以实现对XML配置文件中的占位符进行替换的功能。
 
 ### PropertyOverrideConfigurer
 
@@ -79,7 +79,7 @@ BeanWrapper接口通常在Spring框架内部使用，它有一个BeanWrapperImpl
 
 对BeanFactory而言有以下几个Aware接口：
 
-+ BeanNameWare：将bean对应的beanName注入到当前对象实例
++ BeanNameAware：将bean对应的beanName注入到当前对象实例
 + BeanClassLoaderAware：将加载该bean的ClassLoader注入当前对象
 + BeanFactoryAware：将BeanFactory容器注入到当前对象中
 
@@ -114,7 +114,7 @@ public interface BeanPostProcessor {
 > 实际上，有一种特殊类型的BeanPostProcessor我们没有提到，它的执行时机与通常的BeanPostProcessor不同。org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor
 > 接口可以在对象的实例化过程中导致某种类似于电路“短路”的效果。
 >
-> 实际上，并非所有注册到Spring容器内的bean定义都是按照图4-10的流程实例化的。在所有的步骤之前，也就是实例化bean对象步骤之前，容器会首先检查容器中是否注册有InstantiationAwareBeanPostProcessor类型的BeanPostProcessor。如果有，首先使用相应的InstantiationAwareBeanPostProcessor来构造对象实例。构造成功后直接返回构造完成的对象实例，而不会按照“正规的流程”继续执行。这就是它可能造成“短路”的原因。
+> 实际上，并非所有注册到Spring容器内的bean定义都是按照上图的流程实例化的。在所有的步骤之前，也就是实例化bean对象步骤之前，容器会首先检查容器中是否注册有InstantiationAwareBeanPostProcessor类型的BeanPostProcessor。如果有，首先使用相应的InstantiationAwareBeanPostProcessor来构造对象实例。构造成功后直接返回构造完成的对象实例，而不会按照“正规的流程”继续执行。这就是它可能造成“短路”的原因。
 >
 > 不过，通常情况下都是Spring容器内部使用这种特殊类型的BeanPostProcessor做一些动态对象代理等工作，我们使用普通的BeanPostProcessor实现就可以。这里简单提及一下，目的是让大家有所了解。
 
@@ -823,7 +823,7 @@ protected Object doCreateBean(final String beanName, final RootBeanDefinition mb
 
 createBeanInstance方法的主要作用就是根据不同的情况使用不同的策略，最后获得一个原始的bean，将其封装到BeanWrapper中。
 
-如果bean中定义了factory-method则直接通过instantiateUsingFactoryMethod类获取beanWrapper。如果没有配置工厂方法，下一步对mbd中的resolvedConstructorOrFactoryMethod属性进行检测，查看是否存在过解析的情况以获得构造函数。如果该baen对应的calss存在自定义构造，则调用autowireConstructor进行解析并创建BeanWrapper，否则调用instantiateBean方法，使用空参构造来创建BeanWrapper。
+如果bean中定义了factory-method则直接通过instantiateUsingFactoryMethod类获取beanWrapper。如果没有配置工厂方法，下一步对mbd中的resolvedConstructorOrFactoryMethod属性进行检测，查看是否存在过解析的情况以获得构造函数。如果该baen对应的class存在自定义构造，则调用autowireConstructor进行解析并创建BeanWrapper，否则调用instantiateBean方法，使用空参构造来创建BeanWrapper。
 
 autowireConstructor有点复杂，概括起来主要做了这几件事，确定构造参数，确定构造方法，调用实例化策略获得原始bean，将原始bean封装为BeanWrapper。
 
@@ -908,7 +908,7 @@ protected BeanWrapper createBeanInstance(String beanName, RootBeanDefinition mbd
 
 #### spring解决循环依赖具体方式
 
-spring通过将已实例化但未属性的注入的bean提前暴露来解决循环依赖。主要通过singletonFactories 缓存来实现。其中涉及这几个的方法：`getSingleton(String beanName, boolean allowEarlyReference)` `getSingleton(String beanName, ObjectFactory<?> singletonFactory)` `beforeSingletonCreation(beanName);`  `addSingletonFactory(String beanName, ObjectFactory<?> singletonFactory)`。
+spring通过将已实例化但未属性的注入的bean提前暴露来解决循环依赖。主要通过singletonFactories缓存来实现。其中涉及这几个的方法：`getSingleton(String beanName, boolean allowEarlyReference)` `getSingleton(String beanName, ObjectFactory<?> singletonFactory)` `beforeSingletonCreation(beanName);`  `addSingletonFactory(String beanName, ObjectFactory<?> singletonFactory)`。
 
 setter形式的循环依赖参考<https://www.cnblogs.com/zzq6032010/p/11406405.html>。
 

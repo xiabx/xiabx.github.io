@@ -800,7 +800,8 @@ AutowiredAnnotationBeanPostProcessor.postProcessProperties
 
 ```java
 public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) {
-    //从缓存中直接取出来需要租入的field和method
+    //从缓存中直接取出来需要注入的field和method
+    //因为@Autowired可以标注在 字段和方法上  所以注入时需要对这两种情况分别注入
    InjectionMetadata metadata = findAutowiringMetadata(beanName, bean.getClass(), pvs);
    try {
        //开始注入了。。。
@@ -853,7 +854,7 @@ protected void inject(Object target, @Nullable String requestingBeanName, @Nulla
       try {
          Method method = (Method) this.member;
          ReflectionUtils.makeAccessible(method);
-          ///method直接invoke？？？
+          ///method直接invoke
          method.invoke(target, getResourceToInject(target, requestingBeanName));
       }
       catch (InvocationTargetException ex) {

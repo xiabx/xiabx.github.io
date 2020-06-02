@@ -87,7 +87,7 @@ Advice分为以下几种形式：
 
 符合Pointcut所指定的条件，将在织入过程中被织入横切逻辑的对象，称之为目标对象。
 
-# spring aop一世
+# Spring Aop一世
 
 ## Joinpoint
 
@@ -157,7 +157,7 @@ Spring AOP加入了AOP Alliance组织。所以spring aop中各种advice类型全
 
 ![image-20191221162202771](https://xbxblog2.bj.bcebos.com/springaop/image-20191221162202771.png)
 
-spring aop按照advice其自身实例能否在目标对象类的所有实例中共享这一标准，分为per-class类型和per-instance类型。
+Spring Aop按照advice其自身实例能否在目标对象类的所有实例中共享这一标准，分为per-class类型和per-instance类型。
 
 ### per-class类型的Advice
 

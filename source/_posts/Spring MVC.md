@@ -216,7 +216,7 @@ HandlerExceptionResolver可以在Handler处理请求抛出异常时，此时他�
 
 在基于注解的Controller实现类中，当前类将用于哪个Web请求的处理是由相应的注解标注的，如：`@RequestMapping("\hello")`。这些注解信息将通过反射来读取。
 
-要实现一个基于注解的Controller的HandlerMapping思路就是，便利所有可用的基于注解的Controller实现类，然后根据请求的路径信息，与实现类中标注的映射信息进行比对。如果请求路径信息与实现类中标注的映射信息比对成功则返回当前基于注解的Controller实现类。
+要实现一个基于注解的Controller的HandlerMapping思路就是，遍历所有可用的基于注解的Controller实现类，然后根据请求的路径信息，与实现类中标注的映射信息进行比对。如果请求路径信息与实现类中标注的映射信息比对成功则返回当前基于注解的Controller实现类。
 
 **伪代码：**
 
@@ -230,7 +230,7 @@ spring官方提供的处理基于注解的Controller的HandlerMapping是DefaultA
 
 其实现也是根据反射来拿到所有方法，然后通过比对映射路径找到正确的方法，然后通过反射执行该处理方法。
 
-其实在自定义基于注解的Controller的HandlerAdaptor会面临很多问题：
+其实在自定义基于注解的Controller的HandlerAdaptor还会处理以下问题：
 
 + 如何根据POST、GET方法，调用相应的处理方法
 + 数据绑定时，如何决定将哪个请求参数半丁到方法的哪个参数上。
