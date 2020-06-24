@@ -2,10 +2,10 @@
 title: java多线程-线程持有对象
 author: XIA
 categories:
-  - null
+  - 多线程
 tags:
   - null
-date: 2020-03-07 19:05:34
+date: 2019-03-07 19:05:34
 ---
 
 # 线程持有对象

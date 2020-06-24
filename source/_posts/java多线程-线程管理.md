@@ -2,10 +2,10 @@
 title: java多线程-线程管理
 author: XIA
 categories:
-  - null
+  - 多线程
 tags:
   - null
-date: 2020-03-09 18:36:52
+date: 2019-03-09 18:36:52
 ---
 
 # 线程组

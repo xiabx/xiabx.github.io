@@ -3,10 +3,10 @@
 title: RestTemplate
 author: XIA
 categories:
-  - null
+  - SpringCloud
 tags:
   - null
-date: 2020-03-22 20:21:00
+date: 2019-05-22 20:21:00
 ---
 
 学习Ribbon时候看到了RestTemplate，对其拦截机制不了解，所以看到哪里算哪里吧。

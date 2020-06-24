@@ -2,10 +2,10 @@
 title: java多线程-硬件基础与内存模型
 author: XIA
 categories:
-  - null
+  - 多线程
 tags:
   - null
-date: 2020-03-11 20:00:44
+date: 2019-03-11 20:00:44
 ---
 
 # 硬件基础

@@ -2,10 +2,10 @@
 title: java多线程-活性故障
 author: XIA
 categories:
-  - null
+  - 多线程
 tags:
   - null
-date: 2020-03-08 20:40:06
+date: 2019-03-08 20:40:06
 ---
 
 # 死锁

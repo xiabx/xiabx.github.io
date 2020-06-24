@@ -2,10 +2,10 @@
 title: Zuul
 author: XIA
 categories:
-  - null
+  - SpringCloud
 tags:
   - null
-date: 2020-04-11 19:41:16
+date: 2019-04-11 19:41:16
 ---
 
 # Zuul是什么

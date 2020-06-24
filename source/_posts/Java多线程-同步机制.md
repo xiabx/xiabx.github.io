@@ -2,10 +2,10 @@
 title: Java多线程-同步机制
 author: XIA
 categories:
-  - 抬望眼，仰天长啸，壮怀激烈。
+  - 多线程
 tags:
   - null
-date: 2020-02-29 21:29:36
+date: 2019-02-29 21:29:36
 ---
 
 # 同步机制简介

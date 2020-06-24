@@ -2,10 +2,10 @@
 title: Java多线程-基础
 author: XIA
 categories:
-  - 怒发冲冠，凭阑处，潇潇雨歇。
+  - 多线程
 tags:
   - null
-date: 2020-02-28 17:56:01
+date: 2019-02-28 17:56:01
 ---
 
 # 认识线程

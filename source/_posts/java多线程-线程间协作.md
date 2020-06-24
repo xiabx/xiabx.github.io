@@ -2,10 +2,10 @@
 title: java多线程-线程间协作
 author: XIA
 categories:
-  - null
+  - 多线程
 tags:
   - null
-date: 2020-03-03 20:26:06
+date: 2019-03-03 20:26:06
 ---
 
 # 等待和通知
