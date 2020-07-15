@@ -114,6 +114,39 @@ AIO使用了系统底层的异步io支持，与多路复用的区别在于，多
 
 
 
+# 使用Netty进行简单的开发
+
+使用Netty的步骤：包括建立NIO线程组，初始化并设置启动类，设置Handler等。
+
+# TCP粘包/拆包问题
+
+由于Netty之间建立的是tcp的请求通道，并不是针对某一个应用层协议，所以它本身不能控制应用层数据组合。所以就会产生粘包、拆包问题。
+
+解决的方式就是在Netty应用中加入适当的分割协议，如根据指定长度、根据特定的字符进行分割。Netty已经为我们提供了很多用于处理粘包、拆包的Handler。使用时只需要将用于处理粘包、拆包的Handler加入pipeline即可。如：
+
+![image-20200714215537434](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200714215537434.png)
+
+Netty提供了很多处理粘包与拆包策略的Handler可供使用：
+
++ LineBasedFrameDecoder:根据换行符处理半包问题
++ DelimitedBasedFrameDecoder：根据分隔符处理半包问题
++ FixedLengthFrameDecoder：根据固定长度处理半包问题
++ StringDecoder：将数据编码为字符串
+
+# 编解码技术
+
+Java自带的编解码技术有着以下缺点：
+
++ 无法跨语言
++ 序列化后码流太大
++ 序列化性能低
+
+所以需要使用第三方的编解码框架来应对编解码需求，主流的有Protobuf、Thrift、Marshalling等。
+
+Netty本身提供了对这些编解码器的支持，开箱即用。
+
+
+
 
 
 
