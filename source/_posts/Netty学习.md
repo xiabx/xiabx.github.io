@@ -140,10 +140,6 @@ Buffer主要包括三个属性：capacity(容量)、position(读写位置)、lim
 4. 调用get方法，从缓冲区中读取数据。
 5. 读取完成后，调用Buffer.clear() 或Buffer.compact()方法，将缓冲区转换为写入模式。
 
-----
-
-
-
 ### Channel
 
 NIO中一个连接就是用一个Channel（通道）来表示。从更广泛的层面来说，一个通道可以表示一个底层的文件描述符，例如硬件设备、文件、网络连接等。除了可以对应到底层文件描述符，Java NIO的通道还可以更加细化。例如，对应不同的网络传输协议类型，在Java中都有不同的NIO Channel（通道）实现。
@@ -219,7 +215,381 @@ new RandomAccessFile("filename","rw").getChannel();  //通过RandomAccessFile获
 
 JDK1.7以后，java推出了NIO2.0也就是AIO库。AIO是基于Linux的AIO模型的。在使用时就是通过注册回调事件来对IO结果响应。
 
+# Reactor线程模型
 
+先说结论：Reactor线程模型的思想就是基于IO复用和线程池的结合。Reactor是为了更好搭配NIO多路复用机制而产生的一种线程模型。Reactor线程模型使用少量的线程处理大量连接，这主要归功于NIO中选择器的功劳。
+
+在反应器模式中有两个重要的组件：Reactor反应器和Handler处理器。
+
++ Reactor反应器：利用Selector查询IO事件，当检测到IO事件，将其发送给响应的Handler处理器。
++ Handler处理器：真正处理IO事件，包括连接建立、业务逻辑处理、数据读写等。
+
+Reactor线程模型分为单线程和多线程版本。单线程版本中，Reactor反应器和Handler处理器在同一个线程中执行。多线程版本中会将Handler处理放到线程池中，不再和Reactor放在同一条线程，而且可以使用多个Reactor反应器，提高事件分发效率。
+
+## 单线程版本
+
+在Channel与Handler处理器进行绑定时，需要使用Channel注册到Selector时的绑定键对象SelectionKey。该对象拥有两个重要的成员方法：
+
++ void attach(Object o)：该方法可以将任何对象作为附件添加到SelectionKey对象，相当于附件属性的setter方法。可以使用该方法将Handler处理器绑定到Selection对象。
++ Object attachment()：此方法的作用是取出之前通过attach(Object o)添加到SelectionKey选择键实例的附件，相当于附件属性的getter方法，与attach(Object o)配套使用。
+
+还是根据示例看吧，一个Echo服务器。
+
+以下是单线程版本Reactor线程模型。在代码中，Reactor反应器和Handler处理器的处理都在同一个线程中。这样虽然使用到的线程减少了，但是当Handler发生阻塞，那么Reactor反应器也会阻塞，这时将会造成服务不可用的情况。所以还需要Reactor线程模型的多线程版本。
+
+```java
+//反应器，对应Reactor线程模型的Reactor反应器。
+class EchoServerReactor implements Runnable {
+    Selector selector;
+    ServerSocketChannel serverSocket;
+
+    EchoServerReactor() throws IOException {
+        //Reactor初始化
+        selector = Selector.open();
+        serverSocket = ServerSocketChannel.open();
+
+        InetSocketAddress address =
+                new InetSocketAddress(NioDemoConfig.SOCKET_SERVER_IP,
+                        NioDemoConfig.SOCKET_SERVER_PORT);
+        serverSocket.socket().bind(address);
+        //非阻塞
+        serverSocket.configureBlocking(false);
+
+        //分步处理,第一步,接收accept事件
+        SelectionKey sk =
+                serverSocket.register(selector, SelectionKey.OP_ACCEPT);
+        //绑定Handler，用于slelector选择到了serverSocket这个channel时，可以从绑定键中取出Handler进行执行业务逻辑。
+        sk.attach(new AcceptorHandler());
+    }
+
+    public void run() {
+        try {
+            while (!Thread.interrupted()) {
+                selector.select();
+                Set<SelectionKey> selected = selector.selectedKeys();
+                Iterator<SelectionKey> it = selected.iterator();
+                while (it.hasNext()) {
+                    //Reactor负责dispatch收到的事件
+                    SelectionKey sk = it.next();
+                    //将事件分发到Handler
+                    dispatch(sk);
+                }
+                selected.clear();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    void dispatch(SelectionKey sk) {
+        Runnable handler = (Runnable) sk.attachment();
+        //调用之前attach绑定到选择键的handler处理器对象
+        if (handler != null) {
+            handler.run();
+        }
+    }
+
+    // Handler:新连接处理器
+    class AcceptorHandler implements Runnable {
+        public void run() {
+            try {
+                SocketChannel channel = serverSocket.accept();
+                if (channel != null)
+                    //将新连接SocketChannel进行Selector注册，并绑定Handler
+                    new EchoHandler(selector, channel);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    public static void main(String[] args) throws IOException {
+        new Thread(new EchoServerReactor()).start();
+    }
+}
+```
+
+```java
+class EchoHandler implements Runnable {
+    final SocketChannel channel;
+    final SelectionKey sk;
+    final ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+    static final int RECIEVING = 0, SENDING = 1;
+    int state = RECIEVING;
+
+    EchoHandler(Selector selector, SocketChannel c) throws IOException {
+        channel = c;
+        c.configureBlocking(false);
+        //仅仅取得选择键，后设置感兴趣的IO事件
+        sk = channel.register(selector, 0);
+
+        //将Handler作为选择键的附件
+        sk.attach(this);
+
+        //第二步,注册Read就绪事件
+        sk.interestOps(SelectionKey.OP_READ);
+        selector.wakeup();
+    }
+
+    public void run() {
+
+        try {
+
+            if (state == SENDING) {
+                //写入通道
+                channel.write(byteBuffer);
+                //写完后,准备开始从通道读,byteBuffer切换成写模式
+                byteBuffer.clear();
+                //写完后,注册read就绪事件
+                sk.interestOps(SelectionKey.OP_READ);
+                //写完后,进入接收的状态
+                state = RECIEVING;
+            } else if (state == RECIEVING) {
+                //从通道读
+                int length = 0;
+                while ((length = channel.read(byteBuffer)) > 0) {
+                    Logger.info(new String(byteBuffer.array(), 0, length));
+                }
+                //读完后，准备开始写入通道,byteBuffer切换成读模式
+                byteBuffer.flip();
+                //读完后，注册write就绪事件
+                sk.interestOps(SelectionKey.OP_WRITE);
+                //读完后,进入发送的状态
+                state = SENDING;
+            }
+            //处理结束了, 这里不能关闭select key，需要重复使用
+            //sk.cancel();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+}
+```
+
+## 多线程版本
+
+对单线程版本主要有两方面升级：
+
+1. 首先是升级Handler处理器。既要使用多线程，又要尽可能的高效率，则可以考虑使用线程池。
+2. 其次是升级Reactor反应器。可以考虑引入多个Selector选择器，提升选择大量通道的能力。
+
+将Handler处理都放在单独的线程池中，与Reactor反应器隔离，避免服务器阻塞。
+
+```java
+class MultiThreadEchoServerReactor {
+    ServerSocketChannel serverSocket;
+    AtomicInteger next = new AtomicInteger(0);
+    //selectors集合,引入多个selector选择器
+    Selector[] selectors = new Selector[2];
+    //引入多个子反应器
+    SubReactor[] subReactors = null;
+
+
+    MultiThreadEchoServerReactor() throws IOException {
+        //初始化多个selector选择器
+        selectors[0] = Selector.open();
+        selectors[1] = Selector.open();
+        serverSocket = ServerSocketChannel.open();
+
+        InetSocketAddress address =
+                new InetSocketAddress(NioDemoConfig.SOCKET_SERVER_IP,
+                        NioDemoConfig.SOCKET_SERVER_PORT);
+        serverSocket.socket().bind(address);
+        //非阻塞
+        serverSocket.configureBlocking(false);
+
+        //第一个selector,负责监控新连接事件
+        SelectionKey sk =
+                serverSocket.register(selectors[0], SelectionKey.OP_ACCEPT);
+        //附加新连接处理handler处理器到SelectionKey（选择键）
+        sk.attach(new AcceptorHandler());
+
+        //第一个子反应器，一子反应器负责一个选择器
+        SubReactor subReactor1 = new SubReactor(selectors[0]);
+        //第二个子反应器，一子反应器负责一个选择器
+        SubReactor subReactor2 = new SubReactor(selectors[1]);
+        subReactors = new SubReactor[]{subReactor1, subReactor2};
+    }
+
+    private void startService() {
+        // 一子反应器对应一条线程
+        new Thread(subReactors[0]).start();
+        new Thread(subReactors[1]).start();
+    }
+
+    //反应器
+    class SubReactor implements Runnable {
+        //每条线程负责一个选择器的查询
+        final Selector selector;
+
+        public SubReactor(Selector selector) {
+            this.selector = selector;
+        }
+
+        public void run() {
+            try {
+                while (!Thread.interrupted()) {
+                    selector.select();
+                    Set<SelectionKey> keySet = selector.selectedKeys();
+                    Iterator<SelectionKey> it = keySet.iterator();
+                    while (it.hasNext()) {
+                        //Reactor负责dispatch收到的事件
+                        SelectionKey sk = it.next();
+                        dispatch(sk);
+                    }
+                    keySet.clear();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+
+        void dispatch(SelectionKey sk) {
+            Runnable handler = (Runnable) sk.attachment();
+            //调用之前attach绑定到选择键的handler处理器对象
+            if (handler != null) {
+                handler.run();
+            }
+        }
+    }
+
+
+    // Handler:新连接处理器
+    class AcceptorHandler implements Runnable {
+        public void run() {
+            try {
+                SocketChannel channel = serverSocket.accept();
+                if (channel != null)
+                    new MultiThreadEchoHandler(selectors[next.get()], channel);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (next.incrementAndGet() == selectors.length) {
+                next.set(0);
+            }
+        }
+    }
+
+
+    public static void main(String[] args) throws IOException {
+        MultiThreadEchoServerReactor server =
+                new MultiThreadEchoServerReactor();
+        server.startService();
+    }
+
+}
+```
+
+```java
+class MultiThreadEchoHandler implements Runnable {
+    final SocketChannel channel;
+    final SelectionKey sk;
+    final ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+    static final int RECIEVING = 0, SENDING = 1;
+    int state = RECIEVING;
+    //引入线程池
+    static ExecutorService pool = Executors.newFixedThreadPool(4);
+
+    MultiThreadEchoHandler(Selector selector, SocketChannel c) throws IOException {
+        channel = c;
+        c.configureBlocking(false);
+        //仅仅取得选择键，后设置感兴趣的IO事件
+        sk = channel.register(selector, 0);
+        //将本Handler作为sk选择键的附件，方便事件dispatch
+        sk.attach(this);
+        //向sk选择键注册Read就绪事件
+        sk.interestOps(SelectionKey.OP_READ);
+        selector.wakeup();
+    }
+
+    public void run() {
+        //异步任务，在独立的线程池中执行
+        pool.execute(new AsyncTask());
+    }
+
+    //异步任务，不在Reactor线程中执行
+    public synchronized void asyncRun() {
+        try {
+            if (state == SENDING) {
+                //写入通道
+                channel.write(byteBuffer);
+                //写完后,准备开始从通道读,byteBuffer切换成写模式
+                byteBuffer.clear();
+                //写完后,注册read就绪事件
+                sk.interestOps(SelectionKey.OP_READ);
+                //写完后,进入接收的状态
+                state = RECIEVING;
+            } else if (state == RECIEVING) {
+                //从通道读
+                int length = 0;
+                while ((length = channel.read(byteBuffer)) > 0) {
+                    Logger.info(new String(byteBuffer.array(), 0, length));
+                }
+                //读完后，准备开始写入通道,byteBuffer切换成读模式
+                byteBuffer.flip();
+                //读完后，注册write就绪事件
+                sk.interestOps(SelectionKey.OP_WRITE);
+                //读完后,进入发送的状态
+                state = SENDING;
+            }
+            //处理结束了, 这里不能关闭select key，需要重复使用
+            //sk.cancel();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    //异步任务的内部类
+    class AsyncTask implements Runnable {
+        public void run() {
+            MultiThreadEchoHandler.this.asyncRun();
+        }
+    }
+
+}
+```
+
+# Future异步回调模式
+
+## join异步阻塞
+
+假设有三件任务A、B、C。C任务需要等到A、B都完成后才可以执行。
+
+此时可以将A、B、C这三件任务放到三个线程中，在C任务线程中调用A、B任务线程的join方法进行阻塞。
+
+join操作的原理是：阻塞当前的线程，直到准备合并的目标线程的执行完成。
+
+但是join有个缺陷就是没有返回值，我们在C任务线程中无法知道A、B任务线程的结果。
+
+## FutureTask异步回调之重武器
+
+Runnable在Java多线程中表示线程业务代码的抽象接口。但是Runnable有一个很严重的问题就是，他没有返回值，所以Runnable不可以应用到有返回值的场景。
+
+为了解决Runnable接口的问题，Java定义了一个新的和Runnable类似的接口—— Callable接口。并且将其中的代表业务处理的方法命名为call, call方法有返回值。
+
+```java
+@FunctionalInterface
+public interface Callable<V> {
+    
+    V call() throws Exception;
+}
+```
+
+Callable接口可以对应到Runnable接口；Callable接口的call方法可以对应到Runnable接口的run方法。相比较而言，Callable接口的功能更强大一些。
+
+Callable接口与Runnable接口相比，还有一个很大的不同：Callable接口的实例不能作为Thread线程实例的target来使用；而Runnable接口实例可以作为Thread线程实例的target构造参数，开启一个Thread线程。
+
+Java中的线程类型，只有一个Thread类，没有其他的类型。如果Callable实例需要异步执行，就要想办法赋值给Thread的target成员，一个Runnable类型的成员。为此，Java提供了在Callable实例和Thread的target成员之间一个搭桥的类——FutureTask类。
+
+FutureTask类的构造函数的参数为Callable类型，实际上是对Callable类型的二次封装，可以执行Callable的call方法。FutureTask类间接地继承了Runnable接口，从而可以作为Thread实例的target执行目标。
+
+FutureTask类就像一座搭在Callable实例与Thread线程实例之间的桥。FutureTask类的内部封装一个Callable实例，然后自身又作为Thread线程的target。
+
+## Netty的异步回调模式
 
 
 
