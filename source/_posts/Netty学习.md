@@ -591,6 +591,263 @@ FutureTask类就像一座搭在Callable实例与Thread线程实例之间的桥�
 
 ## Netty的异步回调模式
 
+Netty继承和扩展了JDK Future系列异步回调的API，定义了自身的Future系列接口和类，实现了异步任务的监控、异步执行结果的获取。引入了GenericFutureListener接口作为Future执行完毕的回调接口。
+
+```java
+public interface GenericFutureListener<F extends Future<?>> extends EventListener {
+
+    void operationComplete(F future) throws Exception;
+}
+```
+
+GenericFutureListener只有一个方法，该方法在异步任务完成时回调。EventListener是一个空接口，仅作标识作用。
+
+通过Netty中的Future接口中addListener与removeListener可以对Future注册的GenericFutureListener进行管理。
+
+Netty的Future接口一般不会直接使用，而是会使用子接口。Netty有一系列的子接口，代表不同类型的异步任务，如ChannelFuture。ChannelFuture子接口表示通道IO操作的异步任务；如果在通道的异步IO操作完成后，需要执行回调操作，就需要使用到ChannelFuture接口。
+
+在Netty中所有的操作都是异步的，在处理网络连接通道的输入和输出处理时都会返回ChannelFuture实例。
+
+```java
+Bootstrap b = new Bootstrap();
+//连接操作是异步的，返回Future
+ChannelFuture f = b.connect();
+//设置Future回调
+f.addListener((ChannelFuture futureListener) ->
+{
+    if (futureListener.isSuccess()) {
+        Logger.info("EchoClient客户端连接成功!");
+
+    } else {
+        Logger.info("EchoClient客户端连接失败!");
+    }
+
+});
+```
+
+# Netty中的Reactor模式
+
+回忆一下Reactor模式，其实就是选择器Selector所在的线程成为反应器线程，然后轮询注册在之上的Channel，轮询到事件时就响应事件，事件执行逻辑在Handler中。在NIO中通过SelectionKey的附件保存Handler。单线程Reactor模式为Reactor线程的事件轮询与Handler的事件处理都位于一个线程。多线程Reactor是将Handler的处理放到线程池中，不会阻塞Reactor线程。在多线程Reactor模式中Reactor线程也会可以有多个。
+
+## Netty中的Channel
+
+Channel是Netty中比较重要的角色，原因是：反应器模式和通道紧密相关，反应器的查询和分发的IO事件都来自于Channel通道组件。
+
+Netty中不直接使用NIO中的Channel通道，而是对Channel通道组件进行了自己的封装。在Netty中有一系列通道，对于每一种协议，Netty都实现了自己的通道。Netty除了提供NIO通道还提供了OIO类型通道。常用Channel如下：
+
++ NioSocketChannel：异步非阻塞TCP Socket传输通道。
++ NioServerSocketChannel：异步非阻塞TCP Socket服务器端监听通道。
++  NioDatagramChannel：异步非阻塞的UDP传输通道。
++  NioSctpChannel：异步非阻塞Sctp传输通道。
++ NioSctpServerChannel：异步非阻塞Sctp服务器端监听通道。
++  OioSocketChannel：同步阻塞式TCP Socket传输通道。
++  OioServerSocketChannel：同步阻塞式TCP Socket服务器端监听通道。
++  OioDatagramChannel：同步阻塞式UDP传输通道。
++ OioSctpChannel：同步阻塞式Sctp传输通道。
++ OioSctpServerChannel：同步阻塞式Sctp服务器端监听通道。
+
+在Netty的NioSocketChannel内部封装了一个java NIO的SelectableChannel成员。通过内部的Java NIO通道，Netty的NioSocketChannel通道上的IO操作，最终会落地到Java NIO的SelectableChannel底层通道。
+
+![image-20200720211459193](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200720211459193.png)
+
+## Netty中的Reactor反应器
+
+在反应器模式中，一个反应器会负责一个事件处理线程，不断地轮询，通过Selector选择器不断查询注册过的IO事件（选择键）。如果查询到IO事件，则分发给Handler业务处理器。
+
+Netty中的反应器有多个实现类，与Channel通道类有关系。对应于NioSocketChannel通道，Netty的反应器类为：NioEventLoop。
+
+NioEventLoop有两个重要的成员属性，一个是Thread类成员，另一个是Java NIO的选择器Selector。
+
+![image-20200720211803485](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200720211803485.png)
+
+在Netty中，EventLoop反应器可以注册多个NettyChannel。
+
+![image-20200720211908336](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200720211908336.png)
+
+## Netty中的Handler
+
+在Netty中，EventLoop反应器内部有一个Java NIO选择器成员 执行以上事件的查询，然后进行对应的事件分发。事件分发（Dispatch）的目标就是Netty自己的Handler处理器。
+
+Netty的Handler处理器分为两大类：第一类是ChannelInboundHandler通道入站处理器；第二类是ChannelOutboundHandler通道出站处理器。二者都继承了ChannelHandler处理器接口。继承关系如下：
+
+![image-20200720213337461](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200720213337461.png)
+
+ChannelOutboundHandler与ChannelInboundHandler处理器，都有自己的默认adapter实现，在实现自己的Handler时只需要继承Adapter即可。
+
+## Netty的流水线(pipeline)
+
+Netty中Channel与Handler之间是多对多的关系，也就是一个Channel可以绑定多个Handler，一个Handler可以被多个Channel绑定。在Netty中通过ChannelPipeline来组织Channel与Handler之间的关系。
+
+ChannelPipeline的实现方式是一个双向链表，所有的Handler处理器被包装为双向链表的结点。
+
+一个Netty通道拥有一条Handler处理器流水线，成员的名称叫作pipeline。这里就是Channel与事件Handler的绑定原理，通过Netty的Channel中Pipeline绑定。
+
+Handler处理器分为入站处理器和出站处理器。这两种处理器都在同一条流水线上。
+
+![image-20200720214513416](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200720214513416.png)
+
+入站的IO操作只会且只能从Inbound入站处理器类型的Handler流过；出站的IO操作只会且只能从Outbound出站处理器类型的Handler流过。
+
+# Bootstrap启动类
+
+Bootstrap类是Netty提供的一个便利工厂类，可以通过它完成客户端与服务端的Netty组件组转，以及Netty的初始化。
+
+在Netty中，有两个启动器类，分别用在服务端和客户端。
+
+![image-20200720215513812](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200720215513812.png)
+
+## 父子通道
+
+在Netty中，每一个NioSocketChannel通道所封装的是Java NIO通道，再往下就对应到了操作系统底层的socket描述符。理论上操作系统的socket描述符分为两类，连接监听类型和数据传输类型。
+
+Netty中的NioServerSocketChannel通道用来监听连接，NioSocketChannel用来传输数据的通道。
+
+在Netty中，将有接收关系的NioServerSocketChannel和NioSocketChannel，叫作父子通道。其中，NioServerSocketChannel负责服务器连接监听和接收，也叫父通道（ParentChannel）。对应于每一个接收到的NioSocketChannel传输类通道，也叫子通道（ChildChannel）。
+
+## EventLoopGroup线程组
+
+在Netty中一个EventLoop相当于一个子反应器。多个Eventloop线程组成一个EventLoopGroup线程组。
+
+也就是说，Netty的EventLoopGroup线程组就是一个多线程版本的反应器。而其中的单个EventLoop线程对应于一个子反应器（SubReactor）。
+
+Netty程序不会直接使用Eventloop线程，而是使用EventLoopGroup线程组。EventLoopGroup的构造函数有一个参数，用于指定内部的线程数。
+
+为了及时接受（Accept）到新连接，在服务器端，一般有两个独立的反应器，一个反应器负责新连接的监听和接受，另一个反应器负责IO事件处理。对应到Netty服务器程序中，则是设置两个EventLoopGroup线程组，一个EventLoopGroup负责新连接的监听和接受，一个EventLoopGroup负责IO事件处理。
+
+通常负责新连接监听的EventLoopGroup线程组，查询父类通道的IO事件。另一个EventLoopGroup线程组负责查询所有子通道的IO事件，执行Handler处理器。
+
+## Bootstrap启动流程
+
+Bootstrap的启动流程，也就是Netty组件的组装、配置，以及Netty服务器或者客户端的启动流程。总共可以分为八步。
+
+```java
+//创建一个服务器端的启动器
+ServerBootstrap b = new ServerBootstrap();
+```
+
+1. 创建reactor线程组，并赋值给ServerBootstrap。当然也可以只设置一个，只不过这样就会使监听和工作的线程组
+
+   ```java
+   //创建reactor 线程组
+   EventLoopGroup bossLoopGroup = new NioEventLoopGroup(1);
+   EventLoopGroup workerLoopGroup = new NioEventLoopGroup();
+   
+   //1 设置reactor 线程组
+   b.group(bossLoopGroup, workerLoopGroup);
+   ```
+
+2. 设置通道IO类型
+
+   ```java
+   //2 设置nio类型的channel
+   b.channel(NioServerSocketChannel.class);
+   ```
+
+3. 设置监听端口
+
+   ```java
+   //3 设置监听端口
+   b.localAddress(8080);
+   ```
+
+4. 设置传输通道的配置选项
+
+   ```java
+   //4 设置通道的参数
+   b.option(ChannelOption.SO_KEEPALIVE, true);
+   b.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
+   b.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
+   ```
+
+   Bootstrap的option() 选项设置方法。对于服务器的Bootstrap而言，这个方法的作用是：给父通道（Parent Channel）接收连接通道设置一些选项。
+
+   如果要给子通道（Child Channel）设置一些通道选项，则需要用另外一个childOption()设置方法。
+
+   可以设置哪些通道选项（ChannelOption）呢？在上面的代码中，设置了一个底层TCP相关的选项ChannelOption.SO_KEEPALIVE。该选项表示：是否开启TCP底层心跳机制，true为开启，false为关闭。
+
+5. 装配子通道Pipeline
+
+   ```java
+   //5 装配子通道流水线
+   b.childHandler(new ChannelInitializer<SocketChannel>() {
+       //有连接到达时会创建一个channel
+       protected void initChannel(SocketChannel ch) throws Exception {
+           // pipeline管理子通道channel中的Handler
+           // 向子channel流水线添加一个handler处理器
+           ch.pipeline().addLast(NettyEchoServerHandler.INSTANCE);
+       }
+   });
+   ```
+
+   如果为父通道设置流水线，可以使用ServerBootstrap的handler方法，为父类设置ChannelInitializer初始化器。
+
+6. 开始绑定服务器的端口
+
+   ```java
+   // 6 开始绑定server
+   // 通过调用sync同步方法阻塞直到绑定成功
+   ChannelFuture channelFuture = b.bind().sync();
+   Logger.info(" 服务器启动成功，监听端口: " +
+           channelFuture.channel().localAddress());
+   ```
+
+   b.bind()方法的功能：返回一个端口绑定Netty的异步任务channelFuture。在这里，并没有给channelFuture异步任务增加回调监听器，而是阻塞channelFuture异步任务，直到端口绑定任务执行完成。
+
+7. 阻塞直到通道关闭
+
+   ```java
+   // 7 等待通道关闭的异步任务结束
+   // 服务监听通道会一直等待通道关闭的异步任务结束
+   ChannelFuture closeFuture = channelFuture.channel().closeFuture();
+   closeFuture.sync();
+   ```
+
+8. 关闭EventLoopGroup
+
+   关闭Reactor反应器线程组，同时关闭内部的子反应器线程，这也会关闭内部的Selector选择器，内部轮询线程以及负责查询的所有子通道。
+
+   ```java
+   // 8 优雅关闭EventLoopGroup，
+   // 释放掉所有资源包括创建的线程
+   workerLoopGroup.shutdownGracefully();
+   bossLoopGroup.shutdownGracefully();
+   ```
+
+# Channel
+
+在Netty中，Channel代表着网络连接。通道的抽象类AbstractChannel的构造函数可以知道，每个Channel都包含一个Pipeline与一个父通道。
+
+```java
+protected AbstractChannel(Channel parent) {
+    this.parent = parent;
+    unsafe = newUnsafe();
+    pipeline = new DefaultChannelPipeline(this);
+}
+```
+
+如果是监听通道，则父通道为null。如果是传输通道，则父通道为监听通道。
+
+Channel中的常用方法：
+
++ ChannelFuture connect(SocketAddress address)：连接远程服务器。
++ ChannelFuture bind（SocketAddress address): 绑定监听地址，开始监听新的客户端连接。
++ ChannelFuture close()：关闭连接通道。
++ Channel read()：读取通道数据，并且启动入站处理。
++ ChannelFuture write（Object o）：启程出站流水处理，把处理后的最终数据写到底层Java NIO通道。
++ Channel flush()：将缓冲区中的数据立即写出到对端。并不是每一次write操作都是将数据直接写出到对端，write操作的作用在大部分情况下仅仅是写入到操作系统的缓冲区，操作系统会将根据缓冲区的情况，决定什么时候把数据写到对端。而执行flush()方法立即将缓冲区的数据写到对端。
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
