@@ -836,17 +836,247 @@ Channel中的常用方法：
 + ChannelFuture write（Object o）：启程出站流水处理，把处理后的最终数据写到底层Java NIO通道。
 + Channel flush()：将缓冲区中的数据立即写出到对端。并不是每一次write操作都是将数据直接写出到对端，write操作的作用在大部分情况下仅仅是写入到操作系统的缓冲区，操作系统会将根据缓冲区的情况，决定什么时候把数据写到对端。而执行flush()方法立即将缓冲区的数据写到对端。
 
+# Handler
+
+在Reactor反应器经典模型中，反应器查询到IO事件后，分发到Handler业务处理器，由Handler完成IO操作和业务处理。
+
+整个的IO处理操作环节包括：从通道读数据包、数据包解码、业务处理、目标数据编码、把数据包写到通道，然后由通道发送到对端。
+
+![image-20200721220220654](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200721220220654.png)
+
+Netty的Handler分为入站处理器和出站处理器，数据包解码和业务处理属于入站处理器，目标数据编码和把数据包写到通道属于出站处理器的工作。
+
+## ChannelInboundHandler出站处理器
+
+当数据或者信息入站到Netty通道时，Netty将触发入站处理器ChannelInboundHandler所对应的入站API，进行入站操作处理。
+
+![image-20200721221432068](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200721221432068.png)
+
++ channelRegistered：当通道注册完成后，Netty会调用fireChannelRegistered，触发通道注册事件。通道会启动该入站操作的流水线处理，在通道注册过的入站处理器Handler的channelRegistered方法，会被调用到。
++ channelActive：当通道激活完成后，Netty会调用fireChannelActive，在通道注册过的入站处理器Handler的channelActive方法，会被调用到。
++ channelRead：当通道缓冲区可读，Netty会调用fireChannelRead，在通道注册过的入站处理器Handler的channelRead方法，会被调用到。
++ channelReadComplete：当通道缓冲区读完，Netty会调用fireChannelReadComplete，在通道注册过的入站处理器Handler的channelReadComplete方法，会被调用到。
++ channelInactive：当连接被断开或者不可用，Netty会调用fireChannelInactive，在通道注册过的入站处理器Handler的channelInactive方法，会被调用到。
++ exceptionCaught：当通道处理过程发生异常时，Netty会调用fireExceptionCaught，在通道注册过的处理器Handler的exceptionCaught方法，会被调用到。
+
+Netty中，ChannelInboundHandler的默认实现为ChannelInboundHandlerAdapter，在实际开发中，只需要继承ChannelInboundHandlerAdapter，重写自己需要的方法即可。
+
+## ChannelOutboundHandler出站处理器
+
+在业务处理完成后，需要操作Java NIO底层通道时，可以通过一系列ChannelOutboundHandler出站处理器，完成Netty通道到底层通道的操作。如建立底层连接、断开底层连接、写入底层Java NIO通道等。
+
+![image-20200721222715208](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200721222715208.png)
+
++ bind：监听地址（IP+端口）绑定：完成底层Java IO通道的IP地址绑定。如果使用TCP传输协议，这个方法用于服务器端。
++ connect：连接服务端：完成底层Java IO通道的服务器端的连接操作。如果使用TCP传输协议，这个方法用于客户端。
++ write：写数据到底层：完成Netty通道向底层Java IO通道的数据写入操作。此方法仅仅是触发一下操作而已，并不是完成实际的数据写入操作。
++ flush：腾空缓冲区中的数据，把这些数据写到对端：将底层缓存区的数据腾空，立即写出到对端。
++ read：从底层读数据：完成Netty通道从Java IO通道的数据读取。
++ disConnect：断开服务器连接：断开底层Java IO通道的服务器端连接。如果使用TCP传输协议，此方法主要用于客户端。
++ close：主动关闭通道：关闭底层的通道，例如服务器端的新连接监听通道。
+
+# Pipeline
+
+Pipeline是Netty用来组织Handler的组件，它内部是一个双向链表，支持动态添加和删除Handler。
+
+## Pipeline入站处理流程
+
+```java
+public class InPipeline {
+    static class SimpleInHandlerA extends ChannelInboundHandlerAdapter {
+        @Override
+        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+            Logger.info("入站处理器 A: 被回调 ");
+            super.channelRead(ctx, msg);
+        }
+    }
+    static class SimpleInHandlerB extends ChannelInboundHandlerAdapter {
+        @Override
+        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+            Logger.info("入站处理器 B: 被回调 ");
+            super.channelRead(ctx, msg);
+        }
+    }
+    static class SimpleInHandlerC extends ChannelInboundHandlerAdapter {
+        @Override
+        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+            Logger.info("入站处理器 C: 被回调 ");
+            super.channelRead(ctx, msg);
+        }
+    }
 
 
+    @Test
+    public void testPipelineInBound() {
+        ChannelInitializer i = new ChannelInitializer<EmbeddedChannel>() {
+            protected void initChannel(EmbeddedChannel ch) {
+                ch.pipeline().addLast(new SimpleInHandlerA());
+                ch.pipeline().addLast(new SimpleInHandlerB());
+                ch.pipeline().addLast(new SimpleInHandlerC());
 
+            }
+        };
+        EmbeddedChannel channel = new EmbeddedChannel(i);
+        ByteBuf buf = Unpooled.buffer();
+        buf.writeInt(1);
+        //向通道写一个入站报文
+        channel.writeInbound(buf);
+        try {
+            Thread.sleep(Integer.MAX_VALUE);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
 
+在channelRead()方法中，调用父类的channelRead()方法，会自动调用下一个inBoundHandler的channelRead()方法。这样就形成了调用链。
 
+![image-20200721225138658](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200721225138658.png)
 
+## Pipeline出站处理流程
 
+类似于入站处理，调用链也是通过调用父类方法实现。
 
+## ChannelHandlerContext上下文
 
+Pipeline是用来组织Handler处理器的组件，如：
 
+```java
+ChannelInitializer i = new ChannelInitializer<EmbeddedChannel>() {
+    protected void initChannel(EmbeddedChannel ch) {
+        ch.pipeline().addLast(new SimpleInHandlerA());
+        ch.pipeline().addLast(new SimpleInHandlerB());
+        ch.pipeline().addLast(new SimpleInHandlerC());
 
+    }
+};
+```
+
+其实，在addLast时会将Handler包装为ChannelHandlerContext对象。在ChannelHandlerContext对象中会包含一系列相关组件，如：
+
+```java
+private final boolean inbound;
+private final boolean outbound;
+private final AbstractChannel channel;
+private final DefaultChannelPipeline pipeline;
+private final String name;
+private boolean removed;
+```
+
+Channel、Handler、ChannelHandlerContext三者的关系为：Channel通道拥有一条ChannelPipeline通道流水线，每一个流水线节点为一个ChannelHandlerContext通道处理器上下文对象，每一个上下文中包裹了一个ChannelHandler通道处理器。在ChannelHandler通道处理器的入站/出站处理方法中，Netty都会传递一个Context上下文实例作为实际参数。通过Context实例的实参，在业务处理中，可以获取ChannelPipeline通道流水线的实例或者Channel通道的实例。
+
+## 截断流水线处理
+
+在pipeline中出发handler链的继续执行有两种方式，一个是在channel中调用父类的相应方法，另一个是ChannelHandlerContext的fireChannelXxx()方法。
+
+如果需要截断流程只需要在链中不调用这两个方法即可。
+
+## Handler业务处理器的热拔插
+
+pipeline是一个双向链表，在程序执行过程中可以动态的进行增加和删除业务处理器Handler。主要涉及的方法如下：
+
+![image-20200721233318034](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200721233318034.png)
+
+# ByteBuf
+
+Netty提供了ByteBuf来替代Java NIO的ByteBuffer缓冲区，以操纵内存缓冲区。
+
+ByteBuf内部是一个字节数组，从逻辑上来分，可以分为四个部分。
+
+![image-20200721233757849](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200721233757849.png)
+
+第一个部分是已用字节，表示已经使用完的废弃的无效字节；第二部分是可读字节，这部分数据是ByteBuf保存的有效数据，从ByteBuf中读取的数据都来自这一部分；第三部分是可写字节，写入到ByteBuf的数据都会写到这一部分中；第四部分是可扩容字节，表示的是该ByteBuf最多还能扩容的大小。
+
+ByteBuf中有三个重要属性：
+
+![image-20200721233913553](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200721233913553.png)
+
++ readerIndex：指示读取的起始位置，没读取一个字节，readerIndex自动增加1
++ writerIndex：指示写入的起始位置。每写一个字节，writerIndex自动增加1。一旦增加到writerIndex与capacity()容量相等，则表示ByteBuf已经不可写了。
++ maxCapacity：表示ByteBuf可以扩容的最大容量。当向ByteBuf写数据的时候，如果容量不足，可以进行扩容。扩容的最大限度由maxCapacity的值来设定，超过maxCapacity就会报错。
+
+## 主要方法
+
+ByteBuf的方法大致可以分为三组。
+
+第一组：容量系列· 
+
++ capacity()：表示ByteBuf的容量，它的值是以下三部分之和：废弃的字节数、可读字节数和可写字节数。· 
++ maxCapacity()：表示ByteBuf最大能够容纳的最大字节数。当向ByteBuf中写数据的时候，如果发现容量不足，则进行扩容，直到扩容到maxCapacity设定的上限。
+
+第二组：写入系列· 
+
++ isWritable() ：表示ByteBuf是否可写。如果capacity()容量大于writerIndex指针的位置，则表示可写，否则为不可写。注意：如果isWritable()返回false，并不代表不能再往ByteBuf中写数据了。如果Netty发现往ByteBuf中写数据写不进去的话，会自动扩容ByteBuf。
++  writableBytes() ：取得可写入的字节数，它的值等于容量capacity()减去writerIndex。
++ maxWritableBytes() ：取得最大的可写字节数，它的值等于最大容量maxCapacity减去writerIndex。
++ writeBytes(byte[] src) ：把src字节数组中的数据全部写到ByteBuf。这是最为常用的一个方法。
++ writeTYPE(TYPE value）：写入基础数据类型的数据。TYPE表示基础数据类型，包含了8大基础数据类型。具体如下：writeByte()、 writeBoolean()、writeChar()、writeShort()、writeInt()、writeLong()、writeFloat()、writeDouble()。
++ setTYPE(TYPE value）：基础数据类型的设置，不改变writerIndex指针值，包含了8大基础数据类型的设置。具体如下：setByte()、 setBoolean()、setChar()、setShort()、setInt()、setLong()、setFloat()、setDouble()。setType系列与writeTYPE系列的不同：setType系列不改变写指针writerIndex的值；writeTYPE系列会改变写指针writerIndex的值。
++ markWriterIndex()与resetWriterIndex()：这两个方法一起介绍。前一个方法表示把当前的写指针writerIndex属性的值保存在markedWriterIndex属性中；后一个方法表示把之前保存的markedWriterIndex的值恢复到写指针writerIndex属性中。markedWriterIndex属性相当于一个暂存属性，也定义在AbstractByteBuf抽象基类中。
+
+第三组：读取系列
+
++ isReadable( ) ：返回ByteBuf是否可读。如果writerIndex指针的值大于readerIndex指针的值，则表示可读，否则为不可读。
++ readableBytes( ) ：返回表示ByteBuf当前可读取的字节数，它的值等于writerIndex减去readerIndex。
++ readBytes(byte[] dst)：读取ByteBuf中的数据。将数据从ByteBuf读取到dst字节数组中，这里dst字节数组的大小，通常等于readableBytes()。这个方法也是最为常用的一个方法之一。
++ readType()：读取基础数据类型，可以读取8大基础数据类型。具体如下：readByte()、readBoolean()、readChar()、readShort()、readInt()、readLong()、readFloat()、readDouble()。
++  getTYPE(TYPE value）：读取基础数据类型，并且不改变指针值。具体如下：getByte()、 getBoolean()、getChar()、getShort()、getInt()、getLong()、getFloat()、getDouble()。getType系列与readTYPE系列的不同：getType系列不会改变读指针readerIndex的值；readTYPE系列会改变读指针readerIndex的值。
++  markReaderIndex( )与resetReaderIndex( ) ：这两个方法一起介绍。前一个方法表示把当前的读指针ReaderIndex保存在markedReaderIndex属性中。后一个方法表示把保存在markedReaderIndex属性的值恢复到读指针ReaderIndex中。markedReaderIndex属性定义在AbstractByteBuf抽象基类中。
+
+# 编解码器
+
+# 解码器Decoder
+
+它是一个InBound入站处理器，解码器负责处理“入站数据”。它能将上一站Inbound入站处理器传过来的输入（Input）数据，进行数据的解码或者格式转换，然后输出（Output）到下一站Inbound入站处理器。
+
+一个标准的解码器将输入类型为ByteBuf缓冲区的数据进行解码，输出一个一个的Java POJO对象。Netty内置了这个解码器，叫作ByteToMessageDecoder，位在Netty的io.netty.handler.codec包中。
+
+## ByteToMessageDecoder
+
+ByteToMessageDecoder继承自ChannelInboundHandlerAdapter适配器，是一个入站处理器，实现了从ByteBuf到Java POJO对象的解码功能。
+
+其工作流程为：首先，它将上一站传过来的输入到Bytebuf中的数据进行解码，解码出一个`List<Object>`对象列表；然后，迭代`List<Object>`列表，逐个将Java POJO对象传入下一站Inbound入站处理器。
+
+![image-20200722000627789](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200722000627789.png)
+
+自己实现一个解码器，首先继承ByteToMessageDecoder抽象类。然后，实现其基类的decode抽象方法。将解码的逻辑，写入此方法。
+
+总体来说，如果要实现一个自己的ByteBuf解码器，流程大致如下：
+
+1. 首先继承ByteToMessageDecoder抽象类。
+2. 然后实现其基类的decode抽象方法。将ByteBuf到POJO解码的逻辑写入此方法。将Bytebuf二进制数据，解码成一个一个的Java POJO对象。
+3. 在子类的decode方法中，需要将解码后的Java POJO对象，放入decode的`List<Object>`实参中。这个实参是ByteToMessageDecoder父类传入的，也就是父类的结果收集列表。
+
+## MessageToMessageDecoder
+
+MessageToMessageDecoder用来将一种POJO对象解码成另外一种POJO对象。
+
+使用时需要继承MessageToMessageDecoder然后重写decode方法。
+
+## 开箱即用的Decoder
+
+固定长度数据包解码器——FixedLengthFrameDecoder
+
+行分割数据包解码器——LineBasedFrameDecoder
+
+自定义分隔符数据包解码器——DelimiterBasedFrameDecoder
+
+自定义长度数据包解码器——LengthFieldBasedFrameDecoder
+
+# 编码器Encoder
+
+接口MessageToByteEncoder实现POJO编码为ButeBuf
+
+MessageToMessageEncoder将POJO编码为POJO
+
+## 编解码器 Codec
+
+编解码器同时拥有编码器和解码器的功能。
+
+ByteToMessageCodec编解码器，完成POJO到ByteBuf数据包的配套的编码器和解码器的基类，叫作ByteToMessageCodec，它是一个抽象类。从功能上说，继承它，就等同于继承了ByteToMessageDecoder解码器和MessageToByteEncoder编码器这两个基类。
+
+CombinedChannelDuplexHandler组合器。前面的编码器和解码器相结合是通过继承完成的。继承的方式有其不足，在于：将编码器和解码器的逻辑强制性地放在同一个类中，在只需要编码或者解码单边操作的流水线上，逻辑上不大合适。CombinedChannelDuplexHandler使用组合的 方式将编码器和解码器组合起来
 
 
 
