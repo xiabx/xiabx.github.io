@@ -16,23 +16,23 @@ Linux的内核将所有外部设备都看作一个文件，对一个文件的读
 
 + 阻塞型：最常用的io模型，所有的文件操作都是阻塞的。以套接字为例，在进程空间中调用recvfrom，其系统调用直到数据包到达且被复制到应用进程的缓冲区中或者发生错误才返回，在此期间将一直等待。
 
-  ![image-20200713221310833](F:\SmallBear1996.github.io\source\_posts\系统的学一次Netty.assets\image-20200713221310833.png)
+  ![image-20200713221310833](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200713221310833.png)
 
 + 非阻塞：当recvfrom从应用层到内核的时候，如果该缓冲区没有数据的话，系统直接返回一个EWOULDBLOCK错误，然后轮询检查这个状态，看内核是否有数据到来。
 
-  ![image-20200713221607374](F:\SmallBear1996.github.io\source\_posts\系统的学一次Netty.assets\image-20200713221607374.png)
++ ![image-20200713221607374](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200713221607374.png)
 
 + IO复用模型：Linux提供select/poll，进程通过将一个或多个文件描述符传递给select或poll调用，阻塞在select操作上，这样select/poll可以帮我们侦测多个文件描述符是否处于就绪状态。linux还提供了epoll系统调用，而且epoll解决了select/poll的多个不足，如文件描述符的限制等。
 
-  ![image-20200713222153077](F:\SmallBear1996.github.io\source\_posts\系统的学一次Netty.assets\image-20200713222153077.png)
+  ![image-20200713222153077](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200713222153077.png)
 
 + 信号驱动IO：通过系统调用sigaction执行一个信号处理函数（系统调用立即返回，进程继续工作，非阻塞），当数据准备就绪时，就为进程生成一个SIGIO信号，通过信号回调通知应用程序调用recvfrom来读取数据，并通知主循环函数处理数据。
 
-  ![image-20200713223714996](F:\SmallBear1996.github.io\source\_posts\系统的学一次Netty.assets\image-20200713223714996.png)
+  ![image-20200713223714996](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200713223714996.png)
 
 + 异步IO：告知内核启动某个操作，并让内核在整个操作完成后(包括将数据从内核复制到用户自己的缓冲区)通知我们。这种模型与信号模型的区别是：信号驱动IO由内核通知我们何时开始一个IO操作，异步IO模型由内核通知我们操作何时已经完成。
 
-  ![image-20200713223958418](F:\SmallBear1996.github.io\source\_posts\系统的学一次Netty.assets\image-20200713223958418.png)
+  ![](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200713223958418.png)
 
 > 首先，解释一下这里的阻塞与非阻塞：
 >
@@ -62,7 +62,7 @@ Linux的内核将所有外部设备都看作一个文件，对一个文件的读
 
 这种IO模型的编程方式通常是一个线程对server线程进行阻塞，当有请求连接进入时，就会新建线程去处理这个链接，然后server线程会继续阻塞。
 
-![image-20200713225941736](F:\SmallBear1996.github.io\source\_posts\系统的学一次Netty.assets\image-20200713225941736.png)
+![image-20200713225941736](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200713225941736.png)
 
 ## 伪异步IO编程
 
@@ -70,7 +70,7 @@ Linux的内核将所有外部设备都看作一个文件，对一个文件的读
 
 通过线程池和任务队列可以实现这种伪异步的io框架，当有新的请求到来时，将客户端的请求封装为Task，投放到线程池的任务队列中，让线程池使用内部维护的线程处理任务。
 
-![image-20200713231158473](F:\SmallBear1996.github.io\source\_posts\系统的学一次Netty.assets\image-20200713231158473.png)
+![image-20200713231158473](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200713231158473.png)
 
 使用伪异步IO存在的弊端主要是，在进行读取和写入操作时，会被一直阻塞。由于InpuStream与OutputStream的阻塞特性，只有在数据被读取或写入完毕或者发生异常时才会返回。
 

@@ -1,5 +1,5 @@
 ---
-title: Reactor相关
+title: Reactor操作符
 author: XIA
 categories:
   - null
@@ -41,13 +41,13 @@ public void testFluxFilter() {
 }
 ```
 
-![image-20200705195002940](F:\SmallBear1996.github.io\source\_posts\Reactor相关.assets\image-20200705195002940.png)
+![image-20200705195002940](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200705195002940.png)
 
 ## 映射：map
 
 map操作符能够将flux发射出来的元素进行映射(转换)，如将json转换为实体对象这种操作。
 
-![image-20200705195241076](F:\SmallBear1996.github.io\source\_posts\Reactor相关.assets\image-20200705195241076.png)
+![image-20200705195241076](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200705195241076.png)
 
 ```java
 //将字符串映射为长度
@@ -75,7 +75,7 @@ public Mono<User> selectUserById(String id) {
 
 所以flatMap的其中一个使用场景就是，在一个映射环境中，内部会返回另一个Flux流。通过flatMap对内部流进行自动订阅，返回内部流中的包装内容。
 
-![image-20200705203010691](F:\SmallBear1996.github.io\source\_posts\Reactor相关.assets\image-20200705203010691.png)
+![image-20200705203010691](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200705203010691.png)
 
 > 从概念上讲，flatMap()接收一个`Flux<T>`以及一个从T到`Flux<R>`类型的函数。flatMap()首先会构造一个`Flux<Flux<R>>`，将上游T类型的值替换为
 >
@@ -89,7 +89,7 @@ flatMap内部是并发执行的，根据传入的元素获取子流的过程是�
 
 这两个操作可以延迟元素的发射。他们会将发射行为放到新的调度器中。
 
-![image-20200705205533489](F:\SmallBear1996.github.io\source\_posts\Reactor相关.assets\image-20200705205533489.png)
+![image-20200705205533489](https://blog-1253099784.cos.ap-nanjing.myqcloud.com/image-20200705205533489.png)
 
 ```java
 @Test
