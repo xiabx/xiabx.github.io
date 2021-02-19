@@ -127,7 +127,7 @@ StandardEnvironment为Environment接口的核心实现类。
 
 # MutablePropertySources与PropertySource
 
-AbstractEnvironment中维护着一个MutablePropertySources对象，MutablePropertySources负责维护PropertySource，内部维护着一个CopyOnWriteArrayList用来存储PropertySource对象。
+AbstractEnvironment MutablePropertySources对象，MutablePropertySources负责维护PropertySource，内部维护着一个CopyOnWriteArrayList用来存储PropertySource对象。
 
 ![image-20200131192211396](https://xbxblog2.bj.bcebos.com/Spring-IOC%E4%B9%8BEnvironment%2Fimage-20200131192211396.png)
 

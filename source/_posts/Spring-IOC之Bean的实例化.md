@@ -14,7 +14,7 @@ Spring IOC启动流程总的可以分为两大步骤，容器启动阶段和容�
 
 ![1569061930193](https://xbxblog.bj.bcebos.com/beanPactory%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B.png)
 
-在传统的xml配置中，容器的加载阶段主要是加载配置的xml文件到内存中，对xml文件的结构与定义信息进行分析，将xml中定义的信息注册到一个BeanDefinition对象中。
+在传统的xml配置中，容器的加载阶段主要是加载配置的xml文件到内存中，对xml文件的结构与定义信息进行分析，将xml中定义的信息注册到BeanDefinition对象中。
 
 上图中的其他后处理主要指的是BeanFactoryPostProcessor接口的功能，它在bean实例化之前执行，可以用来进行修改已经定义BeanDefinition信息等操作。BeanFactory需要手动注册并执行BeanFactoryPostProcessor接口，ApplicationContext可以自动注册BeanFactoryPostProcessor注册完成后自动执行相关方法。
 
@@ -70,8 +70,7 @@ BeanWrapper接口通常在Spring框架内部使用，它有一个BeanWrapperImpl
 >
 > 不知你是否还记得CustomEditorConfigurer？当把各种PropertyEditor注册给容器时，知道后面谁用到这些PropertyEditor吗？对，就是BeanWrapper！
 >
-> 在第一步构造完成对象之后，Spring会根据对象实例构造一个BeanWrapperImpl实例，然后将之前CustomEditorConfigurer注册的PropertyEditor复制一份给BeanWrapperImpl实例（这就是BeanWrapper同时又是PropertyEditorRegistry的原因）。这样，当BeanWrapper转换类型、设置对象属性值时，就不
-> 会无从下手了。
+> 在第一步构造完成对象之后，Spring会根据对象实例构造一个BeanWrapperImpl实例，然后将之前CustomEditorConfigurer注册的PropertyEditor复制一份给BeanWrapperImpl实例（这就是BeanWrapper同时又是PropertyEditorRegistry的原因）。这样，当BeanWrapper转换类型、设置对象属性值时，就不会无从下手了。
 
 ## 各种Aware接口
 
@@ -116,7 +115,7 @@ public interface BeanPostProcessor {
 >
 > 实际上，并非所有注册到Spring容器内的bean定义都是按照上图的流程实例化的。在所有的步骤之前，也就是实例化bean对象步骤之前，容器会首先检查容器中是否注册有InstantiationAwareBeanPostProcessor类型的BeanPostProcessor。如果有，首先使用相应的InstantiationAwareBeanPostProcessor来构造对象实例。构造成功后直接返回构造完成的对象实例，而不会按照“正规的流程”继续执行。这就是它可能造成“短路”的原因。
 >
-> 不过，通常情况下都是Spring容器内部使用这种特殊类型的BeanPostProcessor做一些动态对象代理等工作，我们使用普通的BeanPostProcessor实现就可以。这里简单提及一下，目的是让大家有所了解。
+> 不过，通常情况下都是Spring容器内部使用这种特殊类型的BeanPostProcessor做一些动态对象代理等工作，我们使用普通的BeanPostProcessor实现就可以。
 
 spring aop自动代理实现类就是InstantiationAwareBeanPostProcessor类型
 
@@ -201,7 +200,7 @@ public class IOCTest {
         //不加&符号，取出的bean为getObject方法的返回值
         Object student = xmlBeanFactory.getBean("student");
         //加上&符号，取出的bean为实现FactoryBean的类的对象
-        Object student = xmlBeanFactory.getBean("student");
+        Object student = xmlBeanFactory.getBean("&student");
         System.out.println(student);
     }
 }

@@ -210,7 +210,7 @@ HandlerExceptionResolver可以在Handler处理请求抛出异常时，此时他�
 
 现在使用spring mvc基本上都是使用注解的形式，其实注解形式的Controller与之前的通过继承实现的Controller并没有本质的区别。如果将注解形式的Conroller当作一种自定义Handler来看的话就会很明了了。
 
-之前我们说过，如果自定义Handler需要将HandlerMapping与HandlerAdaptor一同定义了。现在自定义Handler的格式已经有了，所以只要搞懂了HandlerMapping与HandlerAdaptor的实现思路一切就明了了。
+如果自定义Handler需要将HandlerMapping与HandlerAdaptor一同定义了。现在自定义Handler的格式已经有了，所以只要搞懂了HandlerMapping与HandlerAdaptor的实现思路一切就明了了。
 
 ## 基于注解的Controller的HandlerMapping
 

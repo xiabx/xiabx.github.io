@@ -71,7 +71,7 @@ ServiceB {
 
 TransactionDefinition是一个接口，要为PlatformTransactionManager创建事务提供信息，需要有相应的实现类提供支持。TransactionDefinition实现类主要分为两类，一类是按照编程式事务场景，一类是声明式事务场景。
 
-![image-20200101212754237](https://xbxblog2.bj.bcebos.com/springTransaction%2Fimage-20200101212754237.png)
+![、](https://xbxblog2.bj.bcebos.com/springTransaction%2Fimage-20200101212754237.png)
 
 **编程式事务**
 

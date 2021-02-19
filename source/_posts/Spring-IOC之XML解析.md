@@ -515,7 +515,7 @@ public AbstractBeanDefinition parseBeanDefinitionElement(
 	}
 ```
 
-在上面代码中，生成的AbstractBeanDefinition类型对象，将<bean></bean>元素所可能包含的属性都以硬编码的方式作为类的属性。
+在上面代码中，生成的AbstractBeanDefinition类型对象，将`<bean></bean>`元素所可能包含的属性都以硬编码的方式作为类的属性。
 
 解析构造参数：parseConstructorArgElements(ele, bd);
 
